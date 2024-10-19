@@ -1,0 +1,114 @@
+﻿{
+   "CodeGenerationMode": 4,
+   "ContextClassName": "jurassic_pharmContext",
+   "ContextNamespace": null,
+   "FilterSchemas": false,
+   "IncludeConnectionString": false,
+   "ModelNamespace": null,
+   "OutputContextPath": null,
+   "OutputPath": "Models",
+   "PreserveCasingWithRegex": true,
+   "ProjectRootNamespace": "JurassicPharm",
+   "Schemas": null,
+   "SelectedHandlebarsLanguage": 2,
+   "SelectedToBeGenerated": 0,
+   "T4TemplatePath": null,
+   "Tables": [
+      {
+         "Name": "[dbo].[CIUDADES]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[CLIENTES]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[DETALLES_FACTURA]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[DETALLES_RECETA]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[EMPLEADOS]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[FACTURAS]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[LOCALIDADES]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[MARCAS]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[MEDICOS]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[OBRAS_SOCIALES]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[PROVEEDORES]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[PROVINCIAS]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[RECETAS]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[STOCKS]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[SUCURSALES]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[SUMINISTROS]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[TIPOS_DISTRIBUCION]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[TIPOS_SUMINISTRO]",
+         "ObjectType": 0
+      }
+   ],
+   "UiHint": null,
+   "UncountableWords": null,
+   "UseAsyncStoredProcedureCalls": true,
+   "UseBoolPropertiesWithoutDefaultSql": false,
+   "UseDatabaseNames": false,
+   "UseDateOnlyTimeOnly": true,
+   "UseDbContextSplitting": false,
+   "UseDecimalDataAnnotationForSprocResult": true,
+   "UseFluentApiOnly": true,
+   "UseHandleBars": false,
+   "UseHierarchyId": false,
+   "UseInflector": false,
+   "UseLegacyPluralizer": false,
+   "UseManyToManyEntity": true,
+   "UseNoDefaultConstructor": false,
+   "UseNoNavigations": false,
+   "UseNoObjectFilter": false,
+   "UseNodaTime": false,
+   "UseNullableReferences": false,
+   "UsePrefixNavigationNaming": false,
+   "UseSchemaFolders": false,
+   "UseSchemaNamespaces": false,
+   "UseSpatial": false,
+   "UseT4": false
+}
