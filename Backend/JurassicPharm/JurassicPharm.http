@@ -1,0 +1,6 @@
+@JurassicPharm_HostAddress = http://localhost:5017
+
+GET {{JurassicPharm_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
