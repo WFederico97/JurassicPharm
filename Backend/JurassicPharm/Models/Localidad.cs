@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace JurassicPharm.Models;
 
-public partial class Localidades
+public partial class Localidad
 {
     public int IdLocalidad { get; set; }
 
@@ -13,7 +13,7 @@ public partial class Localidades
 
     public int? IdProvincia { get; set; }
 
-    public virtual ICollection<Ciudades> Ciudades { get; set; } = new List<Ciudades>();
+    public virtual ICollection<Ciudad> Ciudades { get; set; } = new List<Ciudad>();
 
-    public virtual Provincias IdProvinciaNavigation { get; set; }
+    public virtual Provincia IdProvinciaNavigation { get; set; }
 }

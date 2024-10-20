@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace JurassicPharm.Models;
 
-public partial class Clientes
+public partial class Cliente
 {
     public int IdCliente { get; set; }
 
@@ -23,9 +23,9 @@ public partial class Clientes
 
     public int? Altura { get; set; }
 
-    public virtual ICollection<Facturas> Facturas { get; set; } = new List<Facturas>();
+    public virtual ICollection<Factura> Facturas { get; set; } = new List<Factura>();
 
-    public virtual Ciudades IdCiudadNavigation { get; set; }
+    public virtual Ciudad IdCiudadNavigation { get; set; }
 
-    public virtual ObrasSociales IdObraSocialNavigation { get; set; }
+    public virtual ObrasSocial IdObraSocialNavigation { get; set; }
 }

@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace JurassicPharm.Models;
 
-public partial class DetallesFactura
+public partial class DetalleFactura
 {
     public int IdDetalleFactura { get; set; }
 
@@ -17,7 +17,7 @@ public partial class DetallesFactura
 
     public int? Cantidad { get; set; }
 
-    public virtual Suministros IdSuministroNavigation { get; set; }
+    public virtual Suministro IdSuministroNavigation { get; set; }
 
-    public virtual Facturas NroFacturaNavigation { get; set; }
+    public virtual Factura NroFacturaNavigation { get; set; }
 }

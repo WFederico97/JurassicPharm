@@ -5,11 +5,11 @@ using System.Collections.Generic;
 
 namespace JurassicPharm.Models;
 
-public partial class Provincias
+public partial class Provincia
 {
     public int IdProvincia { get; set; }
 
     public string Nombre { get; set; }
 
-    public virtual ICollection<Localidades> Localidades { get; set; } = new List<Localidades>();
+    public virtual ICollection<Localidad> Localidades { get; set; } = new List<Localidad>();
 }

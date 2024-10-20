@@ -5,11 +5,15 @@ using System.Collections.Generic;
 
 namespace JurassicPharm.Models;
 
-public partial class Marcas
+public partial class Medico
 {
-    public int IdMarca { get; set; }
+    public int Matricula { get; set; }
 
     public string Nombre { get; set; }
 
-    public virtual ICollection<Suministros> Suministros { get; set; } = new List<Suministros>();
+    public string Apellido { get; set; }
+
+    public string CorreoElectronico { get; set; }
+
+    public virtual ICollection<Receta> Recetas { get; set; } = new List<Receta>();
 }
