@@ -3,11 +3,11 @@ using JurassicPharm.Repositories.Personnel.Interfaces;
 
 namespace JurassicPharm.Repositories.Personnel.Implementations
 {
-    public class PersonnelRepositories: IPersonnel
+    public class PersonnelRepository: IPersonnelRepository
     {
         private readonly jurassic_pharmContext _context;
 
-        public PersonnelRepositories(jurassic_pharmContext context)
+        public PersonnelRepository(jurassic_pharmContext context)
         {
             _context = context;
         }

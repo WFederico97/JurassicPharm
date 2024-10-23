@@ -2,7 +2,7 @@
 
 namespace JurassicPharm.Repositories.Personnel.Interfaces
 {
-    public interface IPersonnel
+    public interface IPersonnelRepository
     {
         List<Empleado> GetAllPersonnel();
         Empleado GetPersonnel(int codigo);
