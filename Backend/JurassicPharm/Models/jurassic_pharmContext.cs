@@ -6,9 +6,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace JurassicPharm.Models;
 
-public partial class jurassic_pharmContext : DbContext
+public partial class JurassicPharmContext : DbContext
 {
-    public jurassic_pharmContext(DbContextOptions<jurassic_pharmContext> options)
+    public JurassicPharmContext(DbContextOptions<JurassicPharmContext> options)
         : base(options)
     {
     }
