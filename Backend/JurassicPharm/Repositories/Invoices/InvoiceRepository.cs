@@ -1,6 +1,7 @@
 using System.Linq.Expressions;
 using JurassicPharm.DTO.Invoice;
 using JurassicPharm.DTO.InvoIce;
+using JurassicPharm.DTO.InvoiceDetail;
 using JurassicPharm.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -116,6 +117,29 @@ namespace JurassicPharm.Repositories.Invoices
         {
             return await _context.Facturas.FirstOrDefaultAsync(invoice => invoice.NroFactura == invoiceId);
         }
+
+        public async Task<List<InvoiceResponseDTO>> GetAll()
+        {
+            return await _context.Facturas
+                .Include(invoice => invoice.DetallesFactura)
+                .Include(invoice => invoice.IdClienteNavigation)
+                .Include(invoice => invoice.IdSucursalNavigation)
+                .Select(invoice => new InvoiceResponseDTO
+                {
+                    ClientName = invoice.IdClienteNavigation.Nombre,
+                    ClienLastName = invoice.IdClienteNavigation.Apellido,
+                    Branch = $"{invoice.IdSucursalNavigation.Calle}, {invoice.IdSucursalNavigation.Altura}",
+                    Date = (DateTime)invoice.Fecha,
+                    Details = invoice.DetallesFactura.Select(detail => new InvoiceDetailResponseDTO
+                    {
+                        SupplyName = detail.IdSuministroNavigation.Nombre,
+                        UnitPrice = (int)detail.IdSuministroNavigation.PreUnitario,
+                        Amount = (int)detail.Cantidad
+                    }).ToList()
+                }).ToListAsync();
+
+        }
+
 
         public async Task<bool> Update(InvoiceUpdateDTO invoice, int invoiceId)
         {

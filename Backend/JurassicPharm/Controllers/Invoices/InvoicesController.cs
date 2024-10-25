@@ -16,6 +16,23 @@ namespace JurassicPharm.Controllers.Invoices
             _invoiceService = invoiceService;
         }
 
+        [HttpGet("invoice")]
+        public async Task<IActionResult> GetAll()
+        {
+            try
+            {
+                return Ok(await _invoiceService.GetAll());
+
+            }
+            catch (Exception error)
+            {
+                return StatusCode(
+                    500,
+                    $"An unexpected error occurred while get all invoices. Error: {error.Message}"
+                );
+            }
+        }
+
 
         [HttpPost("invoice")]
         public async Task<IActionResult> Create([FromBody] InvoiceCreateDTO invoice)

@@ -6,8 +6,7 @@ namespace JurassicPharm.Services.Invoices
 {
     public interface IInvoiceService
     {
-        public Task<bool> GetInvoceById(int invoiceId);
-
+        public Task<List<InvoiceResponseDTO>> GetAll();
         public Task<bool> Create(InvoiceCreateDTO invoice);
 
         public Task<bool> Update(InvoiceUpdateDTO invoice, int invoiceId);

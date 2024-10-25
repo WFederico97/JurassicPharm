@@ -28,14 +28,9 @@ namespace JurassicPharm.Services.Invoices
             return _invoiceRepository.Delete(invoiceId);
         }
 
-        // public async Task<List<Facturas>> GetAll()
-        // {
-        //     return await _invoiceRepository.GetAll();
-        // }
-
-        public Task<bool> GetInvoceById(int invoiceId)
+        public async Task<List<InvoiceResponseDTO>> GetAll()
         {
-            throw new NotImplementedException();
+            return await _invoiceRepository.GetAll();
         }
 
         public Task<bool> Update(InvoiceUpdateDTO invoice, int invoiceId)
