@@ -6,9 +6,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace JurassicPharm.Models;
 
-public partial class jurassic_pharmContext : DbContext
+public partial class JurassicPharmContext : DbContext
 {
-    public jurassic_pharmContext(DbContextOptions<jurassic_pharmContext> options)
+    public JurassicPharmContext(DbContextOptions<JurassicPharmContext> options)
         : base(options)
     {
     }
@@ -159,6 +159,7 @@ public partial class jurassic_pharmContext : DbContext
             entity.ToTable("EMPLEADOS");
 
             entity.Property(e => e.LegajoEmpleado).HasColumnName("legajo_empleado");
+            entity.Property(e => e.Active).HasDefaultValue(true);
             entity.Property(e => e.Altura).HasColumnName("altura");
             entity.Property(e => e.Apellido)
                 .HasMaxLength(50)

@@ -23,6 +23,8 @@ public partial class Empleado
 
     public string CorreoElectronico { get; set; }
 
+    public bool? Active { get; set; }
+
     public virtual Ciudad IdCiudadNavigation { get; set; }
 
     public virtual Sucursal IdSucursalNavigation { get; set; }
