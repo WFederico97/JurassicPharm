@@ -1,8 +1,9 @@
-﻿using JurassicPharm.Models;
-using JurassicPharm.Models.DTOs.Personnel;
+﻿using JurassicPharm.DTOs.Personnel;
+using JurassicPharm.Models;
 using JurassicPharm.Repositories.Personnel.Implementations;
 using JurassicPharm.Repositories.Personnel.Interfaces;
 using JurassicPharm.Services.Personnel.Interfaces;
+using System.Net.Mail;
 
 namespace JurassicPharm.Services.Personnel.Implementations
 {
@@ -15,34 +16,29 @@ namespace JurassicPharm.Services.Personnel.Implementations
             _repository = repository;
         }
 
-        public List<PersonnelDTO> GetAllPersonnel()
+        public async Task<List<Empleado>> GetAllPersonnel()
         {
-            List<Empleado> personnel = _repository.GetAllPersonnel();
-            return personnel.Select(p => new PersonnelDTO
-            {
-                Apellido = p.Apellido,
-                Nombre = p.Nombre,
-                LegajoEmpleado = p.LegajoEmpleado,
-                CorreoElectronico = p.CorreoElectronico,
-                IdSucursal = (Int32)p.IdSucursal
-
-            }).ToList();
-            
+            return await _repository.GetAllPersonnel();
         }
 
-        public Empleado GetPersonnel(int codigo)
+        public async Task<Empleado> GetPersonnel(int codigo)
         {
-            return _repository.GetPersonnel(codigo);
+            return await _repository.GetPersonnel(codigo);
+        }
+        public async Task<bool> CreateEmployee(CreatePersonnelDTO employee)
+        {
+            return await _repository.CreateEmployee(employee);
+        }
+        public async Task<bool> UpdatePersonnel(UpdatePersonnelDTO personnel, int legajo)
+        {
+            return await _repository.UpdatePersonnel(personnel, legajo);
         }
 
-        public void UpdatePersonnel(Empleado empleado)
+        public async Task<bool> DeletePersonnel(int legajo)
         {
-            _repository.UpdatePersonnel(empleado);
+            return await _repository.DeletePersonnel(legajo);
         }
 
-        public void DeletePersonnel(Empleado empleado)
-        {
-            _repository.DeletePersonnel(empleado);
-        }
+
     }
 }

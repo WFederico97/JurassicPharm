@@ -1,6 +1,6 @@
-﻿namespace JurassicPharm.Models.DTOs.Personnel
+﻿namespace JurassicPharm.DTOs.Personnel
 {
-    public class PersonnelDTO
+    public class GetPersonnelDTO
     {
         public int LegajoEmpleado { get; set; }
         public string Nombre { get; set; }
