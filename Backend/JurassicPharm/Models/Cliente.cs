@@ -5,11 +5,11 @@ using System.Collections.Generic;
 
 namespace JurassicPharm.Models;
 
-public partial class Empleados
+public partial class Cliente
 {
-    public int LegajoEmpleado { get; set; }
+    public int IdCliente { get; set; }
 
-    public int? IdSucursal { get; set; }
+    public int? IdObraSocial { get; set; }
 
     public int? IdCiudad { get; set; }
 
@@ -17,15 +17,15 @@ public partial class Empleados
 
     public string Apellido { get; set; }
 
+    public string CorreoElectronico { get; set; }
+
     public string Calle { get; set; }
 
     public int? Altura { get; set; }
 
-    public string CorreoElectronico { get; set; }
+    public virtual ICollection<Factura> Facturas { get; set; } = new List<Factura>();
 
-    public virtual Ciudades IdCiudadNavigation { get; set; }
+    public virtual Ciudad IdCiudadNavigation { get; set; }
 
-    public virtual Sucursales IdSucursalNavigation { get; set; }
-
-    public virtual ICollection<Stocks> Stocks { get; set; } = new List<Stocks>();
+    public virtual ObraSocial IdObraSocialNavigation { get; set; }
 }

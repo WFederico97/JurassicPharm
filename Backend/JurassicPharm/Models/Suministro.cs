@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace JurassicPharm.Models;
 
-public partial class Suministros
+public partial class Suministro
 {
     public int IdSuministro { get; set; }
 
@@ -19,13 +19,13 @@ public partial class Suministros
 
     public int? IdMarca { get; set; }
 
-    public virtual ICollection<DetallesFactura> DetallesFactura { get; set; } = new List<DetallesFactura>();
+    public virtual ICollection<DetalleFactura> DetallesFactura { get; set; } = new List<DetalleFactura>();
 
-    public virtual ICollection<DetallesReceta> DetallesReceta { get; set; } = new List<DetallesReceta>();
+    public virtual ICollection<DetalleReceta> DetallesReceta { get; set; } = new List<DetalleReceta>();
 
-    public virtual Marcas IdMarcaNavigation { get; set; }
+    public virtual Marca IdMarcaNavigation { get; set; }
 
-    public virtual TiposDistribucion IdTipoDistribucionNavigation { get; set; }
+    public virtual TipoDistribucion IdTipoDistribucionNavigation { get; set; }
 
-    public virtual TiposSuministro IdTipoSuministroNavigation { get; set; }
+    public virtual TipoSuministro IdTipoSuministroNavigation { get; set; }
 }
