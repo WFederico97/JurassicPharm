@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+    crossorigin="anonymous"
+  />
+  <link rel="stylesheet" href="../styles/index.css" />
+  </head>
+  <body>
+    <div class="container-fluid" style="height: 100%;">
+      <div class="row" style="height: 100%;">
+        <!-- Sidebar -->
+        <div
+          class="col-md-3 col-lg-2 d-flex flex-column flex-shrink-0 p-3 bg-light "
+        >
+          <div class="d-flex align-items-center justify-content-evenly">
+            <span class="fs-5">Jurassic Pharm</span>
+            <img
+              style="width: 50px; height: 50px"
+              src="https://i.ebayimg.com/images/g/Z~8AAOSwIRxitoC9/s-l1600.webp"
+              alt="logo"
+            />
+          </div>
+          <ul class="nav nav-pills flex-column mb-auto py-5 text-center">
+            <li class="nav-item">
+              <a
+                href="../index.html"
+                class="nav-link active"
+                aria-current="page"
+                style="color: inherit"
+              >
+                Dashboard
+              </a>
+            </li>
+            <li class="nav-item">
+              <a
+                href="./facturas.html"
+                class="nav-link"
+                aria-current="page"
+                style="color: inherit"
+              >
+                Facturas
+              </a>
+            </li>
+            <li>
+              <a
+                href="./empleados.html"
+                class="nav-link link-dark"
+                style="color: inherit"
+              >
+                Empleados
+              </a>
+            </li>
+            <li>
+              <a
+                href="./clientes.html""
+                class="nav-link link-dark"
+                style="color: inherit"
+              >
+                Clientes
+              </a>
+            </li>
+            <li>
+              <a href="./suministros.html"" class="nav-link link-dark" style="color: inherit">
+                Suministros
+              </a>
+            </li>
+          </ul>
+          <!-- <div class="dropdown">
+            <a
+              href="#"
+              class="d-flex align-items-center link-dark text-decoration-none dropdown-toggle"
+              id="dropdownUser2"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              <img
+                src="https://github.com/mdo.png"
+                alt=""
+                width="32"
+                height="32"
+                class="rounded-circle me-2"
+              />
+              <strong>mdo</strong>
+            </a>
+            <ul
+              class="dropdown-menu text-small shadow"
+              aria-labelledby="dropdownUser2"
+            >
+              <li><a class="dropdown-item" href="#">New project...</a></li>
+              <li><a class="dropdown-item" href="#">Settings</a></li>
+              <li><a class="dropdown-item" href="#">Profile</a></li>
+              <li><hr class="dropdown-divider" /></li>
+              <li><a class="dropdown-item" href="#">Sign out</a></li>
+            </ul>
+          </div> -->
+        </div>
+
+        <!-- Main Content -->
+        <div class="col-md-9 col-lg-10 d-flex flex-column p-0">
+          <!-- Header -->
+          <header class="bg-light mb-4" style="height: 82px"></header>
+
+          <div class=" p-5" style="height: 100%;">
+
+            <table id="facturas-table" class="table">
+               <thead>
+                <tr>
+                  <th scope="col">Cliente</th>
+                  <th scope="col">Fecha</th>
+                  <th scope="col">Sucursal</th>
+                  <th scope="col">Detalle</th>
+                </tr>
+              </thead>
+              <!--<tbody>
+                <tr>
+                  <th scope="row">1</th>
+                  <td>Mark</td>
+                  <td>Otto</td>
+                  <td>@mdo</td>
+                </tr>
+              </tbody> -->
+            </table>
+          </div>
+
+          <!-- Footer -->
+          <footer class="mt-auto py-3 bg-light text-center">
+            <p class="text-body-secondary">&copy; 2024 Company, Inc</p>
+          </footer>
+        </div>
+      </div>
+    </div>
+    
+
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="exampleModalLabel">Detalle</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <table id="facturas-modal-table" class="table">
+              <thead>
+               <tr>
+                 <th scope="col">Suministro</th>
+                 <th scope="col">Precio</th>
+                 <th scope="col">Cantidad</th>
+               </tr>
+             </thead>
+             <!--<tbody>
+               <tr>
+                 <th scope="row">1</th>
+                 <td>Mark</td>
+                 <td>Otto</td>
+                 <td>@mdo</td>
+               </tr>
+             </tbody> -->
+           </table>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+      crossorigin="anonymous"
+    ></script>
+    <script src="../Javascript/index.js"></script>
+    <script src="../Javascript/Facturas/index.js"></script>
+  </body>
+</html>
