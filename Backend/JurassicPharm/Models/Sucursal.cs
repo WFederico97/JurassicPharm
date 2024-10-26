@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace JurassicPharm.Models;
 
-public partial class Sucursales
+public partial class Sucursal
 {
     public int IdSucursal { get; set; }
 
@@ -15,11 +15,11 @@ public partial class Sucursales
 
     public int? Altura { get; set; }
 
-    public virtual ICollection<Empleados> Empleados { get; set; } = new List<Empleados>();
+    public virtual ICollection<Empleado> Empleados { get; set; } = new List<Empleado>();
 
-    public virtual ICollection<Facturas> Facturas { get; set; } = new List<Facturas>();
+    public virtual ICollection<Factura> Facturas { get; set; } = new List<Factura>();
 
-    public virtual Ciudades IdCiudadNavigation { get; set; }
+    public virtual Ciudad IdCiudadNavigation { get; set; }
 
-    public virtual ICollection<Stocks> Stocks { get; set; } = new List<Stocks>();
+    public virtual ICollection<Stock> Stocks { get; set; } = new List<Stock>();
 }

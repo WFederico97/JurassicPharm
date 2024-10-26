@@ -6,52 +6,52 @@ using Microsoft.EntityFrameworkCore;
 
 namespace JurassicPharm.Models;
 
-public partial class jurassic_pharmContext : DbContext
+public partial class JurassicPharmContext : DbContext
 {
-    public jurassic_pharmContext(DbContextOptions<jurassic_pharmContext> options)
+    public JurassicPharmContext(DbContextOptions<JurassicPharmContext> options)
         : base(options)
     {
     }
 
-    public virtual DbSet<Ciudades> Ciudades { get; set; }
+    public virtual DbSet<Ciudad> Ciudades { get; set; }
 
-    public virtual DbSet<Clientes> Clientes { get; set; }
+    public virtual DbSet<Cliente> Clientes { get; set; }
 
-    public virtual DbSet<DetallesFactura> DetallesFactura { get; set; }
+    public virtual DbSet<DetalleFactura> DetallesFactura { get; set; }
 
-    public virtual DbSet<DetallesReceta> DetallesReceta { get; set; }
+    public virtual DbSet<DetalleReceta> DetallesReceta { get; set; }
 
-    public virtual DbSet<Empleados> Empleados { get; set; }
+    public virtual DbSet<Empleado> Empleados { get; set; }
 
-    public virtual DbSet<Facturas> Facturas { get; set; }
+    public virtual DbSet<Factura> Facturas { get; set; }
 
-    public virtual DbSet<Localidades> Localidades { get; set; }
+    public virtual DbSet<Localidad> Localidades { get; set; }
 
-    public virtual DbSet<Marcas> Marcas { get; set; }
+    public virtual DbSet<Marca> Marcas { get; set; }
 
-    public virtual DbSet<Medicos> Medicos { get; set; }
+    public virtual DbSet<Medico> Medicos { get; set; }
 
-    public virtual DbSet<ObrasSociales> ObrasSociales { get; set; }
+    public virtual DbSet<ObrasSocial> ObrasSociales { get; set; }
 
-    public virtual DbSet<Proveedores> Proveedores { get; set; }
+    public virtual DbSet<Proveedor> Proveedores { get; set; }
 
-    public virtual DbSet<Provincias> Provincias { get; set; }
+    public virtual DbSet<Provincia> Provincias { get; set; }
 
-    public virtual DbSet<Recetas> Recetas { get; set; }
+    public virtual DbSet<Receta> Recetas { get; set; }
 
-    public virtual DbSet<Stocks> Stocks { get; set; }
+    public virtual DbSet<Stock> Stocks { get; set; }
 
-    public virtual DbSet<Sucursales> Sucursales { get; set; }
+    public virtual DbSet<Sucursal> Sucursales { get; set; }
 
-    public virtual DbSet<Suministros> Suministros { get; set; }
+    public virtual DbSet<Suministro> Suministros { get; set; }
 
-    public virtual DbSet<TiposDistribucion> TiposDistribucion { get; set; }
+    public virtual DbSet<TipoDistribucion> TiposDistribucion { get; set; }
 
-    public virtual DbSet<TiposSuministro> TiposSuministro { get; set; }
+    public virtual DbSet<TipoSuministro> TiposSuministro { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<Ciudades>(entity =>
+        modelBuilder.Entity<Ciudad>(entity =>
         {
             entity.HasKey(e => e.IdCiudad).HasName("PK__CIUDADES__B7DC4CD5C608193F");
 
@@ -69,7 +69,7 @@ public partial class jurassic_pharmContext : DbContext
                 .HasConstraintName("FK_CIUDADES_LOCALIDADES");
         });
 
-        modelBuilder.Entity<Clientes>(entity =>
+        modelBuilder.Entity<Cliente>(entity =>
         {
             entity.HasKey(e => e.IdCliente).HasName("PK__CLIENTES__677F38F582F05F01");
 
@@ -107,7 +107,7 @@ public partial class jurassic_pharmContext : DbContext
                 .HasConstraintName("FK_CLIENTES_OBRAS_SOCIALES");
         });
 
-        modelBuilder.Entity<DetallesFactura>(entity =>
+        modelBuilder.Entity<DetalleFactura>(entity =>
         {
             entity.HasKey(e => e.IdDetalleFactura).HasName("PK__DETALLES__F6BFE343A7703636");
 
@@ -128,7 +128,7 @@ public partial class jurassic_pharmContext : DbContext
                 .HasConstraintName("FK_DETALLES_FACTURA_FACTURAS");
         });
 
-        modelBuilder.Entity<DetallesReceta>(entity =>
+        modelBuilder.Entity<DetalleReceta>(entity =>
         {
             entity.HasKey(e => e.IdDetalleReceta).HasName("PK__DETALLES__2C99ACD3530A9E7C");
 
@@ -152,13 +152,14 @@ public partial class jurassic_pharmContext : DbContext
                 .HasConstraintName("FK_DETALLES_RECETA_SUMINISTROS");
         });
 
-        modelBuilder.Entity<Empleados>(entity =>
+        modelBuilder.Entity<Empleado>(entity =>
         {
             entity.HasKey(e => e.LegajoEmpleado).HasName("PK__EMPLEADO__DF787D2A40F63E7C");
 
             entity.ToTable("EMPLEADOS");
 
             entity.Property(e => e.LegajoEmpleado).HasColumnName("legajo_empleado");
+            entity.Property(e => e.Active).HasDefaultValue(true);
             entity.Property(e => e.Altura).HasColumnName("altura");
             entity.Property(e => e.Apellido)
                 .HasMaxLength(50)
@@ -188,7 +189,7 @@ public partial class jurassic_pharmContext : DbContext
                 .HasConstraintName("FK_CLIENTES_SUCURSALES");
         });
 
-        modelBuilder.Entity<Facturas>(entity =>
+        modelBuilder.Entity<Factura>(entity =>
         {
             entity.HasKey(e => e.NroFactura).HasName("PK__FACTURAS__B31FA9AFDAA314A2");
 
@@ -208,7 +209,7 @@ public partial class jurassic_pharmContext : DbContext
                 .HasConstraintName("FK_FACTURAS_SUCURSALES");
         });
 
-        modelBuilder.Entity<Localidades>(entity =>
+        modelBuilder.Entity<Localidad>(entity =>
         {
             entity.HasKey(e => e.IdLocalidad).HasName("PK__LOCALIDA__9A5E82AABE0D072D");
 
@@ -226,7 +227,7 @@ public partial class jurassic_pharmContext : DbContext
                 .HasConstraintName("FK_LOCALIDADES_PROVINCIAS");
         });
 
-        modelBuilder.Entity<Marcas>(entity =>
+        modelBuilder.Entity<Marca>(entity =>
         {
             entity.HasKey(e => e.IdMarca).HasName("PK__MARCAS__7E43E99E2916FEFF");
 
@@ -239,7 +240,7 @@ public partial class jurassic_pharmContext : DbContext
                 .HasColumnName("nombre");
         });
 
-        modelBuilder.Entity<Medicos>(entity =>
+        modelBuilder.Entity<Medico>(entity =>
         {
             entity.HasKey(e => e.Matricula).HasName("PK__MEDICOS__30962D147DE3393F");
 
@@ -262,7 +263,7 @@ public partial class jurassic_pharmContext : DbContext
                 .HasColumnName("nombre");
         });
 
-        modelBuilder.Entity<ObrasSociales>(entity =>
+        modelBuilder.Entity<ObrasSocial>(entity =>
         {
             entity.HasKey(e => e.IdObraSocial).HasName("PK__OBRAS_SO__89039DF61B424F56");
 
@@ -280,7 +281,7 @@ public partial class jurassic_pharmContext : DbContext
                 .HasConstraintName("FK_OBRAS_SOCIALES_CIUDADES");
         });
 
-        modelBuilder.Entity<Proveedores>(entity =>
+        modelBuilder.Entity<Proveedor>(entity =>
         {
             entity.HasKey(e => e.IdProveedor).HasName("PK__PROVEEDO__8D3DFE282ACC098E");
 
@@ -298,7 +299,7 @@ public partial class jurassic_pharmContext : DbContext
                 .HasConstraintName("FK_PROVEEDORES_CIUDADES");
         });
 
-        modelBuilder.Entity<Provincias>(entity =>
+        modelBuilder.Entity<Provincia>(entity =>
         {
             entity.HasKey(e => e.IdProvincia).HasName("PK__PROVINCI__66C18BFD1341DE3F");
 
@@ -311,7 +312,7 @@ public partial class jurassic_pharmContext : DbContext
                 .HasColumnName("nombre");
         });
 
-        modelBuilder.Entity<Recetas>(entity =>
+        modelBuilder.Entity<Receta>(entity =>
         {
             entity.HasKey(e => e.IdReceta).HasName("PK__RECETAS__11DB53ABF6E6DF1E");
 
@@ -330,7 +331,7 @@ public partial class jurassic_pharmContext : DbContext
                 .HasConstraintName("FK_RECETAS_MEDICOS");
         });
 
-        modelBuilder.Entity<Stocks>(entity =>
+        modelBuilder.Entity<Stock>(entity =>
         {
             entity.HasKey(e => e.IdStock).HasName("PK__STOCKS__3A39590A0C543D5F");
 
@@ -356,7 +357,7 @@ public partial class jurassic_pharmContext : DbContext
                 .HasConstraintName("FK_STOCKS_EMPLEADOS");
         });
 
-        modelBuilder.Entity<Sucursales>(entity =>
+        modelBuilder.Entity<Sucursal>(entity =>
         {
             entity.HasKey(e => e.IdSucursal).HasName("PK__SUCURSAL__4C7580136F7C1585");
 
@@ -375,7 +376,7 @@ public partial class jurassic_pharmContext : DbContext
                 .HasConstraintName("FK_SUCURSALES_CIUDADES");
         });
 
-        modelBuilder.Entity<Suministros>(entity =>
+        modelBuilder.Entity<Suministro>(entity =>
         {
             entity.HasKey(e => e.IdSuministro).HasName("PK__SUMINIST__ABFE9BD1FBD497AA");
 
@@ -404,7 +405,7 @@ public partial class jurassic_pharmContext : DbContext
                 .HasConstraintName("FK_SUMINISTROS_TIPOS_SUMINISTROS");
         });
 
-        modelBuilder.Entity<TiposDistribucion>(entity =>
+        modelBuilder.Entity<TipoDistribucion>(entity =>
         {
             entity.HasKey(e => e.IdTipoDistribucion).HasName("PK__TIPOS_DI__CA6BE0F2CE3824E5");
 
@@ -417,7 +418,7 @@ public partial class jurassic_pharmContext : DbContext
                 .HasColumnName("descripcion");
         });
 
-        modelBuilder.Entity<TiposSuministro>(entity =>
+        modelBuilder.Entity<TipoSuministro>(entity =>
         {
             entity.HasKey(e => e.IdTipoSuministro).HasName("PK__TIPOS_SU__22748C15A8DFDC5D");
 

@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace JurassicPharm.Models;
 
-public partial class Proveedores
+public partial class Proveedor
 {
     public int IdProveedor { get; set; }
 
@@ -13,7 +13,7 @@ public partial class Proveedores
 
     public string RazonSocial { get; set; }
 
-    public virtual Ciudades IdCiudadNavigation { get; set; }
+    public virtual Ciudad IdCiudadNavigation { get; set; }
 
-    public virtual ICollection<Stocks> Stocks { get; set; } = new List<Stocks>();
+    public virtual ICollection<Stock> Stocks { get; set; } = new List<Stock>();
 }
