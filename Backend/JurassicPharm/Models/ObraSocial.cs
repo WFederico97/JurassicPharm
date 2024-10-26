@@ -5,11 +5,8 @@ using System.Collections.Generic;
 
 namespace JurassicPharm.Models;
 
-<<<<<<<< HEAD:Backend/JurassicPharm/Models/ObrasSocial.cs
-public partial class ObrasSocial
-========
 public partial class ObraSocial
->>>>>>>> FW-Login-0:Backend/JurassicPharm/Models/ObraSocial.cs
+
 {
     public int IdObraSocial { get; set; }
 

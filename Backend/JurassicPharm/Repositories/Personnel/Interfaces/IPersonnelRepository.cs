@@ -10,5 +10,7 @@ namespace JurassicPharm.Repositories.Personnel.Interfaces
         Task<Empleado> GetPersonnel(int codigo);
         Task<bool> UpdatePersonnel(UpdatePersonnelDTO personnel, int legajo);
         Task<bool> DeletePersonnel(int legajo);
+        Task<bool> ValidatePersonnelLogin(string email, string password);
+        Task<Empleado> GetByEmail(string email);
     }
 }

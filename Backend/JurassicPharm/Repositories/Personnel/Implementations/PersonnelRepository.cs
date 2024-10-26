@@ -5,6 +5,8 @@ using JurassicPharm.Repositories.Personnel.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System.Net.Mail;
 using System.Text.RegularExpressions;
+using BCrypt.Net;
+
 
 namespace JurassicPharm.Repositories.Personnel.Implementations
 {
@@ -73,7 +75,7 @@ namespace JurassicPharm.Repositories.Personnel.Implementations
 
             _context.Empleados.Update(personnelToUpdate);
 
-            return await _context.SaveChangesAsync() > 0; // Verificar si algo fue modificado
+            return await _context.SaveChangesAsync() > 0; 
         }
 
         public async Task<bool> DeletePersonnel(int legajo)
@@ -89,7 +91,7 @@ namespace JurassicPharm.Repositories.Personnel.Implementations
 
             _context.Empleados.Update(personnelToDelete);
 
-            return await _context.SaveChangesAsync() > 0; // Verificar si algo fue modificado
+            return await _context.SaveChangesAsync() > 0; 
         }
 
         public async Task<bool> CreateEmployee(CreatePersonnelDTO employee)
@@ -110,6 +112,13 @@ namespace JurassicPharm.Repositories.Personnel.Implementations
             {
                 throw new NotFoundException($"La ciudad {employee.IdCiudad} no existe en nuestros registros");
             }
+            if (String.IsNullOrEmpty(employee.PasswordEmpleado))
+            {
+                throw new InvalidPropertyException($"Debe ingresar una contraseña");
+            }
+
+            //Hasheo de password 
+            string hashedPassword = BCrypt.Net.BCrypt.EnhancedHashPassword(employee.PasswordEmpleado, 13);
 
             using var transaction = await _context.Database.BeginTransactionAsync();
 
@@ -122,6 +131,8 @@ namespace JurassicPharm.Repositories.Personnel.Implementations
                     Calle = employee.Calle,
                     Altura = employee.Altura,
                     CorreoElectronico = employee.CorreoElectronico,
+                    PasswordEmpleado = hashedPassword,
+                    Rol= "Empleado",
                     IdCiudad = employee.IdCiudad,
                     IdSucursal = employee.IdSucursal,
                     Active = true
@@ -156,6 +167,29 @@ namespace JurassicPharm.Repositories.Personnel.Implementations
                 return false;
             }
         }
+
+        public async Task<bool> ValidatePersonnelLogin(string email, string password)
+        {
+            Empleado employee = await _context.Empleados
+                .FirstOrDefaultAsync(e => e.CorreoElectronico == email & e.Active == true);
+
+            if (employee == null)
+            {
+                return false;
+            }
+            bool passwordReveal = BCrypt.Net.BCrypt.EnhancedVerify(password, employee.PasswordEmpleado);
+            if (!passwordReveal) 
+            {
+                throw new InvalidPropertyException("Credenciales inválidas");
+            }
+            return true;
+        }
+
+        public async Task<Empleado> GetByEmail(string email)
+        {
+            return await _context.Empleados.FirstOrDefaultAsync(e => e.CorreoElectronico == email & e.Active == true);
+        }
+
     }
 
 }
