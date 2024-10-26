@@ -19,7 +19,7 @@ public partial class Ciudad
 
     public virtual Localidad IdLocalidadNavigation { get; set; }
 
-    public virtual ICollection<ObrasSocial> ObrasSociales { get; set; } = new List<ObrasSocial>();
+    public virtual ICollection<ObraSocial> ObrasSociales { get; set; } = new List<ObraSocial>();
 
     public virtual ICollection<Proveedor> Proveedores { get; set; } = new List<Proveedor>();
 

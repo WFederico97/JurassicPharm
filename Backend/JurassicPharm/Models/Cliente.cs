@@ -27,5 +27,5 @@ public partial class Cliente
 
     public virtual Ciudad IdCiudadNavigation { get; set; }
 
-    public virtual ObrasSocial IdObraSocialNavigation { get; set; }
+    public virtual ObraSocial IdObraSocialNavigation { get; set; }
 }

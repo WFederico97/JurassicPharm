@@ -25,6 +25,10 @@ public partial class Empleado
 
     public bool? Active { get; set; }
 
+    public string Rol { get; set; }
+
+    public string PasswordEmpleado { get; set; }
+
     public virtual Ciudad IdCiudadNavigation { get; set; }
 
     public virtual Sucursal IdSucursalNavigation { get; set; }

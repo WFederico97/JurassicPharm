@@ -31,7 +31,7 @@ public partial class JurassicPharmContext : DbContext
 
     public virtual DbSet<Medico> Medicos { get; set; }
 
-    public virtual DbSet<ObrasSocial> ObrasSociales { get; set; }
+    public virtual DbSet<ObraSocial> ObrasSociales { get; set; }
 
     public virtual DbSet<Proveedor> Proveedores { get; set; }
 
@@ -179,6 +179,14 @@ public partial class JurassicPharmContext : DbContext
                 .HasMaxLength(50)
                 .IsUnicode(false)
                 .HasColumnName("nombre");
+            entity.Property(e => e.PasswordEmpleado)
+                .HasMaxLength(64)
+                .IsUnicode(false)
+                .HasColumnName("password_empleado");
+            entity.Property(e => e.Rol)
+                .HasMaxLength(50)
+                .IsUnicode(false)
+                .HasColumnName("rol");
 
             entity.HasOne(d => d.IdCiudadNavigation).WithMany(p => p.Empleados)
                 .HasForeignKey(d => d.IdCiudad)
@@ -263,7 +271,7 @@ public partial class JurassicPharmContext : DbContext
                 .HasColumnName("nombre");
         });
 
-        modelBuilder.Entity<ObrasSocial>(entity =>
+        modelBuilder.Entity<ObraSocial>(entity =>
         {
             entity.HasKey(e => e.IdObraSocial).HasName("PK__OBRAS_SO__89039DF61B424F56");
 
