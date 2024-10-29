@@ -7,7 +7,7 @@ namespace JurassicPharm.Repositories.Invoices
     public interface IInvoiceRepository
     {
         public Task<List<InvoiceResponseDTO>> GetAll();
-        public Task<Facturas?> GetInvoceById(int invoiceId);
+        public Task<Factura?> GetInvoceById(int invoiceId);
 
         public Task<bool> Create(InvoiceCreateDTO invoice);
 
