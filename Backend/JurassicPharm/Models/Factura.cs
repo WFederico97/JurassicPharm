@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace JurassicPharm.Models;
 
-public partial class Facturas
+public partial class Factura
 {
     public int NroFactura { get; set; }
 
@@ -15,9 +15,9 @@ public partial class Facturas
 
     public DateTime? Fecha { get; set; }
 
-    public virtual ICollection<DetallesFactura> DetallesFactura { get; set; } = new List<DetallesFactura>();
+    public virtual ICollection<DetalleFactura> DetallesFactura { get; set; } = new List<DetalleFactura>();
 
-    public virtual Clientes IdClienteNavigation { get; set; }
+    public virtual Cliente IdClienteNavigation { get; set; }
 
-    public virtual Sucursales IdSucursalNavigation { get; set; }
+    public virtual Sucursal IdSucursalNavigation { get; set; }
 }

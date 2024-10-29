@@ -5,11 +5,11 @@ using System.Collections.Generic;
 
 namespace JurassicPharm.Models;
 
-public partial class TiposSuministro
+public partial class TipoSuministro
 {
     public int IdTipoSuministro { get; set; }
 
     public string Nombre { get; set; }
 
-    public virtual ICollection<Suministros> Suministros { get; set; } = new List<Suministros>();
+    public virtual ICollection<Suministro> Suministros { get; set; } = new List<Suministro>();
 }

@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace JurassicPharm.Models;
 
-public partial class Stocks
+public partial class Stock
 {
     public int IdStock { get; set; }
 
@@ -19,9 +19,9 @@ public partial class Stocks
 
     public DateOnly? Fecha { get; set; }
 
-    public virtual Proveedores IdProveedorNavigation { get; set; }
+    public virtual Proveedor IdProveedorNavigation { get; set; }
 
-    public virtual Sucursales IdSucursalNavigation { get; set; }
+    public virtual Sucursal IdSucursalNavigation { get; set; }
 
-    public virtual Empleados LegajoEmpleadoNavigation { get; set; }
+    public virtual Empleado LegajoEmpleadoNavigation { get; set; }
 }
