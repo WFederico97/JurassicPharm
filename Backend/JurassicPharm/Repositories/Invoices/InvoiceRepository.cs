@@ -1,4 +1,3 @@
-using System.Linq.Expressions;
 using JurassicPharm.DTO.Invoice;
 using JurassicPharm.DTO.InvoIce;
 using JurassicPharm.DTO.InvoiceDetail;
@@ -17,14 +16,14 @@ namespace JurassicPharm.Repositories.Invoices
         }
         public async Task<bool> Create(InvoiceCreateDTO invoice)
         {
-            Clientes? client = await _context.Clientes.FirstOrDefaultAsync(client => client.IdCliente == invoice.ClientId);
+            Cliente? client = await _context.Clientes.FirstOrDefaultAsync(client => client.IdCliente == invoice.ClientId);
 
             if (client == null)
             {
                 throw new Exception("Client not found");
             }
 
-            Suministros? branch = await _context.Suministros.FirstOrDefaultAsync(branch => branch.IdSuministro == invoice.BranchId);
+            Suministro? branch = await _context.Suministros.FirstOrDefaultAsync(branch => branch.IdSuministro == invoice.BranchId);
 
             if (branch == null)
             {
@@ -33,7 +32,7 @@ namespace JurassicPharm.Repositories.Invoices
 
             using var transaction = await _context.Database.BeginTransactionAsync();
 
-            Facturas invoiceToCreate = new Facturas()
+            Factura invoiceToCreate = new Factura()
             {
                 IdCliente = invoice.ClientId,
                 IdSucursal = invoice.BranchId,
@@ -49,14 +48,14 @@ namespace JurassicPharm.Repositories.Invoices
 
                 invoice.Details.ForEach(async detail =>
                 {
-                    Suministros? supply = await _context.Suministros.FirstOrDefaultAsync(s => s.IdSuministro == detail.SupplyId);
+                    Suministro? supply = await _context.Suministros.FirstOrDefaultAsync(s => s.IdSuministro == detail.SupplyId);
 
                     if (supply == null)
                     {
                         throw new Exception("Supply not found");
                     }
 
-                    DetallesFactura detailToCreate = new DetallesFactura()
+                    DetalleFactura detailToCreate = new DetalleFactura()
                     {
                         NroFactura = invoiceId,
                         IdSuministro = detail.SupplyId,
@@ -113,7 +112,7 @@ namespace JurassicPharm.Repositories.Invoices
             }
         }
 
-        public async Task<Facturas?> GetInvoceById(int invoiceId)
+        public async Task<Factura?> GetInvoceById(int invoiceId)
         {
             return await _context.Facturas.FirstOrDefaultAsync(invoice => invoice.NroFactura == invoiceId);
         }
