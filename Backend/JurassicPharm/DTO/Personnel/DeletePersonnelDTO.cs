@@ -1,4 +1,4 @@
-﻿namespace JurassicPharm.DTOs.Personnel
+﻿namespace JurassicPharm.DTO.Personnel
 {
     public class DeletePersonnelDTO
     {

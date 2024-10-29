@@ -1,4 +1,4 @@
-﻿using JurassicPharm.DTOs.Personnel;
+﻿using JurassicPharm.DTO.Personnel;
 using JurassicPharm.Models;
 using JurassicPharm.Repositories.Personnel.Implementations;
 using JurassicPharm.Repositories.Personnel.Interfaces;

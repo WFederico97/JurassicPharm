@@ -10,7 +10,9 @@
 *.userosscache
 *.sln.docstates
 **/.vscode
-# User-specific files (MonoDevelop/Xamarin Studio)
+*/obj
+*/bin
+
 *.userprefs
 
 # Mono auto generated files

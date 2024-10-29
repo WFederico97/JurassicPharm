@@ -1,4 +1,6 @@
 using JurassicPharm.Models;
+using JurassicPharm.Repositories.Invoices;
+using JurassicPharm.Services.Invoices;
 using JurassicPharm.Repositories.Personnel.Implementations;
 using JurassicPharm.Repositories.Personnel.Interfaces;
 using JurassicPharm.Services.Personnel.Implementations;
@@ -38,6 +40,9 @@ builder.Services.AddDbContext<JurassicPharmContext>(
 builder.Services.AddScoped<IPersonnelService, PersonnelService>();
 builder.Services.AddScoped<IPersonnelRepository, PersonnelRepository>();
 
+
+builder.Services.AddScoped<IInvoiceService, InvoiceService>();
+builder.Services.AddScoped<IInvoiceRepository, InvoiceRepository>();
 
 //Authentication
 builder.Services.AddAuthentication(options =>
