@@ -13,7 +13,7 @@ public partial class Factura
 
     public int? IdSucursal { get; set; }
 
-    public DateOnly? Fecha { get; set; }
+    public DateTime? Fecha { get; set; }
 
     public virtual ICollection<DetalleFactura> DetallesFactura { get; set; } = new List<DetalleFactura>();
 

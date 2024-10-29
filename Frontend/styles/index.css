@@ -1,6 +1,10 @@
+body{
+  height: 100vh;
+}
 .nav-link.active {
     background-color: #d5d5d5  !important;
 }
   .nav-link:hover {
     background-color: #ebebeb; 
   }
+
