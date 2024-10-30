@@ -20,6 +20,7 @@ namespace JurassicPharm.Services.JWT
             {
                 new Claim(JwtRegisteredClaimNames.Email, userEmail),
                 new Claim(ClaimTypes.Role, role)
+                
             };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));

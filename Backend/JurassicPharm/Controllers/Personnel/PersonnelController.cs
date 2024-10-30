@@ -2,6 +2,7 @@
 using JurassicPharm.Models;
 using JurassicPharm.Services.Personnel.Implementations;
 using JurassicPharm.Services.Personnel.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -88,6 +89,7 @@ namespace JurassicPharm.Controllers.Personnel
             }
         }
         [HttpPut("/DeleteEmployee/{legajo}")]
+        [Authorize(Roles = "ADMIN")]
         public async Task<IActionResult> Delete([FromRoute] int legajo)
         {
             try
