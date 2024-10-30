@@ -82,6 +82,7 @@
               <hr>
               <a href="#" class="d-flex align-items-center link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                 <img src="../Assets/Images/user-icon.png" alt="" width="32" height="32" class="rounded-circle me-2">
+                <span id="userEmail" class="me-2"></span>
               </a>
               <ul class="dropdown-menu text-small shadow">
                 <li><a id="logout" class="dropdown-item" href="#">Log Out</a></li>
@@ -93,6 +94,7 @@
         <div class="col-md-9 col-lg-10 d-flex flex-column p-0">
           <!-- Header -->
           <header class="bg-light mb-4" style="height: 82px"></header>
+          <div id="alertContainer" class="container mt-3"></div>
 
           <div class=" p-5" style="height: 100%;">
             <table id="employees-table" class="table">
@@ -106,10 +108,19 @@
                   <th scope="col">Puesto</th>
                 </tr>
               </thead>
+              <tbody>
+
+              </tbody>
             </table>
+
+            <div id="addEmployeeButtonContainer" style="display: none;">
+              <button type="button" class="btn btn-success rounded-pill px-3" data-bs-toggle="modal" data-bs-target="#addEmployeeModal">
+                Agregar Empleado
+              </button>
+            </div>
           </div>
 
-          <!-- Modal para Editar Empleado-->
+          <!-- Edit Personnel Modal-->
           <div class="modal fade" id="editEmployeeModal" tabindex="-1" aria-labelledby="editEmployeeModalLabel" aria-hidden="true">
             <div class="modal-dialog">
               <div class="modal-content">
@@ -121,28 +132,33 @@
                   <form id="editEmployeeForm">
                     <div class="mb-3">
                       <label for="editNombre" class="form-label">Nombre</label>
-                      <input type="text" class="form-control" id="editNombre" required>
+                      <input type="text" class="form-control" id="editNombre" >
                     </div>
                     <div class="mb-3">
                       <label for="editApellido" class="form-label">Apellido</label>
-                      <input type="text" class="form-control" id="editApellido" required>
+                      <input type="text" class="form-control" id="editApellido" >
                     </div>
                     <div class="mb-3">
                       <label for="editCalle" class="form-label">Calle</label>
-                      <input type="text" class="form-control" id="editCalle" required>
+                      <input type="text" class="form-control" id="editCalle" >
                     </div>
                     <div class="mb-3">
                       <label for="editAltura" class="form-label">Altura</label>
-                      <input type="number" class="form-control" id="editAltura" required>
+                      <input type="number" class="form-control" id="editAltura" >
                     </div>
                     <div class="mb-3">
                       <label for="editCorreo" class="form-label">Correo Electrónico</label>
-                      <input type="email" class="form-control" id="editCorreo" required>
+                      <input type="email" class="form-control" id="editCorreo" >
                     </div>
                     <div class="mb-3">
                       <label for="editRol" class="form-label">Rol</label>
-                      <input type="text" class="form-control" id="editRol" required>
+                      <select id="editRol" class="form-select" required>
+                        <option value="ADMIN">ADMIN</option>
+                        <option value="CAJERO">CAJERO</option>
+                        <option value="REPOSITOR">REPOSITOR</option>
+                      </select>
                     </div>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
                     <button type="submit" class="btn btn-primary">Guardar Cambios</button>
                   </form>
                 </div>
@@ -150,9 +166,91 @@
             </div>
           </div>
 
+          <!-- Add Personnel Modal-->
+          <div class="modal fade" id="addEmployeeModal" tabindex="-1" aria-labelledby="addEmployeeModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="addEmployeeModalLabel">Agregar Empleado</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  <form id="addEmployeeForm">
+                    <div class="mb-3">
+                      <label for="addNombre" class="form-label">Nombre</label>
+                      <input type="text" class="form-control" id="addNombre" required>
+                    </div>
+                    <div class="mb-3">
+                      <label for="addApellido" class="form-label">Apellido</label>
+                      <input type="text" class="form-control" id="addApellido" required>
+                    </div>
+                    <div class="mb-3">
+                      <label for="addCalle" class="form-label">Calle</label>
+                      <input type="text" class="form-control" id="addCalle" required>
+                    </div>
+                    <div class="mb-3">
+                      <label for="addAltura" class="form-label">Altura</label>
+                      <input type="number" class="form-control" id="addAltura" required>
+                    </div>
+                    <div class="mb-3">
+                      <label for="addCorreo" class="form-label">Correo Electrónico</label>
+                      <input type="email" class="form-control" id="addCorreo" required>
+                    </div>
+                    <div class="mb-3">
+                      <label for="addRol" class="form-label">Rol</label>
+                      <select id="addRol" class="form-select" required>
+                        <option value="ADMIN">ADMIN</option>
+                        <option value="CAJERO">CAJERO</option>
+                        <option value="REPOSITOR">REPOSITOR</option>
+                      </select>
+                    </div>
+                    <div class="mb-3">
+                      <label for="addPassword" class="form-label">Contraseña</label>
+                      <input type="password" class="form-control" id="addPassword" required>
+                    </div>
+                    <div class="mb-3">
+                      <label for="addIdSucursal" class="form-label">Sucursal</label>
+                      <input type="number" class="form-control" id="addIdSucursal" required>
+                    </div>
+                    <div class="mb-3">
+                      <label for="addIdCiudad" class="form-label">Ciudad</label>
+                      <select id="addIdCiudad" class="form-select" required></select>
+                  </div>
+                    <button type="submit" class="btn btn-primary">Guardar Empleado</button>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Delete Confirmation Modal -->
+          <div class="modal fade" id="deleteEmployeeModal" tabindex="-1" aria-labelledby="deleteEmployeeModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="deleteEmployeeModalLabel">Confirmar Eliminación</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  <p>¿Estás seguro de que deseas eliminar al siguiente empleado?</p>
+                  <ul>
+                    <li><strong>Legajo:</strong> <span id="deleteLegajo"></span></li>
+                    <li><strong>Nombre:</strong> <span id="deleteNombre"></span></li>
+                    <li><strong>Apellido:</strong> <span id="deleteApellido"></span></li>
+                    <li><strong>Email:</strong> <span id="deleteCorreo"></span></li>
+                  </ul>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                  <button type="button" class="btn btn-danger" id="confirmDeleteButton">Eliminar</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
           <!-- Footer -->
           <footer class="mt-auto py-3 bg-light text-center">
-            <p class="text-body-secondary">&copy; 2024 Company, Inc</p>
+            <p class="text-body-secondary">© PROGRAMACION II - TUP - UTN - FRC</p>
           </footer>
         </div>
       </div>
