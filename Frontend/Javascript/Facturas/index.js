@@ -25,6 +25,7 @@ const generateTable = async () => {
                   Detalle
               </button>
             </td>
+            <td>${getTotal(details)}</td>
           </tr>
         `;
     }
@@ -41,6 +42,16 @@ const generateTable = async () => {
       generateDetails(selectedDetails);
     });
   });
+};
+
+const getTotal = (details) => {
+  let total = 0;
+
+  details.forEach(({ unitPrice }) => {
+    total += unitPrice;
+  });
+
+  return total;
 };
 
 const getInvoices = () => {
