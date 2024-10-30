@@ -7,5 +7,6 @@
         public string? Calle { get; set; }
         public int? Altura { get; set; }
         public string? CorreoElectronico { get; set; }
+        public string? Rol { get; set; }
     }
 }

@@ -1,9 +1,7 @@
 ﻿using JurassicPharm.DTO.Personnel;
 using JurassicPharm.Models;
-using JurassicPharm.Repositories.Personnel.Implementations;
 using JurassicPharm.Repositories.Personnel.Interfaces;
 using JurassicPharm.Services.Personnel.Interfaces;
-using System.Net.Mail;
 
 namespace JurassicPharm.Services.Personnel.Implementations
 {
@@ -15,7 +13,14 @@ namespace JurassicPharm.Services.Personnel.Implementations
         {
             _repository = repository;
         }
-
+        public async Task<List<Sucursal>> GetStores()
+        {
+            return await _repository.GetStores();
+        }
+        public async Task<List<Ciudad>> GetCities()
+        {
+            return await _repository.GetCities();
+        }
         public async Task<List<Empleado>> GetAllPersonnel()
         {
             return await _repository.GetAllPersonnel();
@@ -38,7 +43,14 @@ namespace JurassicPharm.Services.Personnel.Implementations
         {
             return await _repository.DeletePersonnel(legajo);
         }
+        public async Task<bool> ValidatePersonnelLogin(string email, string password)
+        {
+            return await _repository.ValidatePersonnelLogin(email, password);
+        }
 
-
+        public async Task<Empleado> GetByEmail(string email)
+        {
+            return await _repository.GetByEmail(email);
+        }
     }
 }

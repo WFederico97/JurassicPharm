@@ -5,7 +5,8 @@ using System.Collections.Generic;
 
 namespace JurassicPharm.Models;
 
-public partial class ObrasSocial
+public partial class ObraSocial
+
 {
     public int IdObraSocial { get; set; }
 

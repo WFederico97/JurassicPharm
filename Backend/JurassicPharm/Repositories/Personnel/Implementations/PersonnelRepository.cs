@@ -5,6 +5,8 @@ using JurassicPharm.Repositories.Personnel.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System.Net.Mail;
 using System.Text.RegularExpressions;
+using BCrypt.Net;
+
 
 namespace JurassicPharm.Repositories.Personnel.Implementations
 {
@@ -17,6 +19,15 @@ namespace JurassicPharm.Repositories.Personnel.Implementations
             _context = context;
         }
 
+        public async Task<List<Sucursal>> GetStores()
+        {
+            return await _context.Sucursales.ToListAsync();
+        }
+
+        public async Task<List<Ciudad>> GetCities()
+        {
+            return await _context.Ciudades.ToListAsync();
+        }
         public async Task<List<Empleado>> GetAllPersonnel()
         {
             return await _context.Empleados.Where(p => p.Active == true).ToListAsync();
@@ -38,14 +49,13 @@ namespace JurassicPharm.Repositories.Personnel.Implementations
 
         public async Task<bool> UpdatePersonnel(UpdatePersonnelDTO personnel, int legajo)
         {
-            Empleado personnelToUpdate = await _context.Empleados.Where(p => p.LegajoEmpleado == legajo).FirstOrDefaultAsync();
+            Empleado personnelToUpdate = await _context.Empleados.Where(p => p.LegajoEmpleado == legajo & p.Active == true).FirstOrDefaultAsync();
 
             if (personnelToUpdate == null)
             {
                 throw new NotFoundException($"No hay registros para el empleado con legajo: {legajo}");
             }
 
-            // Actualizar solo los campos que han sido modificados
             if (!string.IsNullOrEmpty(personnel.Nombre) && personnel.Nombre != personnelToUpdate.Nombre)
             {
                 personnelToUpdate.Nombre = personnel.Nombre;
@@ -70,10 +80,14 @@ namespace JurassicPharm.Repositories.Personnel.Implementations
             {
                 personnelToUpdate.CorreoElectronico = personnel.CorreoElectronico;
             }
+            if (!string.IsNullOrEmpty(personnel.Rol) && personnel.Rol != personnelToUpdate.Rol)
+            {
+                personnelToUpdate.Rol = personnel.Rol;
+            }
 
             _context.Empleados.Update(personnelToUpdate);
 
-            return await _context.SaveChangesAsync() > 0; // Verificar si algo fue modificado
+            return await _context.SaveChangesAsync() > 0; 
         }
 
         public async Task<bool> DeletePersonnel(int legajo)
@@ -89,7 +103,7 @@ namespace JurassicPharm.Repositories.Personnel.Implementations
 
             _context.Empleados.Update(personnelToDelete);
 
-            return await _context.SaveChangesAsync() > 0; // Verificar si algo fue modificado
+            return await _context.SaveChangesAsync() > 0; 
         }
 
         public async Task<bool> CreateEmployee(CreatePersonnelDTO employee)
@@ -110,6 +124,13 @@ namespace JurassicPharm.Repositories.Personnel.Implementations
             {
                 throw new NotFoundException($"La ciudad {employee.IdCiudad} no existe en nuestros registros");
             }
+            if (String.IsNullOrEmpty(employee.PasswordEmpleado))
+            {
+                throw new InvalidPropertyException($"Debe ingresar una contraseña");
+            }
+
+            //Hasheo de password 
+            string hashedPassword = BCrypt.Net.BCrypt.EnhancedHashPassword(employee.PasswordEmpleado, 13);
 
             using var transaction = await _context.Database.BeginTransactionAsync();
 
@@ -122,6 +143,8 @@ namespace JurassicPharm.Repositories.Personnel.Implementations
                     Calle = employee.Calle,
                     Altura = employee.Altura,
                     CorreoElectronico = employee.CorreoElectronico,
+                    PasswordEmpleado = hashedPassword,
+                    Rol= employee.Rol,
                     IdCiudad = employee.IdCiudad,
                     IdSucursal = employee.IdSucursal,
                     Active = true
@@ -156,6 +179,29 @@ namespace JurassicPharm.Repositories.Personnel.Implementations
                 return false;
             }
         }
+
+        public async Task<bool> ValidatePersonnelLogin(string email, string password)
+        {
+            Empleado employee = await _context.Empleados
+                .FirstOrDefaultAsync(e => e.CorreoElectronico == email & e.Active == true);
+
+            if (employee == null)
+            {
+                return false;
+            }
+            bool passwordReveal = BCrypt.Net.BCrypt.EnhancedVerify(password, employee.PasswordEmpleado);
+            if (!passwordReveal) 
+            {
+                throw new InvalidPropertyException("Credenciales inválidas");
+            }
+            return true;
+        }
+
+        public async Task<Empleado> GetByEmail(string email)
+        {
+            return await _context.Empleados.FirstOrDefaultAsync(e => e.CorreoElectronico == email & e.Active == true);
+        }
+
     }
 
 }

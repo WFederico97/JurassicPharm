@@ -19,14 +19,15 @@
         <div
           class="col-md-3 col-lg-2 d-flex flex-column flex-shrink-0 p-3 bg-light vh-100"
         >
-          <div class="d-flex align-items-center justify-content-evenly">
-            <span class="fs-5">Jurassic Pharm</span>
-            <img
-              style="width: 50px; height: 50px"
-              src="https://i.ebayimg.com/images/g/Z~8AAOSwIRxitoC9/s-l1600.webp"
+          <div class="d-flex align-items-center justify-content-evenly flex-column">
+            <a href="index.html"><img
+              style="width: 80px; height: 80px"
+              src="./Assets/Images/jph-logo.jpg"
               alt="logo"
-            />
+            /></a>
+            <span class="fs-5">Jurassic Pharm</span>
           </div>
+          <hr>
           <nav>
             <ul class="nav nav-pills flex-column mb-auto py-5 text-center">
               <li class="nav-item">
@@ -77,45 +78,27 @@
                 </a>
               </li>
             </ul>
+            <hr>
+            <div class="dropdown">
+              <a href="#" class="d-flex align-items-center link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                <img src="./Assets/Images/user-icon.png" alt="" width="32" height="32" class="rounded-circle me-2">
+                <span id="userEmail" class="me-2"></span>              </a>
+              <ul class="dropdown-menu text-small shadow">
+                <li><a id="logout" class="dropdown-item" href="#">Log Out</a></li>
+              </ul>
+            </div>
           </nav>
-          <!-- <div class="dropdown">
-            <a
-              href="#"
-              class="d-flex align-items-center link-dark text-decoration-none dropdown-toggle"
-              id="dropdownUser2"
-              data-bs-toggle="dropdown"
-              aria-expanded="false"
-            >
-              <img
-                src="https://github.com/mdo.png"
-                alt="
-                width="32"
-                height="32"
-                class="rounded-circle me-2"
-              />
-              <strong>mdo</strong>
-            </a>
-            <ul
-              class="dropdown-menu text-small shadow"
-              aria-labelledby="dropdownUser2"
-            >
-              <li><a class="dropdown-item" href="#">New project...</a></li>
-              <li><a class="dropdown-item" href="#">Settings</a></li>
-              <li><a class="dropdown-item" href="#">Profile</a></li>
-              <li><hr class="dropdown-divider" /></li>
-              <li><a class="dropdown-item" href="#">Sign out</a></li>
-            </ul>
-          </div> -->
         </div>
 
         <!-- Main Content -->
         <div class="col-md-9 col-lg-10 d-flex flex-column p-0">
           <!-- Header -->
           <header class="bg-light mb-4" style="height: 82px"></header>
+          <div id="alertContainer" class="container mt-3"></div>
 
           <!-- Footer -->
           <footer class="mt-auto py-3 bg-light text-center">
-            <p class="text-body-secondary">&copy; 2024 Company, Inc</p>
+            <p class="text-body-secondary">© PROGRAMACION II - TUP - UTN - FRC</p>
           </footer>
         </div>
       </div>

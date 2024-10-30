@@ -1,6 +1,10 @@
 body{
   height: 100vh;
 }
+html{
+  font-family: "Ubuntu", sans-serif;
+}
+
 .nav-link.active {
     background-color: #d5d5d5  !important;
 }
