@@ -19,6 +19,15 @@ namespace JurassicPharm.Repositories.Personnel.Implementations
             _context = context;
         }
 
+        public async Task<List<Sucursal>> GetStores()
+        {
+            return await _context.Sucursales.ToListAsync();
+        }
+
+        public async Task<List<Ciudad>> GetCities()
+        {
+            return await _context.Ciudades.ToListAsync();
+        }
         public async Task<List<Empleado>> GetAllPersonnel()
         {
             return await _context.Empleados.Where(p => p.Active == true).ToListAsync();
@@ -40,14 +49,13 @@ namespace JurassicPharm.Repositories.Personnel.Implementations
 
         public async Task<bool> UpdatePersonnel(UpdatePersonnelDTO personnel, int legajo)
         {
-            Empleado personnelToUpdate = await _context.Empleados.Where(p => p.LegajoEmpleado == legajo).FirstOrDefaultAsync();
+            Empleado personnelToUpdate = await _context.Empleados.Where(p => p.LegajoEmpleado == legajo & p.Active == true).FirstOrDefaultAsync();
 
             if (personnelToUpdate == null)
             {
                 throw new NotFoundException($"No hay registros para el empleado con legajo: {legajo}");
             }
 
-            // Actualizar solo los campos que han sido modificados
             if (!string.IsNullOrEmpty(personnel.Nombre) && personnel.Nombre != personnelToUpdate.Nombre)
             {
                 personnelToUpdate.Nombre = personnel.Nombre;
@@ -71,6 +79,10 @@ namespace JurassicPharm.Repositories.Personnel.Implementations
             if (!string.IsNullOrEmpty(personnel.CorreoElectronico) && personnel.CorreoElectronico != personnelToUpdate.CorreoElectronico)
             {
                 personnelToUpdate.CorreoElectronico = personnel.CorreoElectronico;
+            }
+            if (!string.IsNullOrEmpty(personnel.Rol) && personnel.Rol != personnelToUpdate.Rol)
+            {
+                personnelToUpdate.Rol = personnel.Rol;
             }
 
             _context.Empleados.Update(personnelToUpdate);
@@ -132,7 +144,7 @@ namespace JurassicPharm.Repositories.Personnel.Implementations
                     Altura = employee.Altura,
                     CorreoElectronico = employee.CorreoElectronico,
                     PasswordEmpleado = hashedPassword,
-                    Rol= "Empleado",
+                    Rol= employee.Rol,
                     IdCiudad = employee.IdCiudad,
                     IdSucursal = employee.IdSucursal,
                     Active = true

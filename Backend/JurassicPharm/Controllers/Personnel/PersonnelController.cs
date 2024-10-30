@@ -20,6 +20,32 @@ namespace JurassicPharm.Controllers.Personnel
             _service = service;
         }
 
+        [HttpGet("/GetCities")]
+        public async Task<IActionResult> GetCities()
+        {
+            try
+            {
+                return Ok(await _service.GetCities());
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Error al cometer la operacion: {ex.Message}");
+            }
+        }
+
+        [HttpGet("/GetStores")]
+        public async Task<IActionResult> GetStores()
+        {
+            try
+            {
+                return Ok(await _service.GetStores());
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Error al cometer la operacion: {ex.Message}");
+            }
+        }
+
         [HttpGet("/GetAll")]
         public async Task<IActionResult> GetAll()
         {
@@ -47,7 +73,7 @@ namespace JurassicPharm.Controllers.Personnel
                 return StatusCode(500, $"Error al cometer la operacion: {ex.Message}");
             }
         }
-
+        [Authorize(Roles = "ADMIN")]
         [HttpPost("/NewEmployee")]
         public async Task<IActionResult> CreateEmployee([FromBody] CreatePersonnelDTO employee)
         {
@@ -69,7 +95,7 @@ namespace JurassicPharm.Controllers.Personnel
                 return StatusCode(500, $"Error al cometer la operacion: {ex.Message}");
             }
         }
-
+        [Authorize(Roles = "ADMIN")]
         [HttpPut("/UpdateEmployee/{legajo}")]
         public async Task<IActionResult> Update([FromRoute] int legajo, [FromBody] UpdatePersonnelDTO updatedPersonnel)
         {
@@ -88,8 +114,8 @@ namespace JurassicPharm.Controllers.Personnel
                 return StatusCode(501, $"Internal Server Error: {ex.Message}");
             }
         }
-        [HttpPut("/DeleteEmployee/{legajo}")]
         [Authorize(Roles = "ADMIN")]
+        [HttpPut("/DeleteEmployee/{legajo}")]
         public async Task<IActionResult> Delete([FromRoute] int legajo)
         {
             try
