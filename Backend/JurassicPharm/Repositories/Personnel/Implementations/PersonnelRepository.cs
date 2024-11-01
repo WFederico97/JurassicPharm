@@ -34,6 +34,7 @@ namespace JurassicPharm.Repositories.Personnel.Implementations
                         LegajoEmpleado = e.LegajoEmpleado,
                         Nombre = e.Nombre,
                         Apellido = e.Apellido,
+                        Role = e.Rol,
                         Active = (bool)e.Active
                     }).ToList()
                 }).ToListAsync();
