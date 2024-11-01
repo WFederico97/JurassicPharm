@@ -194,7 +194,7 @@ public partial class JurassicPharmContext : DbContext
 
             entity.HasOne(d => d.IdSucursalNavigation).WithMany(p => p.Empleados)
                 .HasForeignKey(d => d.IdSucursal)
-                .HasConstraintName("FK_CLIENTES_SUCURSALES");
+                .HasConstraintName("FK_EMPLEADOS_SUCURSALES");
         });
 
         modelBuilder.Entity<Factura>(entity =>

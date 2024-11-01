@@ -1,4 +1,6 @@
-﻿using JurassicPharm.DTO.Personnel;
+﻿using JurassicPharm.DTO.Cities;
+using JurassicPharm.DTO.Personnel;
+using JurassicPharm.DTO.Stores;
 using JurassicPharm.Models;
 using JurassicPharm.Repositories.Personnel.Interfaces;
 using JurassicPharm.Services.Personnel.Interfaces;
@@ -13,15 +15,16 @@ namespace JurassicPharm.Services.Personnel.Implementations
         {
             _repository = repository;
         }
-        public async Task<List<Sucursal>> GetStores()
-        {
-            return await _repository.GetStores();
-        }
-        public async Task<List<Ciudad>> GetCities()
+        public async Task<List<GetCityDTO>> GetCities()
         {
             return await _repository.GetCities();
         }
-        public async Task<List<Empleado>> GetAllPersonnel()
+
+        public async Task<List<GetStoreDTO>> GetStores()
+        {
+            return await _repository.GetStores();
+        }
+        public async Task<List<GetPersonnelDTO>> GetAllPersonnel()
         {
             return await _repository.GetAllPersonnel();
         }

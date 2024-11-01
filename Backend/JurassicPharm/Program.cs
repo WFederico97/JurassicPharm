@@ -29,20 +29,37 @@ builder.Services.AddCors(options =>
 // Add services to the container.
 
 builder.Services.AddControllers();
+builder.Services.AddControllers().AddJsonOptions(options =>
+{
+    options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles;
+    options.JsonSerializerOptions.DefaultIgnoreCondition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull;
+});
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddDbContext<JurassicPharmContext>(
-        options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+
+//JWT Tokenization
 builder.Services.AddScoped<JwtService>();
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+//DB Contex
+
 builder.Services.AddDbContext<JurassicPharmContext>(
         options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+//DI
 builder.Services.AddScoped<IPersonnelService, PersonnelService>();
 builder.Services.AddScoped<IPersonnelRepository, PersonnelRepository>();
-
-
 builder.Services.AddScoped<IInvoiceService, InvoiceService>();
 builder.Services.AddScoped<IInvoiceRepository, InvoiceRepository>();
+
+
+//Authorization
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("RequireAdminRole", policy => policy.RequireRole("ADMIN"));
+});
 
 //Authentication
 builder.Services.AddAuthentication(options =>

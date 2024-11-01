@@ -82,7 +82,7 @@
               <hr>
               <a href="#" class="d-flex align-items-center link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                 <img src="../Assets/Images/user-icon.png" alt="" width="32" height="32" class="rounded-circle me-2">
-                <span id="userEmail" class="me-2"></span>
+                <span id="fullName" class="me-2"></span>
               </a>
               <ul class="dropdown-menu text-small shadow">
                 <li><a id="logout" class="dropdown-item" href="#">Log Out</a></li>
@@ -96,16 +96,19 @@
           <header class="bg-light mb-4" style="height: 82px"></header>
           <div id="alertContainer" class="container mt-3"></div>
 
-          <div class=" p-5" style="height: 100%;">
-            <table id="employees-table" class="table">
-              <thead>
-                <tr>
+          <div class=" p-5 table-responsive" style="height: 100%;">
+            <table id="employees-table" class="table table-hover table-bordered align-middle caption-top">
+              <caption class="table-caption fs-4 fw-bold ">Listado de empleados activos en nuestras sucursales</caption>
+              <thead class="table-header">
+                <tr class="table-primary">
                   <th scope="col">Legajo</th>
                   <th scope="col">Sucursal</th>
+                  <th scope="col">Ciudad</th>
                   <th scope="col">Nombre Completo</th>
-                  <th scope="col">Direccion</th>
+                  <th scope="col">Domicilio</th>
                   <th scope="col">Email</th>
                   <th scope="col">Puesto</th>
+                  <th scope="col">Acciones</th>
                 </tr>
               </thead>
               <tbody>
@@ -114,52 +117,57 @@
             </table>
 
             <div id="addEmployeeButtonContainer" style="display: none;">
-              <button type="button" class="btn btn-success rounded-pill px-3" data-bs-toggle="modal" data-bs-target="#addEmployeeModal">
-                Agregar Empleado
+              <button type="button" class="btn btn-success rounded-pill btnAgregarEmpleado" data-bs-toggle="modal" data-bs-target="#addEmployeeModal">
+                <span class="button__text">Agregar Empleado</span>
+                <span class="button__icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" viewBox="0 0 24 24" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" stroke="currentColor" height="24" fill="none" class="svg"><line y2="19" y1="5" x2="12" x1="12"></line><line y2="12" y1="12" x2="19" x1="5"></line></svg></span>
               </button>
             </div>
           </div>
 
-          <!-- Edit Personnel Modal-->
+          <!-- Edit Personnel Modal -->
           <div class="modal fade" id="editEmployeeModal" tabindex="-1" aria-labelledby="editEmployeeModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-              <div class="modal-content">
+            <div class="modal-dialog ">
+              <div class="modal-content ">
                 <div class="modal-header">
                   <h5 class="modal-title" id="editEmployeeModalLabel">Editar Empleado</h5>
                   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-body">
-                  <form id="editEmployeeForm">
-                    <div class="mb-3">
-                      <label for="editNombre" class="form-label">Nombre</label>
-                      <input type="text" class="form-control" id="editNombre" >
+                <div class="modal-body d-flex justify-content-center">
+                  <form id="editEmployeeForm" class="form">
+                    <p class="title">Editar Empleado</p>
+                    <p class="message">Modifique los detalles del empleado.</p>
+                    <div class="flex">
+                      <label>
+                        <input required type="text" id="editNombre" class="input">
+                        <span>Nombre</span>
+                      </label>
+                      <label>
+                        <input required type="text" id="editApellido" class="input">
+                        <span>Apellido</span>
+                      </label>
                     </div>
-                    <div class="mb-3">
-                      <label for="editApellido" class="form-label">Apellido</label>
-                      <input type="text" class="form-control" id="editApellido" >
-                    </div>
-                    <div class="mb-3">
-                      <label for="editCalle" class="form-label">Calle</label>
-                      <input type="text" class="form-control" id="editCalle" >
-                    </div>
-                    <div class="mb-3">
-                      <label for="editAltura" class="form-label">Altura</label>
-                      <input type="number" class="form-control" id="editAltura" >
-                    </div>
-                    <div class="mb-3">
-                      <label for="editCorreo" class="form-label">Correo Electrónico</label>
-                      <input type="email" class="form-control" id="editCorreo" >
-                    </div>
-                    <div class="mb-3">
-                      <label for="editRol" class="form-label">Rol</label>
-                      <select id="editRol" class="form-select" required>
+                    <label>
+                      <input required type="text" id="editCalle" class="input">
+                      <span>Calle</span>
+                    </label>
+                    <label>
+                      <input required type="number" id="editAltura" class="input">
+                      <span>Altura</span>
+                    </label>
+                    <label>
+                      <input required type="email" id="editCorreo" class="input">
+                      <span>Correo Electrónico</span>
+                    </label>
+                    <label>
+                      <select id="editRol" class="input" required>
                         <option value="ADMIN">ADMIN</option>
                         <option value="CAJERO">CAJERO</option>
                         <option value="REPOSITOR">REPOSITOR</option>
                       </select>
-                    </div>
+                      <span>Rol</span>
+                    </label>
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                    <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                    <button type="submit" class="submit">Guardar Cambios</button>
                   </form>
                 </div>
               </div>
@@ -169,57 +177,73 @@
           <!-- Add Personnel Modal-->
           <div class="modal fade" id="addEmployeeModal" tabindex="-1" aria-labelledby="addEmployeeModalLabel" aria-hidden="true">
             <div class="modal-dialog">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h5 class="modal-title" id="addEmployeeModalLabel">Agregar Empleado</h5>
-                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title title" id="addEmployeeModalLabel">Agregar Empleado</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body d-flex justify-content-center">
+                        <form id="addEmployeeForm" class="form">
+                            <p class="message">Complete la información del empleado</p>
+
+                            <div class="flex">
+                                <label>
+                                    <input type="text" id="addNombre" class="input" required>
+                                    <span>Nombre</span>
+                                </label>
+                                <label>
+                                    <input type="text" id="addApellido" class="input" required>
+                                    <span>Apellido</span>
+                                </label>
+                            </div>
+
+                            <div class="flex">
+                                <label>
+                                    <input type="text" id="addCalle" class="input" required>
+                                    <span>Calle</span>
+                                </label>
+                                <label>
+                                    <input type="number" id="addAltura" class="input" required>
+                                    <span>Altura</span>
+                                </label>
+                            </div>
+
+                            <label>
+                                <input type="email" id="addCorreo" class="input" required>
+                                <span>Correo Electrónico</span>
+                            </label>
+
+                            <div class="flex">
+                                <label>
+                                    <select id="addRol" class="input form-select" required>
+                                        <option value="" disabled selected></option>
+                                        <option value="ADMIN">ADMIN</option>
+                                        <option value="CAJERO">CAJERO</option>
+                                        <option value="REPOSITOR">REPOSITOR</option>
+                                    </select>
+                                    <span>Rol</span>
+                                </label>
+                                <label>
+                                    <input type="password" id="addPassword" class="input" required>
+                                    <span>Contraseña</span>
+                                </label>
+                            </div>
+
+                            <div class="flex">
+                                <label>
+                                    <input type="number" id="addIdSucursal" class="input" required>
+                                    <span>Sucursal</span>
+                                </label>
+                                <label>
+                                    <select id="addIdCiudad" class="input form-select" required></select>
+                                    <span>Ciudad</span>
+                                </label>
+                            </div>
+
+                            <button type="submit" class="submit">Guardar Empleado</button>
+                        </form>
+                    </div>
                 </div>
-                <div class="modal-body">
-                  <form id="addEmployeeForm">
-                    <div class="mb-3">
-                      <label for="addNombre" class="form-label">Nombre</label>
-                      <input type="text" class="form-control" id="addNombre" required>
-                    </div>
-                    <div class="mb-3">
-                      <label for="addApellido" class="form-label">Apellido</label>
-                      <input type="text" class="form-control" id="addApellido" required>
-                    </div>
-                    <div class="mb-3">
-                      <label for="addCalle" class="form-label">Calle</label>
-                      <input type="text" class="form-control" id="addCalle" required>
-                    </div>
-                    <div class="mb-3">
-                      <label for="addAltura" class="form-label">Altura</label>
-                      <input type="number" class="form-control" id="addAltura" required>
-                    </div>
-                    <div class="mb-3">
-                      <label for="addCorreo" class="form-label">Correo Electrónico</label>
-                      <input type="email" class="form-control" id="addCorreo" required>
-                    </div>
-                    <div class="mb-3">
-                      <label for="addRol" class="form-label">Rol</label>
-                      <select id="addRol" class="form-select" required>
-                        <option value="ADMIN">ADMIN</option>
-                        <option value="CAJERO">CAJERO</option>
-                        <option value="REPOSITOR">REPOSITOR</option>
-                      </select>
-                    </div>
-                    <div class="mb-3">
-                      <label for="addPassword" class="form-label">Contraseña</label>
-                      <input type="password" class="form-control" id="addPassword" required>
-                    </div>
-                    <div class="mb-3">
-                      <label for="addIdSucursal" class="form-label">Sucursal</label>
-                      <input type="number" class="form-control" id="addIdSucursal" required>
-                    </div>
-                    <div class="mb-3">
-                      <label for="addIdCiudad" class="form-label">Ciudad</label>
-                      <select id="addIdCiudad" class="form-select" required></select>
-                  </div>
-                    <button type="submit" class="btn btn-primary">Guardar Empleado</button>
-                  </form>
-                </div>
-              </div>
             </div>
           </div>
 
@@ -231,18 +255,29 @@
                   <h5 class="modal-title" id="deleteEmployeeModalLabel">Confirmar Eliminación</h5>
                   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-body">
-                  <p>¿Estás seguro de que deseas eliminar al siguiente empleado?</p>
-                  <ul>
-                    <li><strong>Legajo:</strong> <span id="deleteLegajo"></span></li>
-                    <li><strong>Nombre:</strong> <span id="deleteNombre"></span></li>
-                    <li><strong>Apellido:</strong> <span id="deleteApellido"></span></li>
-                    <li><strong>Email:</strong> <span id="deleteCorreo"></span></li>
-                  </ul>
+                <div class="modal-body d-flex justify-content-center">
+                  <div class="delete-personnel-card">
+                    <div class="delete-personnel-card-header">
+                      <div class="delete-personnel-card-image">
+                        <svg aria-hidden="true" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" fill="none">
+                                  <path d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" stroke-linejoin="round" stroke-linecap="round"></path>
+                        </svg></div>
+                      <div class="delete-personnel-card-content">
+                         <span class="delete-personnel-card-title">Dar de baja empleado</span>
+                         <p class="delete-personnel-card-message">¿Estás seguro de que deseas dar de baja al siguiente empleado?</p>
+                         <ul>
+                          <li><strong>Legajo:</strong> <span id="deleteLegajo"></span></li>
+                          <li><strong>Nombre:</strong> <span id="deleteNombre"></span></li>
+                          <li><strong>Apellido:</strong> <span id="deleteApellido"></span></li>
+                          <li><strong>Email:</strong> <span id="deleteCorreo"></span></li>
+                        </ul>
+                      </div>
+                    </div>
+                    </div>                  
                 </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                  <button type="button" class="btn btn-danger" id="confirmDeleteButton">Eliminar</button>
+                <div class="modal-footer actions">
+                  <button type="button" class="btn btn-secondary cancel" data-bs-dismiss="modal">Cancelar</button>
+                  <button type="button" class="btn btn-danger desactivate" id="confirmDeleteButton">Eliminar</button>
                 </div>
               </div>
             </div>
@@ -263,5 +298,6 @@
     ></script>
     <script src="../Javascript/Employees/index.js"></script>
     <script src="../Javascript/index.js"></script>
+    <script src="../Javascript/Auth/auth.js"></script>
   </body>
 </html>
