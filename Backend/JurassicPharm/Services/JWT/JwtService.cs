@@ -1,7 +1,7 @@
-﻿using System;
-using System.IdentityModel.Tokens.Jwt;
+﻿using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using JurassicPharm.Models;
 using Microsoft.IdentityModel.Tokens;
 
 namespace JurassicPharm.Services.JWT
@@ -14,13 +14,15 @@ namespace JurassicPharm.Services.JWT
             _configuration = configuration;
         }
 
-        public string GenerateJwtToken(string userEmail, string role)
+        public string GenerateJwtToken(string userEmail, string role, Empleado employee)
         {
             var claims = new[]
             {
                 new Claim(JwtRegisteredClaimNames.Email, userEmail),
-                new Claim(ClaimTypes.Role, role)
-                
+                new Claim(ClaimTypes.Role, role),
+                new Claim("UserId", employee.LegajoEmpleado.ToString()),
+                new Claim("FullName", $"{employee.Nombre} {employee.Apellido}")
+
             };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
