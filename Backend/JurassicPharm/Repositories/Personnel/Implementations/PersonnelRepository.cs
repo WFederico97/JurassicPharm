@@ -5,7 +5,8 @@ using JurassicPharm.Repositories.Personnel.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System.Net.Mail;
 using System.Text.RegularExpressions;
-using BCrypt.Net;
+using JurassicPharm.DTO.Cities;
+using JurassicPharm.DTO.Stores;
 
 
 namespace JurassicPharm.Repositories.Personnel.Implementations
@@ -19,23 +20,72 @@ namespace JurassicPharm.Repositories.Personnel.Implementations
             _context = context;
         }
 
-        public async Task<List<Sucursal>> GetStores()
+        public async Task<List<GetStoreDTO>> GetStores()
         {
-            return await _context.Sucursales.ToListAsync();
+            var sucursales = await _context.Sucursales
+                .Include(s => s.Empleados)
+                .Select(s => new GetStoreDTO
+                {
+                    IdSucursal = s.IdSucursal,
+                    Calle = s.Calle,
+                    Altura = (int)s.Altura,
+                    Empleados = s.Empleados.Select(e => new GetPersonnelSummaryDTO
+                    {
+                        LegajoEmpleado = e.LegajoEmpleado,
+                        Nombre = e.Nombre,
+                        Apellido = e.Apellido,
+                        Active = (bool)e.Active
+                    }).ToList()
+                }).ToListAsync();
+
+            return sucursales;
         }
 
-        public async Task<List<Ciudad>> GetCities()
+        public async Task<List<GetCityDTO>> GetCities()
         {
-            return await _context.Ciudades.ToListAsync();
+            var ciudades = await _context.Ciudades
+                .Include(c => c.Empleados)
+                .Select(c => new GetCityDTO
+                {
+                    IdCiudad = c.IdCiudad,
+                    Nombre = c.Nombre,
+                    Empleados = c.Empleados.Select(e => new GetPersonnelSummaryDTO
+                    {
+                        LegajoEmpleado = e.LegajoEmpleado,
+                        Nombre = e.Nombre,
+                        Apellido = e.Apellido,
+                        Active = (bool)e.Active
+                    }).ToList()
+                }).ToListAsync();
+
+            return ciudades;
         }
-        public async Task<List<Empleado>> GetAllPersonnel()
+
+        public async Task<List<GetPersonnelDTO>> GetAllPersonnel()
         {
-            return await _context.Empleados.Where(p => p.Active == true).ToListAsync();
+            var empleados = await _context.Empleados
+                .Include(e => e.IdCiudadNavigation)
+                .Include(e => e.IdSucursalNavigation)
+                .Where(p => p.Active == true)
+                .Select(e => new GetPersonnelDTO
+                {
+                    LegajoEmpleado = e.LegajoEmpleado,
+                    Nombre = e.Nombre,
+                    Apellido = e.Apellido,
+                    CorreoElectronico = e.CorreoElectronico,
+                    Rol = e.Rol,
+                    Ciudad = e.IdCiudadNavigation.Nombre,
+                    Sucursal = e.IdSucursalNavigation.Calle
+                }).ToListAsync();
+
+            return empleados;
         }
 
         public async Task<Empleado> GetPersonnel(int legajo)
         {
             Empleado employee = await _context.Empleados
+                .Include(e => e.IdCiudadNavigation)
+                .Include(e => e.IdSucursalNavigation)
                 .Where(p => p.Active == true && p.LegajoEmpleado == legajo)
                 .FirstOrDefaultAsync();
 
@@ -199,7 +249,10 @@ namespace JurassicPharm.Repositories.Personnel.Implementations
 
         public async Task<Empleado> GetByEmail(string email)
         {
-            return await _context.Empleados.FirstOrDefaultAsync(e => e.CorreoElectronico == email & e.Active == true);
+            return await _context.Empleados
+                .Include(e => e.IdCiudadNavigation)
+                .Include(e => e.IdSucursalNavigation)
+                .FirstOrDefaultAsync(e => e.CorreoElectronico == email & e.Active == true);
         }
 
     }
