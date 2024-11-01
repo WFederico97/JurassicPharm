@@ -5,10 +5,10 @@ const navLinks = document.querySelectorAll('.nav-link');
 
 //check user email for navbar
 document.addEventListener("DOMContentLoaded", () => {
-  const userEmail = localStorage.getItem("userEmail");
+  const fullName = localStorage.getItem("fullName");
 
-  if (userEmail) {
-    document.getElementById("userEmail").textContent = userEmail;
+  if (fullName) {
+    document.getElementById("fullName").textContent = fullName;
   }
 });
 
