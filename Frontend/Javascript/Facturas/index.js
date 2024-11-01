@@ -1,3 +1,5 @@
+import { showAlert } from "../helpers/showAlert.js";
+
 addEventListener("load", async (event) => {
   await generateTable();
 });
@@ -25,7 +27,7 @@ const generateTable = async () => {
                   Detalle
               </button>
             </td>
-            <td>${getTotal(details)}</td>
+            <td>$${getTotal(details)}</td>
           </tr>
         `;
     }
@@ -54,186 +56,29 @@ const getTotal = (details) => {
   return total;
 };
 
-const getInvoices = () => {
-  //TODO: FETCH REAL DATA FROM BACKEND
+const getInvoices = async () => {
+  const token = localStorage.getItem("jwtToken");
 
-  return [
-    {
-      clientName: "Jorge",
-      clienLastName: "Bayer",
-      date: "2023-09-01T00:00:00",
-      branch: "Monroe, 742",
-      details: [
-        {
-          supplyName: "Ibuprofeno",
-          unitPrice: 150,
-          amount: 2,
-        },
-        {
-          supplyName: "Insulina",
-          unitPrice: 1500,
-          amount: 1,
-        },
-        {
-          supplyName: "Viagra",
-          unitPrice: 200,
-          amount: 2,
-        },
-      ],
-    },
-    {
-      clientName: "Jorge",
-      clienLastName: "Suspenso",
-      date: "2023-09-02T00:00:00",
-      branch: "Boulevard Chacabuco, 360",
-      details: [
-        {
-          supplyName: "Amoxicilina",
-          unitPrice: 500,
-          amount: 1,
-        },
-      ],
-    },
-    {
-      clientName: "Juan Roman",
-      clienLastName: "Tristelme",
-      date: "2023-09-03T00:00:00",
-      branch: "Olleros, 501",
-      details: [
-        {
-          supplyName: "Paracetamol",
-          unitPrice: 120,
-          amount: 3,
-        },
-      ],
-    },
-    {
-      clientName: "Jorge",
-      clienLastName: "Bayer",
-      date: "2022-09-01T00:00:00",
-      branch: "Monroe, 742",
-      details: [
-        {
-          supplyName: "Paracetamol",
-          unitPrice: 120,
-          amount: 15,
-        },
-      ],
-    },
-    {
-      clientName: "Jorge",
-      clienLastName: "Suspenso",
-      date: "2019-09-02T00:00:00",
-      branch: "Boulevard Chacabuco, 360",
-      details: [
-        {
-          supplyName: "Paracetamol",
-          unitPrice: 120,
-          amount: 33,
-        },
-      ],
-    },
-    {
-      clientName: "Juan Roman",
-      clienLastName: "Tristelme",
-      date: "2015-09-03T00:00:00",
-      branch: "Olleros, 501",
-      details: [
-        {
-          supplyName: "Ibuprofeno",
-          unitPrice: 150,
-          amount: 12,
-        },
-      ],
-    },
-    {
-      clientName: "Jorge",
-      clienLastName: "Bayer",
-      date: "2024-09-21T00:00:00",
-      branch: "Olleros, 501",
-      details: [
-        {
-          supplyName: "Ibuprofeno",
-          unitPrice: 150,
-          amount: 14,
-        },
-      ],
-    },
-    {
-      clientName: "Juan Roman",
-      clienLastName: "Tristelme",
-      date: "2024-09-15T00:00:00",
-      branch: "Monroe, 742",
-      details: [
-        {
-          supplyName: "Paracetamol",
-          unitPrice: 120,
-          amount: 3,
-        },
-      ],
-    },
-    {
-      clientName: "Juan Roman",
-      clienLastName: "Tristelme",
-      date: "2024-09-04T00:00:00",
-      branch: "Monroe, 742",
-      details: [
-        {
-          supplyName: "Paracetamol",
-          unitPrice: 120,
-          amount: 7,
-        },
-      ],
-    },
-    {
-      clientName: "Jorge",
-      clienLastName: "Suspenso",
-      date: "2024-10-22T00:00:00",
-      branch: "Boulevard Chacabuco, 360",
-      details: [
-        {
-          supplyName: "Ibuprofeno",
-          unitPrice: 150,
-          amount: 3,
-        },
-      ],
-    },
-    {
-      clientName: "Jorge",
-      clienLastName: "Bayer",
-      date: "2024-10-22T00:00:00",
-      branch: "Monroe, 742",
-      details: [],
-    },
-    {
-      clientName: "Jorge",
-      clienLastName: "Bayer",
-      date: "2024-10-22T00:00:00",
-      branch: "Monroe, 742",
-      details: [],
-    },
-    {
-      clientName: "Jorge",
-      clienLastName: "Suspenso",
-      date: "2024-10-22T00:00:00",
-      branch: "Boulevard Chacabuco, 360",
-      details: [],
-    },
-    {
-      clientName: "Juan Roman",
-      clienLastName: "Tristelme",
-      date: "2024-10-22T00:00:00",
-      branch: "Olleros, 501",
-      details: [],
-    },
-    {
-      clientName: "Jorge",
-      clienLastName: "Suspenso",
-      date: "2024-10-22T00:00:00",
-      branch: "Boulevard Chacabuco, 360",
-      details: [],
-    },
-  ];
+  try {
+    const response = await fetch("https://localhost:7289/api/invoice", {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (response.ok) {
+      const data = await response.json();
+      return data;
+    } else {
+      showAlert(`Error al obtener los datos: ${response.status}`, "danger");
+      return [];
+    }
+  } catch (err) {
+    showAlert(`Error al obtener los datos: ${err}`, "danger");
+    return [];
+  }
 };
 
 const generateDetails = (details) => {
