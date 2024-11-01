@@ -73,9 +73,11 @@ namespace JurassicPharm.Repositories.Personnel.Implementations
                     Nombre = e.Nombre,
                     Apellido = e.Apellido,
                     CorreoElectronico = e.CorreoElectronico,
+                    Domicilio = $"{e.Calle} {e.Altura}",
                     Rol = e.Rol,
                     Ciudad = e.IdCiudadNavigation.Nombre,
-                    Sucursal = e.IdSucursalNavigation.Calle
+                    Sucursal = e.IdSucursalNavigation.IdSucursal,
+                    DireccionSucursal = $"{e.IdSucursalNavigation.Calle} {e.IdSucursalNavigation.Altura}"
                 }).ToListAsync();
 
             return empleados;

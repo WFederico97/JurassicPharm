@@ -8,6 +8,7 @@ namespace JurassicPharm.DTO.InvoIce
 {
     public class InvoiceResponseDTO
     {
+        public int ClientId { get; set; }
         public string ClientName { get; set; }
         public string ClienLastName { get; set; }
         public DateTime Date { get; set; }

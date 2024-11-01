@@ -125,6 +125,7 @@ namespace JurassicPharm.Repositories.Invoices
                 .Include(invoice => invoice.IdSucursalNavigation)
                 .Select(invoice => new InvoiceResponseDTO
                 {
+                    ClientId = (int)invoice.IdCliente,
                     ClientName = invoice.IdClienteNavigation.Nombre,
                     ClienLastName = invoice.IdClienteNavigation.Apellido,
                     Branch = $"{invoice.IdSucursalNavigation.Calle}, {invoice.IdSucursalNavigation.Altura}",
@@ -136,7 +137,6 @@ namespace JurassicPharm.Repositories.Invoices
                         Amount = (int)detail.Cantidad
                     }).ToList()
                 }).ToListAsync();
-
         }
 
 
