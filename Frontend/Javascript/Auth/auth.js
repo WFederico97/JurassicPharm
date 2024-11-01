@@ -15,14 +15,14 @@ function checkTokenExpiration() {
             showAlert('Su sesión expirará pronto. Será deslogueado automáticamente.', 'warning');
             setTimeout(() => {
                 localStorage.clear();
-                window.location = 'login.html';
+                window.location = '../../Pages/login.html'; 
             }, timeLeft * 1000);
         }
     } else {
         localStorage.clear();
         showAlert('Su sesión ha expirado. Será redirigido al inicio de sesión.', 'danger');
         setTimeout(() => {
-            window.location = 'login.html'; 
+            window.location = '../../Pages/login.html'; 
         }, 3000); 
     }
 }
