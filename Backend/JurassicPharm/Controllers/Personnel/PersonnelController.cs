@@ -73,7 +73,7 @@ namespace JurassicPharm.Controllers.Personnel
                 return StatusCode(500, $"Error al cometer la operacion: {ex.Message}");
             }
         }
-        [Authorize(Roles = "ADMIN")]
+        [Authorize(Policy = "RequireAdminRole")]
         [HttpPost("/NewEmployee")]
         public async Task<IActionResult> CreateEmployee([FromBody] CreatePersonnelDTO employee)
         {
@@ -95,7 +95,7 @@ namespace JurassicPharm.Controllers.Personnel
                 return StatusCode(500, $"Error al cometer la operacion: {ex.Message}");
             }
         }
-        [Authorize(Roles = "ADMIN")]
+        [Authorize(Policy = "RequireAdminRole")]
         [HttpPut("/UpdateEmployee/{legajo}")]
         public async Task<IActionResult> Update([FromRoute] int legajo, [FromBody] UpdatePersonnelDTO updatedPersonnel)
         {
@@ -114,7 +114,7 @@ namespace JurassicPharm.Controllers.Personnel
                 return StatusCode(501, $"Internal Server Error: {ex.Message}");
             }
         }
-        [Authorize(Roles = "ADMIN")]
+        [Authorize(Policy = "RequireAdminRole")]
         [HttpPut("/DeleteEmployee/{legajo}")]
         public async Task<IActionResult> Delete([FromRoute] int legajo)
         {
