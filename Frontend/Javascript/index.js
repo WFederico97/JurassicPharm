@@ -1,7 +1,7 @@
-let tokenStored = localStorage.getItem('jwtToken')
+let tokenStored = localStorage.getItem("jwtToken");
 const activePage = window.location.pathname;
 
-const navLinks = document.querySelectorAll('.nav-link');
+const navLinks = document.querySelectorAll(".nav-link");
 
 //check user email for navbar
 document.addEventListener("DOMContentLoaded", () => {
