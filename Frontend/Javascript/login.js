@@ -37,6 +37,15 @@ document.getElementById('login-form').addEventListener('submit', async function 
                 localStorage.setItem('jwtToken', data.token);
                 localStorage.setItem('userEmail', CorreoElectronico);
 
+                // Decode payload from token
+                const payload = JSON.parse(atob(data.token.split('.')[1]));
+
+                // Store user data in local storage
+                localStorage.setItem('userId', payload.UserId);
+                localStorage.setItem('fullName', payload.FullName);
+                localStorage.setItem('role', payload["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"]);
+                localStorage.setItem('tokenExpiration', payload.exp);
+
                 const employeesResponse = await fetch('https://localhost:7289/GetAll', {
                     method: 'GET',
                     headers: {
@@ -51,8 +60,7 @@ document.getElementById('login-form').addEventListener('submit', async function 
                     const loggedInEmployee = employees.find(emp => emp.correoElectronico === CorreoElectronico);
 
                     if (loggedInEmployee) {
-                        localStorage.setItem('userRole', loggedInEmployee.rol);
-                        showAlert(`Bienvenido, su rol es: ${loggedInEmployee.rol}`, 'success');
+                        showAlert(`Bienvenido, ${payload.FullName}. Su rol es: ${payload["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"]}`, 'success');
                     } else {
                         showAlert('Empleado no encontrado.', 'danger');
                     }

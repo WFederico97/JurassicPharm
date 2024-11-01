@@ -82,7 +82,7 @@
             <div class="dropdown">
               <a href="#" class="d-flex align-items-center link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                 <img src="./Assets/Images/user-icon.png" alt="" width="32" height="32" class="rounded-circle me-2">
-                <span id="userEmail" class="me-2"></span>              </a>
+                <span id="fullName" class="me-2"></span>              </a>
               <ul class="dropdown-menu text-small shadow">
                 <li><a id="logout" class="dropdown-item" href="#">Log Out</a></li>
               </ul>
@@ -93,9 +93,73 @@
         <!-- Main Content -->
         <div class="col-md-9 col-lg-10 d-flex flex-column p-0">
           <!-- Header -->
-          <header class="bg-light mb-4" style="height: 82px"></header>
-          <div id="alertContainer" class="container mt-3"></div>
+          <header class="p-3 bg-light text-center">
+            <h1 class="fs-1">JURASSIC PHARM S.A</h1>
+          </header>
+          <div id="alertContainer" class="container mt-3">
 
+          </div>
+
+          <div>
+            <div class="p-5 dashboard-container">
+              <h1 class="fs-3 fw-bold mb-4">Dashboard de Ventas</h1>
+              
+              <!-- Contenedor del gráfico -->
+              <div class="card mb-5 shadow-sm">
+                <div class="card-body">
+                  <h2 class="card-title fs-5 fw-bold">Gráfico de Ventas</h2>
+                  <canvas id="salesChart"></canvas>
+                </div>
+              </div>
+              
+              <!-- Tabla de empleados por sucursal -->
+              <div class="card mb-5 shadow-sm">
+                <div class="card-body">
+                  <h2 class="card-title fs-5 fw-bold">Empleados por Sucursal</h2>
+                  <table id="employeeTable" class="table table-hover table-bordered align-middle">
+                    <thead class="table-light">
+                      <tr>
+                        <th scope="col">Sucursal</th>
+                        <th scope="col">Empleados</th>
+                        <th scope="col">Total Empleados</th>
+                        <th scope="col">Administradores</th>
+                        <th scope="col">Cajeros</th>
+                        <th scope="col">Repositores</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <!-- Los datos se generarán dinámicamente -->
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+              
+              <!-- Formulario para agregar ventas -->
+              <div class="card shadow-sm">
+                <div class="card-body">
+                  <h2 class="card-title fs-5 fw-bold">Agregar Venta</h2>
+                  <form id="add-sale-form" class="form">
+                    <div class="mb-3">
+                      <label for="clientId" class="form-label">Numero de cliente:</label>
+                      <input type="number" id="clientId" name="clientId" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                      <label for="branchId" class="form-label">Numero de Sucursal:</label>
+                      <input type="number" id="branchId" name="branchId" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                      <label for="date" class="form-label">Fecha:</label>
+                      <input type="date" id="date" name="date" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                      <button type="button" class="btn btn-primary" id="addSupplyButton" data-bs-toggle="modal" data-bs-target="#exampleModal">Añadir articulo</button>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Agregar Venta</button>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
           <!-- Footer -->
           <footer class="mt-auto py-3 bg-light text-center">
             <p class="text-body-secondary">© PROGRAMACION II - TUP - UTN - FRC</p>
@@ -110,5 +174,7 @@
       crossorigin="anonymous"
     ></script>
     <script src="./Javascript/index.js"></script>
+    <script src="./Javascript/Auth/auth.js"></script>
+    <script src="./Javascript/Dashboard/index.js"></script>
   </body>
 </html>
