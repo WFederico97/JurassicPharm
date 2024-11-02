@@ -1,3 +1,4 @@
+import { showAlert } from "../helpers/showAlert.js";
 
 async function fetchEmployeesByStore() {
     const token = localStorage.getItem('jwtToken'); 
@@ -11,6 +12,7 @@ async function fetchEmployeesByStore() {
         if (!response.ok) throw new Error('Error al obtener las sucursales');
 
         const stores = await response.json();
+        
         const tableBody = document.querySelector('#employeeTable tbody');
         tableBody.innerHTML = ''; 
 
@@ -20,10 +22,13 @@ async function fetchEmployeesByStore() {
             const activeAdmins = store.empleados.filter(emp => emp.active && emp.role === 'ADMIN');
             const activeRepositores = store.empleados.filter(emp => emp.active && emp.role === 'REPOSITOR');
             const activeCashiers = store.empleados.filter(emp => emp.active && emp.role === 'CAJERO');
-            console.log(activeEmployees)
+
             if (activeEmployees.length > 0) {
                 const row = document.createElement('tr');
                 row.innerHTML = `
+                    <td>${store.provincia}</td>
+                    <td>${store.localidad}</td>
+                    <td>${store.ciudad}</td>
                     <td>${store.calle}, ${store.altura}</td>
                     <td>${activeEmployees.map(emp => `${emp.nombre} ${emp.apellido}`).join(', ')}</td>
                     <td>${activeEmployees.length}</td>
@@ -33,7 +38,10 @@ async function fetchEmployeesByStore() {
                 `;
                 tableBody.appendChild(row);
             }
+            
         });
+        createStoreChart(stores);
+
     } catch (error) {
         console.error('Error fetching stores:', error);
     }
@@ -59,20 +67,96 @@ async function fetchInvoices() {
 
 function createSalesChart(invoices) {
     const ctx = document.getElementById('salesChart').getContext('2d');
-    const labels = invoices.map(invoice => new Date(invoice.date).toLocaleDateString());
-    const data = invoices.map(invoice => 
-        invoice.details.reduce((total, detail) => total + detail.unitPrice * detail.amount, 0)
-    );
+
+    // set up yearly sales object
+    const yearlySales = {};
+
+    invoices.forEach(invoice => {
+        const date = new Date(invoice.date);
+        const year = date.getFullYear();
+
+        // calculate total for invoice
+        const total = invoice.details.reduce((sum, detail) => sum + detail.unitPrice * detail.amount, 0);
+
+        // add total to yearly sales
+        if (yearlySales[year]) {
+            yearlySales[year] += total;
+        } else {
+            yearlySales[year] = total;
+        }
+    });
+
+    // sort labels and data
+    const labels = Object.keys(yearlySales).sort((a, b) => a - b);
+
+    // create data array
+    const data = labels.map(label => yearlySales[label]);
+
+    let delayed; // for debouncing
+
+    new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Ventas de medicamentos por año',
+                data: data,
+                backgroundColor: '#008000',
+                borderColor: '#008000',
+                borderWidth: 2,
+                fill: false,
+                tension: 0
+            }]
+        },
+        options: {
+            animation: {
+                onComplete: () => {
+                  delayed = true;
+                },
+                delay: (context) => {
+                    let delay = 0;
+                    if (context.type === 'data' && context.mode === 'default' && !delayed) {
+                    delay = context.dataIndex * 300 + context.datasetIndex * 100;
+                }
+                    return delay;
+                },
+            },
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            },
+            plugins: { // show total sales in tooltip
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            return `Ventas: $${context.raw.toFixed(2)}`;
+                        }
+                    }
+                }
+            }
+        }
+    });
+}
+
+
+function createStoreChart(stores) {
+    const ctx = document.getElementById('storeChart').getContext('2d');
+    const labels = stores.map(store => `${store.provincia} - ${store.localidad}`);
+    const data = stores.map(store => store.empleados.filter(emp => emp.active).length);
+
+    console.log(data, labels);
 
     new Chart(ctx, {
         type: 'bar',
         data: {
             labels: labels,
             datasets: [{
-                label: 'Ventas de medicamentos',
+                label: 'Cantidad de empleados',
                 data: data,
-                backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                borderColor: 'rgba(75, 192, 192, 1)',
+                backgroundColor: '#007bff',
+                borderColor: '#007bff',
                 borderWidth: 1
             }]
         },
@@ -148,23 +232,3 @@ supplies.forEach(supply => {
     option.textContent = `${supply.name} - $${supply.unitPrice}`;
     supplySelect.appendChild(option);
 });
-
-function showAlert(message, type = 'info') {
-    const alertContainer = document.getElementById('alertContainer');
-    
-    const alertDiv = document.createElement('div');
-    alertDiv.className = `alert alert-${type} alert-dismissible fade show`;
-    alertDiv.role = 'alert';
-    alertDiv.innerHTML = `
-        ${message}
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    `;
-
-    alertContainer.appendChild(alertDiv);
-
-    setTimeout(() => {
-        alertDiv.classList.remove('show');
-        alertDiv.classList.add('hide');
-        setTimeout(() => alertDiv.remove(), 500); 
-    }, 5000);
-}
