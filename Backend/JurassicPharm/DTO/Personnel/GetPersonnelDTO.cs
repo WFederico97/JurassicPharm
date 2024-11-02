@@ -9,6 +9,8 @@
         public string Domicilio { get; set; }
         public string Rol { get; set; }
         public string Ciudad { get; set; }
+        public string Localidad { get; set; } 
+        public string Provincia { get; set; }
         public int Sucursal { get; set; } 
         public string DireccionSucursal { get; set; }
     }

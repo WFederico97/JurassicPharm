@@ -24,11 +24,17 @@ namespace JurassicPharm.Repositories.Personnel.Implementations
         {
             var sucursales = await _context.Sucursales
                 .Include(s => s.Empleados)
+                .Include(s => s.IdCiudadNavigation)
+                    .ThenInclude(l => l.IdLocalidadNavigation)
+                        .ThenInclude(p => p.IdProvinciaNavigation)
                 .Select(s => new GetStoreDTO
                 {
                     IdSucursal = s.IdSucursal,
                     Calle = s.Calle,
                     Altura = (int)s.Altura,
+                    Ciudad = s.IdCiudadNavigation.Nombre,
+                    Localidad = s.IdCiudadNavigation.IdLocalidadNavigation.Nombre,
+                    Provincia = s.IdCiudadNavigation.IdLocalidadNavigation.IdProvinciaNavigation.Nombre,
                     Empleados = s.Empleados.Select(e => new GetPersonnelSummaryDTO
                     {
                         LegajoEmpleado = e.LegajoEmpleado,
@@ -42,14 +48,25 @@ namespace JurassicPharm.Repositories.Personnel.Implementations
             return sucursales;
         }
 
-        public async Task<List<GetCityDTO>> GetCities()
+        public async Task<List<GetCitySummaryDTO>> GetCities()
         {
             var ciudades = await _context.Ciudades
+                .Include(c => c.IdLocalidadNavigation)
+                    .ThenInclude(l => l.IdProvinciaNavigation)
                 .Include(c => c.Empleados)
-                .Select(c => new GetCityDTO
+                .Select(c => new GetCitySummaryDTO
                 {
                     IdCiudad = c.IdCiudad,
                     Nombre = c.Nombre,
+                    Localidad = c.IdLocalidadNavigation.Nombre,
+                    Provincia = c.IdLocalidadNavigation.IdProvinciaNavigation.Nombre,
+                    Sucursales = c.Sucursales.Select(s => new GetStoreDTO 
+                    {
+                        IdSucursal = s.IdSucursal,
+                        Calle = s.Calle,
+                        Altura = (int)s.Altura,
+
+                    }).ToList(),
                     Empleados = c.Empleados.Select(e => new GetPersonnelSummaryDTO
                     {
                         LegajoEmpleado = e.LegajoEmpleado,
@@ -66,6 +83,8 @@ namespace JurassicPharm.Repositories.Personnel.Implementations
         {
             var empleados = await _context.Empleados
                 .Include(e => e.IdCiudadNavigation)
+                    .ThenInclude(c => c.IdLocalidadNavigation)
+                        .ThenInclude(l => l.IdProvinciaNavigation)
                 .Include(e => e.IdSucursalNavigation)
                 .Where(p => p.Active == true)
                 .Select(e => new GetPersonnelDTO
@@ -76,8 +95,10 @@ namespace JurassicPharm.Repositories.Personnel.Implementations
                     CorreoElectronico = e.CorreoElectronico,
                     Domicilio = $"{e.Calle} {e.Altura}",
                     Rol = e.Rol,
+                    Sucursal = (int)e.IdSucursal,
                     Ciudad = e.IdCiudadNavigation.Nombre,
-                    Sucursal = e.IdSucursalNavigation.IdSucursal,
+                    Localidad = e.IdCiudadNavigation.IdLocalidadNavigation.Nombre,
+                    Provincia = e.IdCiudadNavigation.IdLocalidadNavigation.IdProvinciaNavigation.Nombre,
                     DireccionSucursal = $"{e.IdSucursalNavigation.Calle} {e.IdSucursalNavigation.Altura}"
                 }).ToListAsync();
 
