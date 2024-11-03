@@ -13,21 +13,21 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 //Activate sidebar items
-navLinks.forEach(link => {  
-  if(link.href.includes(`${activePage}`)){
-    document.querySelector(".active").classList.remove('active')
-    link.classList.add('active')
-  }  
+navLinks.forEach((link) => {
+  if (link.href.includes(`${activePage}`)) {
+    document.querySelector(".active").classList.remove("active");
+    link.classList.add("active");
+  }
 });
 
-if(tokenStored == null){
-  window.location = '../Pages/login.html';
+if (tokenStored == null) {
+  window.location = "../Pages/login.html";
 }
 
-document.getElementById('logout').addEventListener('click', logout);
+document.getElementById("logout").addEventListener("click", logout);
 async function logout() {
-  localStorage.removeItem('jwtToken');
-  localStorage.removeItem('userEmail');
-  localStorage.removeItem('userRole');
-  window.location = '../Pages/login.html';
+  localStorage.removeItem("jwtToken");
+  localStorage.removeItem("userEmail");
+  localStorage.removeItem("userRole");
+  window.location = "../Pages/login.html";
 }
