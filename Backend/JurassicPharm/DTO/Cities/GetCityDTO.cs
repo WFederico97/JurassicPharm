@@ -6,6 +6,7 @@ namespace JurassicPharm.DTO.Cities
     {
         public int IdCiudad { get; set; }
         public string Nombre { get; set; }
-        public List<GetPersonnelSummaryDTO> Empleados { get; set; }
+        public string Localidad { get; set; }
+        public string Provincia { get; set; }
     }
 }

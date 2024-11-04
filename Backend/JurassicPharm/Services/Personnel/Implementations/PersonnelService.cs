@@ -15,7 +15,7 @@ namespace JurassicPharm.Services.Personnel.Implementations
         {
             _repository = repository;
         }
-        public async Task<List<GetCityDTO>> GetCities()
+        public async Task<List<GetCitySummaryDTO>> GetCities()
         {
             return await _repository.GetCities();
         }

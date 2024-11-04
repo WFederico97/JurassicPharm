@@ -13,7 +13,7 @@ html{
     background-color: #ebebeb; 
   }
 
-/********Empleados*******/
+/**Employees**/
 .bin-button {
   display: flex;
   flex-direction: column;
@@ -234,7 +234,7 @@ html{
 .flex {
   display: flex;
   width: 100%;
-  gap: 6px;
+  gap: 1em;
 }
 
 .form label {
@@ -271,7 +271,7 @@ html{
 }
 
 .form label .input:valid + span {
-  color: green;
+  color: #008000;
 }
 
 .submit {
@@ -431,4 +431,142 @@ html{
 
 .form-control {
   border-radius: 5px;
+}
+
+/**ABOUT**/
+.about-card {
+  width: 12em;
+  height: 16em;
+  position: relative;
+  background: #f5f5f5;
+  color: #252525;
+  border-radius: 4px;
+  overflow: hidden;
+  line-height: 150%;
+  box-shadow: 0px 10px 20px rgba(80, 80, 80, 0.2);
+  transition: box-shadow .3s ease-in-out;
+}
+
+.about-card-info {
+  position: absolute;
+  bottom: 1em;
+  width: 100%;
+  text-align: center;
+}
+
+/* Image */
+.about-card-img {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  transition: transform .5s ease-in-out;
+  z-index: 2;
+}
+
+
+/* Buttons */
+.about-social-media {
+  position: absolute;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  padding: 0 1rem;
+  transform: translateY(-6em);
+  z-index: 3;
+}
+
+.about-social-media li {
+  background: #f5f5f500;
+  display: inline-flex;
+  padding: 10px;
+  border-radius: 50%;
+  cursor: pointer;
+  opacity: 0;
+  transition: all .5s ease-in;
+}
+/* Icons */
+.about-social-media li svg {
+  --size: 24px;
+  width: var(--size);
+  height: var(--size);
+  fill: #252525;
+}
+
+/* Texts */
+.about-card-info-title {
+  font-size: 1.5em;
+  font-weight: bold;
+}
+
+.about-card-info-subtitle {
+  letter-spacing: 1px;
+  font-size: 0.9em;
+}
+
+
+/* Hovers */
+.about-card:hover {
+  box-shadow: 0px 15px 30px rgba(80, 80, 80, 0.705);
+}
+
+.about-card:hover .about-card-img {
+  transform: translateY(-8em);
+}
+
+.about-card:hover .about-social-media li {
+  transform: translateY(7em);
+  opacity: 1;
+}
+
+.about-card:hover .social-media li:nth-child(1) {
+  transition-delay: 0s;
+}
+
+.about-card:hover .about-social-media li:nth-child(2) {
+  transition-delay: .1s;
+}
+
+.about-card:hover .about-social-media li:nth-child(3) {
+  transition-delay: .2s;
+}
+
+.btn-about {
+  font-size: 18px;
+  color: #0d6efd;
+  font-family: inherit;
+  font-weight: 800;
+  cursor: pointer;
+  position: relative;
+  border: none;
+  background: none;
+  text-transform: uppercase;
+  transition-timing-function: cubic-bezier(0.25, 0.8, 0.25, 1);
+  transition-duration: 400ms;
+  transition-property: color;
+}
+
+.btn-about:focus,
+.btn-about:hover {
+  color: #0d6efd;
+}
+
+.btn-about:focus:after,
+.btn-about:hover:after {
+  width: 100%;
+  left: 0%;
+}
+
+.btn-about:after {
+  content: "";
+  pointer-events: none;
+  bottom: -2px;
+  left: 50%;
+  position: absolute;
+  width: 0%;
+  height: 2px;
+  background-color: #0d6efd;
+  transition-timing-function: cubic-bezier(0.25, 0.8, 0.25, 1);
+  transition-duration: 400ms;
+  transition-property: width, left;
 }
