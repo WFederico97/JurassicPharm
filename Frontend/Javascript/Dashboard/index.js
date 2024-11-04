@@ -3,7 +3,7 @@ import { showAlert } from "../helpers/showAlert.js";
 async function fetchEmployeesByStore() {
     const token = localStorage.getItem('jwtToken'); 
     try {
-        const response = await fetch('https://localhost:7289/GetStores',{
+        const response = await fetch('https://localhost:3000/GetStores',{
             headers: {
                 'Authorization': `Bearer ${token}`,
                 'Content-Type': 'application/json'
@@ -41,7 +41,6 @@ async function fetchEmployeesByStore() {
             
         });
         createStoreChart(stores);
-
     } catch (error) {
         console.error('Error fetching stores:', error);
     }
@@ -50,7 +49,7 @@ async function fetchEmployeesByStore() {
 async function fetchInvoices() {
     const token = localStorage.getItem('jwtToken'); 
     try {
-        const response = await fetch('https://localhost:7289/api/invoice',{
+        const response = await fetch('https://localhost:3000/api/invoice',{
             headers: {
                 'Authorization': `Bearer ${token}`,
                 'Content-Type': 'application/json'
@@ -60,10 +59,65 @@ async function fetchInvoices() {
 
         const invoices = await response.json();
         createSalesChart(invoices);
+        createSalesBySupplyChart(invoices);
     } catch (error) {
         console.error('Error fetching invoices:', error);
     }
 }
+
+function createSalesBySupplyChart(invoices) {
+    const salesBySupply = {};
+
+    // process each invoice
+    invoices.forEach(invoice => {
+        invoice.details.forEach(detail => {
+            const supplyName = detail.supplyName; // Use the supply name as the key
+            const totalSales = detail.unitPrice * detail.amount; // Calculate total sales for this detail
+            if (salesBySupply[supplyName]) {
+                salesBySupply[supplyName] += totalSales;
+            } else {
+                salesBySupply[supplyName] = totalSales;
+            }
+        });
+    });
+
+    // Take the keys of the salesBySupply object as the labels
+    const supplies = Object.keys(salesBySupply);
+    const data = supplies.map(supply => salesBySupply[supply]);
+
+    const ctx = document.getElementById('salesBySupplyChart').getContext('2d');
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: supplies, // Use the supply names as labels
+            datasets: [{
+                label: 'Facturacion por suministro ($)',
+                data: data,
+                backgroundColor: '#d17d0f',
+                borderColor: '#d17d0f',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            },
+            plugins: {
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            return `Facturacion: $${context.raw.toFixed(2)}`;
+                        }
+                    }
+                }
+            }
+        }
+    });
+}
+
 
 function createSalesChart(invoices) {
     const ctx = document.getElementById('salesChart').getContext('2d');
@@ -146,8 +200,6 @@ function createStoreChart(stores) {
     const labels = stores.map(store => `${store.provincia} - ${store.localidad}`);
     const data = stores.map(store => store.empleados.filter(emp => emp.active).length);
 
-    console.log(data, labels);
-
     new Chart(ctx, {
         type: 'bar',
         data: {
@@ -187,7 +239,7 @@ document.getElementById('add-sale-form').addEventListener('submit', async (e) =>
     };
 
     try {
-        const response = await fetch('https://localhost:7289/api/invoice', {
+        const response = await fetch('https://localhost:3000/api/invoice', {
             method: 'POST',
             headers: {
                 'Authorization': `Bearer ${token}`,
