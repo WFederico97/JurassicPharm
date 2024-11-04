@@ -1,3 +1,4 @@
+using JurassicPharm.DTO.Branch;
 using JurassicPharm.DTO.Invoice;
 using JurassicPharm.DTO.InvoIce;
 using JurassicPharm.DTO.InvoiceDetail;
@@ -125,10 +126,11 @@ namespace JurassicPharm.Repositories.Invoices
                 .Include(invoice => invoice.IdSucursalNavigation)
                 .Select(invoice => new InvoiceResponseDTO
                 {
+                    InvoiceNumber = (int)invoice.NroFactura,
                     ClientId = (int)invoice.IdCliente,
                     ClientName = invoice.IdClienteNavigation.Nombre,
                     ClienLastName = invoice.IdClienteNavigation.Apellido,
-                    Branch = $"{invoice.IdSucursalNavigation.Calle}, {invoice.IdSucursalNavigation.Altura}",
+                    Branch = new BranchDTO() { Id = invoice.IdSucursalNavigation.IdSucursal, Address = $"{invoice.IdSucursalNavigation.Calle}, {invoice.IdSucursalNavigation.Altura}" },
                     Date = (DateTime)invoice.Fecha,
                     Details = invoice.DetallesFactura.Select(detail => new InvoiceDetailResponseDTO
                     {
@@ -163,3 +165,5 @@ namespace JurassicPharm.Repositories.Invoices
         }
     }
 }
+
+
