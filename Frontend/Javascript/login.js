@@ -3,6 +3,7 @@ document
   .addEventListener("submit", async function (e) {
     e.preventDefault();
 
+    showBtnLoading();
     const CorreoElectronico = document.getElementById("floatingInput").value;
     const PasswordEmpleado = document.getElementById("floatingPassword").value;
     let tokenStored = localStorage.getItem("jwtToken");
@@ -10,17 +11,20 @@ document
 
     if (!CorreoElectronico || !PasswordEmpleado) {
       showAlert("Por favor, complete ambos campos.", "warning");
+      showBtnLoading();
       return;
     }
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(CorreoElectronico)) {
       showAlert("Por favor, ingrese un correo electrónico válido.", "warning");
+      showBtnLoading();
       return;
     }
 
     if (PasswordEmpleado.length < 6) {
       showAlert("La contraseña debe tener al menos 6 caracteres.", "warning");
+      showBtnLoading();
       return;
     }
 
@@ -104,9 +108,11 @@ document
         } else {
           showAlert("Fallo al autenticar.", "danger");
         }
+        showBtnLoading();
       } catch (err) {
         console.error("Error:", err);
         showAlert("Error de conexión o autenticación", "danger");
+        showBtnLoading();
       }
     } else {
       showAlert(
@@ -129,10 +135,19 @@ function showAlert(message, type = "info") {
     `;
 
   alertContainer.appendChild(alertDiv);
-
+  
   setTimeout(() => {
     alertDiv.classList.remove("show");
     alertDiv.classList.add("hide");
     setTimeout(() => alertDiv.remove(), 500);
   }, 5000);
 }
+
+const showBtnLoading = () => {
+  const btnLogin = document.querySelector(".btn-login");
+  const btnText = btnLogin.querySelector("p");
+  const spinner = btnLogin.querySelector("span");
+
+  btnText.classList.toggle("d-none");
+  spinner.classList.toggle("d-none");
+};
