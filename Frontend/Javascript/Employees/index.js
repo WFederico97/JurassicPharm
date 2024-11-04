@@ -302,10 +302,6 @@ async function fetchEmployeesData() {
         showAlert(`Error al obtener los datos: ${err}`, 'danger');
         return [];
     }
-  } catch (err) {
-    showAlert(`Error al obtener los datos: ${err}`, "danger");
-    return [];
-  }
 }
 
 // Update employee endpoint
@@ -333,10 +329,6 @@ async function updateEmployee(updatedFields) {
         showAlert('Error de conexión o modificación', 'danger');
         return [];
     }
-  } catch (err) {
-    showAlert("Error de conexión o modificación", "danger");
-    return [];
-  }
 }
 
 // Add new employee endpoint
@@ -364,10 +356,6 @@ async function addEmployee(newEmployee) {
         showAlert('Error de conexión o agregado', 'danger');
         return [];
     }
-  } catch (err) {
-    showAlert("Error de conexión o agregado", "danger");
-    return [];
-  }
 }
 
 // Delete employee endpoint
@@ -394,9 +382,6 @@ async function deleteEmployee(legajoEmpleado) {
     } catch (err) {
         showAlert('Error de conexión o eliminación', 'danger');
     }
-  } catch (err) {
-    showAlert("Error de conexión o eliminación", "danger");
-  }
 }
 
 // Fetch all cities from API
@@ -431,9 +416,6 @@ async function getStores() {
     } catch (err) {
         return [];
     }
-  } catch (err) {
-    return [];
-  }
 }
 
 // Validate email format
@@ -446,24 +428,3 @@ function validateEmail(email) {
 function validatePassword(password) {
   return password.length >= 8;
 }
-
-function showAlert(message, type = "info") {
-  const alertContainer = document.getElementById("alertContainer");
-
-  const alertDiv = document.createElement("div");
-  alertDiv.className = `alert alert-${type} alert-dismissible fade show`;
-  alertDiv.role = "alert";
-  alertDiv.innerHTML = `
-        ${message}
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    `;
-
-  alertContainer.appendChild(alertDiv);
-
-  setTimeout(() => {
-    alertDiv.classList.remove("show");
-    alertDiv.classList.add("hide");
-    setTimeout(() => alertDiv.remove(), 500);
-  }, 5000);
-}
-
