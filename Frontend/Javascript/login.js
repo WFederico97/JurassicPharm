@@ -4,7 +4,6 @@ document
     e.preventDefault();
 
     showBtnLoading();
-
     const CorreoElectronico = document.getElementById("floatingInput").value;
     const PasswordEmpleado = document.getElementById("floatingPassword").value;
     let tokenStored = localStorage.getItem("jwtToken");
@@ -123,6 +122,7 @@ document
       window.location = "../index.html";
     }
   });
+
 function showAlert(message, type = "info") {
   const alertContainer = document.getElementById("alertContainer");
 
@@ -135,7 +135,7 @@ function showAlert(message, type = "info") {
     `;
 
   alertContainer.appendChild(alertDiv);
-
+  
   setTimeout(() => {
     alertDiv.classList.remove("show");
     alertDiv.classList.add("hide");
