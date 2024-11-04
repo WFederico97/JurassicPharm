@@ -84,21 +84,16 @@ const setBranches = ({ id, address }) => {
   editBranchSelect.innerHTML += `<option value="${id}">${address}</option>`;
 };
 
-const setDefaultValue = ({
-  clientId,
-  date,
-  branch: { id: branchId, address },
-}) => {
+const setDefaultValue = ({ clientId, date, branch: { id: branchId } }) => {
   const clientOptions = document.querySelectorAll("#edit-client-select option");
   const branchOptions = document.querySelectorAll("#edit-branch-select option");
+  const [ISOdate] = date.split("T");
+
+  document.getElementById("edit-date-input").value = ISOdate;
 
   //To change the value of the selected item
   setSelectedOption(clientOptions, String(clientId));
   setSelectedOption(branchOptions, String(branchId));
-
-  document.getElementById("edit-date-input").value = new Date(
-    date
-  ).toLocaleDateString();
 };
 
 const handleEdit = async (e) => {
