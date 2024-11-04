@@ -1,7 +1,7 @@
 import { showAlert } from "../helpers/showAlert.js";
 
 let employees = [];
-const userRole = localStorage.getItem('role');
+const userRole = localStorage.getItem("role");
 
 // Check user role and display the "Add Employee" button if the user is an ADMIN
 if (userRole === 'ADMIN') {
@@ -39,28 +39,34 @@ document.getElementById('editEmployeeModal').addEventListener('show.bs.modal', f
         document.getElementById('editCalle').value = match[1] || '';
         document.getElementById('editAltura').value = match[2] || '';
     }
-    document.getElementById('editCorreo').value = employee.correoElectronico || '';
-    document.getElementById('editRol').value = employee.rol || '';
+    document.getElementById("editCorreo").value =
+      employee.correoElectronico || "";
+    document.getElementById("editRol").value = employee.rol || "";
 
-    document.getElementById('editEmployeeForm').setAttribute('data-index', index);
-});
+    document
+      .getElementById("editEmployeeForm")
+      .setAttribute("data-index", index);
+  });
 
-// Handle Edit Employee Form submission
-document.getElementById('editEmployeeForm').addEventListener('submit', async function (event) {
+//Edit Employee Form treatment
+document
+  .getElementById("editEmployeeForm")
+  .addEventListener("submit", async function (event) {
     event.preventDefault();
 
-    const index = parseInt(this.getAttribute('data-index'));
+    const index = parseInt(this.getAttribute("data-index"));
     const originalEmployee = employees[index];
     const email = document.getElementById('editCorreo').value;
 
     // Validate email format
     if (!validateEmail(email)) {
-        showAlert("Ingrese un correo electrónico válido.", 'warning');
-        return;
+      showAlert("Ingrese un correo electrónico válido.", "warning");
+      return;
     }
 
     // Collect updated field values
     let updatedFields = {};
+  
     const nombre = document.getElementById('editNombre').value;
     const apellido = document.getElementById('editApellido').value;
     const calle = document.getElementById('editCalle').value;
@@ -70,26 +76,34 @@ document.getElementById('editEmployeeForm').addEventListener('submit', async fun
 
     // Compare with original values and store updates
     if (nombre !== originalEmployee.nombre) updatedFields.nombre = nombre;
-    if (apellido !== originalEmployee.apellido) updatedFields.apellido = apellido;
+    if (apellido !== originalEmployee.apellido)
+      updatedFields.apellido = apellido;
     if (calle !== originalEmployee.calle) updatedFields.calle = calle;
-    if (parseInt(altura) !== originalEmployee.altura) updatedFields.altura = parseInt(altura);
-    if (correoElectronico !== originalEmployee.correoElectronico) updatedFields.correoElectronico = correoElectronico;
+    if (parseInt(altura) !== originalEmployee.altura)
+      updatedFields.altura = parseInt(altura);
+    if (correoElectronico !== originalEmployee.correoElectronico)
+      updatedFields.correoElectronico = correoElectronico;
     if (rol !== originalEmployee.rol) updatedFields.rol = rol;
 
     // Send updated data to API if there are changes
     if (Object.keys(updatedFields).length > 0) {
-        updatedFields.legajoEmpleado = originalEmployee.legajoEmpleado;
-        await updateEmployee(updatedFields);
+      updatedFields.legajoEmpleado = originalEmployee.legajoEmpleado;
+      await updateEmployee(updatedFields);
     } else {
-        showAlert("No se han realizado cambios.", 'info');
+      showAlert("No se han realizado cambios.", "info");
     }
 
     // Update local data and refresh table
     employees[index] = { ...originalEmployee, ...updatedFields };
-    const modalInstance = bootstrap.Modal.getInstance(document.getElementById('editEmployeeModal'));
+  
+    const modalInstance = bootstrap.Modal.getInstance(
+      document.getElementById("editEmployeeModal")
+    );
+
     modalInstance.hide();
     generateTable();
-});
+  });
+
 
 // Populate City Select
 async function populateCitySelect(selectElement) {
@@ -149,36 +163,38 @@ document.getElementById('addEmployeeModal').addEventListener('show.bs.modal', as
 document.getElementById('addEmployeeForm').addEventListener('submit', async function (event) {
     event.preventDefault();
 
-    const email = document.getElementById('addCorreo').value;
-    const password = document.getElementById('addPassword').value;
+    const email = document.getElementById("addCorreo").value;
+    const password = document.getElementById("addPassword").value;
 
     // Validate email and password
     if (!validateEmail(email)) {
-        showAlert("Ingrese un correo electrónico válido.", 'warning');
-        return;
+      showAlert("Ingrese un correo electrónico válido.", "warning");
+      return;
     }
     if (!validatePassword(password)) {
-        showAlert("La contraseña debe tener al menos 8 caracteres.", 'warning');
-        return;
+      showAlert("La contraseña debe tener al menos 8 caracteres.", "warning");
+      return;
     }
 
     // Prepare new employee data
     const newEmployee = {
-        nombre: document.getElementById('addNombre').value,
-        apellido: document.getElementById('addApellido').value,
-        calle: document.getElementById('addCalle').value,
-        altura: parseInt(document.getElementById('addAltura').value),
-        correoElectronico: email,
-        rol: document.getElementById('addRol').value,
-        passwordEmpleado: password,
-        idSucursal: parseInt(document.getElementById('addIdSucursal').value),
-        idCiudad: parseInt(document.getElementById('addIdCiudad').value)
+      nombre: document.getElementById("addNombre").value,
+      apellido: document.getElementById("addApellido").value,
+      calle: document.getElementById("addCalle").value,
+      altura: parseInt(document.getElementById("addAltura").value),
+      correoElectronico: email,
+      rol: document.getElementById("addRol").value,
+      passwordEmpleado: password,
+      idSucursal: parseInt(document.getElementById("addIdSucursal").value),
+      idCiudad: parseInt(document.getElementById("addIdCiudad").value),
     };
+
 
     await addEmployee(newEmployee);
     const modalInstance = bootstrap.Modal.getInstance(document.getElementById('addEmployeeModal'));
     modalInstance.hide();
     generateTable();
+
     document.getElementById('addEmployeeForm').reset();
 });
 
@@ -186,10 +202,12 @@ document.getElementById('addEmployeeForm').addEventListener('submit', async func
 window.prepareDeleteModal = function(index) {
     const employee = employees[index];
 
-    document.getElementById('deleteLegajo').textContent = employee.legajoEmpleado;
-    document.getElementById('deleteNombre').textContent = employee.nombre;
-    document.getElementById('deleteApellido').textContent = employee.apellido;
-    document.getElementById('deleteCorreo').textContent = employee.correoElectronico;
+  document.getElementById("deleteLegajo").textContent = employee.legajoEmpleado;
+  document.getElementById("deleteNombre").textContent = employee.nombre;
+  document.getElementById("deleteApellido").textContent = employee.apellido;
+  document.getElementById("deleteCorreo").textContent =
+    employee.correoElectronico;
+
 
     document.getElementById('confirmDeleteButton').onclick = function () {
         deleteEmployee(employee.legajoEmpleado);
@@ -250,12 +268,14 @@ const generateTable = async () => {
                             </svg>
                         </button>
                     </div>`
-                    : ''
+                    : ""
                 }
             </td>
         </tr>
         `;
-    });
+    }
+  );
+
 
     const tableBody = document.querySelector("#employees-table tbody");
     tableBody.innerHTML = tableContent;
@@ -282,6 +302,10 @@ async function fetchEmployeesData() {
         showAlert(`Error al obtener los datos: ${err}`, 'danger');
         return [];
     }
+  } catch (err) {
+    showAlert(`Error al obtener los datos: ${err}`, "danger");
+    return [];
+  }
 }
 
 // Update employee endpoint
@@ -309,6 +333,10 @@ async function updateEmployee(updatedFields) {
         showAlert('Error de conexión o modificación', 'danger');
         return [];
     }
+  } catch (err) {
+    showAlert("Error de conexión o modificación", "danger");
+    return [];
+  }
 }
 
 // Add new employee endpoint
@@ -336,6 +364,10 @@ async function addEmployee(newEmployee) {
         showAlert('Error de conexión o agregado', 'danger');
         return [];
     }
+  } catch (err) {
+    showAlert("Error de conexión o agregado", "danger");
+    return [];
+  }
 }
 
 // Delete employee endpoint
@@ -362,6 +394,9 @@ async function deleteEmployee(legajoEmpleado) {
     } catch (err) {
         showAlert('Error de conexión o eliminación', 'danger');
     }
+  } catch (err) {
+    showAlert("Error de conexión o eliminación", "danger");
+  }
 }
 
 // Fetch all cities from API
@@ -396,15 +431,39 @@ async function getStores() {
     } catch (err) {
         return [];
     }
+  } catch (err) {
+    return [];
+  }
 }
 
 // Validate email format
 function validateEmail(email) {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(email);
 }
 
 // Validate password length
 function validatePassword(password) {
-    return password.length >= 8;
+  return password.length >= 8;
 }
+
+function showAlert(message, type = "info") {
+  const alertContainer = document.getElementById("alertContainer");
+
+  const alertDiv = document.createElement("div");
+  alertDiv.className = `alert alert-${type} alert-dismissible fade show`;
+  alertDiv.role = "alert";
+  alertDiv.innerHTML = `
+        ${message}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    `;
+
+  alertContainer.appendChild(alertDiv);
+
+  setTimeout(() => {
+    alertDiv.classList.remove("show");
+    alertDiv.classList.add("hide");
+    setTimeout(() => alertDiv.remove(), 500);
+  }, 5000);
+}
+
