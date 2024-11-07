@@ -2,6 +2,7 @@ using JurassicPharm.DTO.Invoice;
 using JurassicPharm.DTO.InvoIce;
 using JurassicPharm.Models;
 using JurassicPharm.Repositories.Invoices;
+using Microsoft.EntityFrameworkCore;
 
 namespace JurassicPharm.Services.Invoices
 {
@@ -49,5 +50,22 @@ namespace JurassicPharm.Services.Invoices
 
             return daysDifference <= 2;
         }
+        public async Task<string> CheckProlongedPrescriptionDate(int clientId)
+        {
+            return await _invoiceRepository.CheckProlongedPrescriptionDate(clientId);
+        }
+        public async Task<List<BillingReportDTO>> GetBillingReportBySupplyType()
+        {
+            return await _invoiceRepository.GetBillingReportBySupplyType();
+        }
+        public async Task<decimal> GetDiscountByInsurance(int obraSocialId, int invoiceNumber)
+        {
+            return await _invoiceRepository.GetDiscountByInsurance(obraSocialId, invoiceNumber);
+        }
+        public async Task<List<TopSuppliersDTO>> GetTopSuppliersByDeliveries()
+        {
+            return await _invoiceRepository.GetTopSuppliersByDeliveries();
+        }
+
     }
 }

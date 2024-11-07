@@ -30,7 +30,7 @@ document
 
     if (tokenStored == null) {
       try {
-        const res = await fetch("http://localhost:5017/api/auth/login", {
+        const res = await fetch("https://localhost:3000/api/auth/login", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -58,7 +58,7 @@ document
           localStorage.setItem("tokenExpiration", payload.exp);
 
           const employeesResponse = await fetch(
-            "https://localhost:7289/GetAll",
+            "https://localhost:3000/GetAll",
             {
               method: "GET",
               headers: {
@@ -84,7 +84,7 @@ document
               showAlert("Empleado no encontrado.", "danger");
             }
 
-            window.location = "../index.html";
+            window.location = "../Pages/dashboard-db1.html";
           } else {
             console.error(
               "Error al obtener los empleados:",

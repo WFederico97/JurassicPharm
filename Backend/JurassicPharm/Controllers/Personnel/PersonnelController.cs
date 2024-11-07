@@ -8,8 +8,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace JurassicPharm.Controllers.Personnel
 {
-    [Route("api/[controller]")]
     [ApiController]
+    [Route("api/")]
     public class PersonnelController : ControllerBase
     {
 
@@ -19,8 +19,9 @@ namespace JurassicPharm.Controllers.Personnel
         {
             _service = service;
         }
+        
 
-        [HttpGet("/GetCities")]
+        [HttpGet("GetCities")]
         public async Task<IActionResult> GetCities()
         {
             try
@@ -33,7 +34,7 @@ namespace JurassicPharm.Controllers.Personnel
             }
         }
 
-        [HttpGet("/GetStores")]
+        [HttpGet("GetStores")]
         public async Task<IActionResult> GetStores()
         {
             try
@@ -46,7 +47,7 @@ namespace JurassicPharm.Controllers.Personnel
             }
         }
 
-        [HttpGet("/GetAll")]
+        [HttpGet("GetAll")]
         public async Task<IActionResult> GetAll()
         {
             try
@@ -60,7 +61,7 @@ namespace JurassicPharm.Controllers.Personnel
 
         }
 
-        [HttpGet("/GetEmployeeById/{legajo}")]
+        [HttpGet("GetEmployeeById/{legajo}")]
         public async Task<IActionResult> GetById([FromRouteAttribute]  int legajo)
         {
             try
@@ -74,7 +75,7 @@ namespace JurassicPharm.Controllers.Personnel
             }
         }
         [Authorize(Policy = "RequireAdminRole")]
-        [HttpPost("/NewEmployee")]
+        [HttpPost("NewEmployee")]
         public async Task<IActionResult> CreateEmployee([FromBody] CreatePersonnelDTO employee)
         {
             if(employee.IdSucursal <= 0 || employee.IdCiudad <= 0)
@@ -96,7 +97,7 @@ namespace JurassicPharm.Controllers.Personnel
             }
         }
         [Authorize(Policy = "RequireAdminRole")]
-        [HttpPut("/UpdateEmployee/{legajo}")]
+        [HttpPut("UpdateEmployee/{legajo}")]
         public async Task<IActionResult> Update([FromRoute] int legajo, [FromBody] UpdatePersonnelDTO updatedPersonnel)
         {
             try
@@ -115,7 +116,7 @@ namespace JurassicPharm.Controllers.Personnel
             }
         }
         [Authorize(Policy = "RequireAdminRole")]
-        [HttpPut("/DeleteEmployee/{legajo}")]
+        [HttpPut("DeleteEmployee/{legajo}")]
         public async Task<IActionResult> Delete([FromRoute] int legajo)
         {
             try

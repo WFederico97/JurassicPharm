@@ -12,5 +12,11 @@ namespace JurassicPharm.Services.Invoices
         public Task<bool> Update(InvoiceUpdateDTO invoice, int invoiceId);
 
         public Task<bool> Delete(int invoiceId);
+        public Task<string> CheckProlongedPrescriptionDate(int clientId);
+        public Task<List<BillingReportDTO>> GetBillingReportBySupplyType();
+        public Task<decimal> GetDiscountByInsurance(int obraSocialId, int invoiceNumber);
+        public Task<List<TopSuppliersDTO>> GetTopSuppliersByDeliveries();
+
+
     }
 }

@@ -16,5 +16,6 @@ namespace JurassicPharm.Repositories.Personnel.Interfaces
         Task<Empleado> GetByEmail(string email);
         Task<List<GetCitySummaryDTO>> GetCities();
         Task<List<GetStoreDTO>> GetStores();
+        Task<string> CheckProlongedPrescriptionDate(int clientId);
     }
 }

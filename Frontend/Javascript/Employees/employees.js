@@ -254,11 +254,11 @@ const generateTable = async () => {
                             data-bs-target="#deleteEmployeeModal" 
                             onclick="prepareDeleteModal(${index})"
                         >
-                            <svg class="bin-top" viewBox="0 0 39 7" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <svg class="bin-top" viewBox="0 0 39 7" fill="none" xmlns="https://www.w3.org/2000/svg">
                                 <line y1="5" x2="39" y2="5" stroke="white" stroke-width="4"></line>
                                 <line x1="12" y1="1.5" x2="26.0357" y2="1.5" stroke="white" stroke-width="3"></line>
                             </svg>
-                            <svg class="bin-bottom" viewBox="0 0 33 39" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <svg class="bin-bottom" viewBox="0 0 33 39" fill="none" xmlns="https://www.w3.org/2000/svg">
                                 <mask id="path-1-inside-1_8_19" fill="white">
                                     <path d="M0 0H33V35C33 37.2091 31.2091 39 29 39H4C1.79086 39 0 37.2091 0 35V0Z"></path>
                                 </mask>
@@ -285,7 +285,7 @@ const generateTable = async () => {
 async function fetchEmployeesData() {
     const token = localStorage.getItem('jwtToken');
     try {
-        const response = await fetch('https://localhost:7289/GetAll', {
+        const response = await fetch('https://localhost:3000/api/GetAll', {
             method: 'GET',
             headers: {
                 'Authorization': `Bearer ${token}`,
@@ -308,7 +308,7 @@ async function fetchEmployeesData() {
 async function updateEmployee(updatedFields) {
     const token = localStorage.getItem('jwtToken');
     try {
-        const response = await fetch(`https://localhost:7289/UpdateEmployee/${updatedFields.legajoEmpleado}`, {
+        const response = await fetch(`https://localhost:3000/UpdateEmployee/${updatedFields.legajoEmpleado}`, {
             method: 'PUT',
             headers: {
                 'Authorization': `Bearer ${token}`,
@@ -335,7 +335,7 @@ async function updateEmployee(updatedFields) {
 async function addEmployee(newEmployee) {
     const token = localStorage.getItem('jwtToken');
     try {
-        const response = await fetch('https://localhost:7289/NewEmployee', {
+        const response = await fetch('https://localhost:3000/api/NewEmployee', {
             method: 'POST',
             headers: {
                 'Authorization': `Bearer ${token}`,
@@ -362,7 +362,7 @@ async function addEmployee(newEmployee) {
 async function deleteEmployee(legajoEmpleado) {
     const token = localStorage.getItem('jwtToken');
     try {
-        const response = await fetch(`https://localhost:7289/DeleteEmployee/${legajoEmpleado}`, {
+        const response = await fetch(`https://localhost:3000/api/DeleteEmployee/${legajoEmpleado}`, {
             method: 'PUT',
             headers: {
                 'Authorization': `Bearer ${token}`,
@@ -388,7 +388,7 @@ async function deleteEmployee(legajoEmpleado) {
 async function getCities() {
     const token = localStorage.getItem('jwtToken');
     try {
-        const response = await fetch('https://localhost:7289/GetCities', {
+        const response = await fetch('https://localhost:3000/api/GetCities', {
             method: 'GET',
             headers: {
                 'Authorization': `Bearer ${token}`,
@@ -405,7 +405,7 @@ async function getCities() {
 async function getStores() {
     const token = localStorage.getItem('jwtToken');
     try {
-        const response = await fetch('https://localhost:7289/GetStores', {
+        const response = await fetch('https://localhost:3000/api/GetStores', {
             method: 'GET',
             headers: {
                 'Authorization': `Bearer ${token}`,

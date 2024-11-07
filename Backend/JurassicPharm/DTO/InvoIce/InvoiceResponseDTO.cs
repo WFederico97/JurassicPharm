@@ -11,7 +11,7 @@ namespace JurassicPharm.DTO.InvoIce
         public BranchDTO Branch { get; set; }
 
         public string ClienLastName { get; set; }
-        public DateTime Date { get; set; }
+        public DateOnly Date { get; set; }
 
         public List<InvoiceDetailResponseDTO> Details { get; set; } = new List<InvoiceDetailResponseDTO>();
 
