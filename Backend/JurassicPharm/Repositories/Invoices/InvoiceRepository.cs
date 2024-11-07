@@ -3,7 +3,10 @@ using JurassicPharm.DTO.Invoice;
 using JurassicPharm.DTO.InvoIce;
 using JurassicPharm.DTO.InvoiceDetail;
 using JurassicPharm.Models;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using System.Data;
+using System.Text;
 
 namespace JurassicPharm.Repositories.Invoices
 {
@@ -131,7 +134,7 @@ namespace JurassicPharm.Repositories.Invoices
                     ClientName = invoice.IdClienteNavigation.Nombre,
                     ClienLastName = invoice.IdClienteNavigation.Apellido,
                     Branch = new BranchDTO() { Id = invoice.IdSucursalNavigation.IdSucursal, Address = $"{invoice.IdSucursalNavigation.Calle}, {invoice.IdSucursalNavigation.Altura}" },
-                    Date = (DateTime)invoice.Fecha,
+                    Date = (DateOnly)invoice.Fecha,
                     Details = invoice.DetallesFactura.Select(detail => new InvoiceDetailResponseDTO
                     {
                         SupplyName = detail.IdSuministroNavigation.Nombre,
@@ -162,6 +165,97 @@ namespace JurassicPharm.Repositories.Invoices
             result = await _context.SaveChangesAsync() == 1;
 
             return result;
+        }
+
+        public async Task<string> CheckProlongedPrescriptionDate(int clientId)
+        {
+            using (var command = _context.Database.GetDbConnection().CreateCommand())
+            {
+                command.CommandText = "SP_CONTROLAR_RECETA_PROLONGADA";
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.Add(new SqlParameter("@ID_CLIENTE", clientId));
+                command.Parameters.Add(new SqlParameter("@FECHA_ACTUAL", DateTime.Now));
+
+                if (command.Connection.State != ConnectionState.Open)
+                {
+                    await command.Connection.OpenAsync();
+                }
+
+                var result = new StringBuilder();
+                using (var reader = await command.ExecuteReaderAsync())
+                {
+                    while (await reader.ReadAsync())
+                    {
+                        result.Append(reader.GetString(0));
+                    }
+                }
+
+                return result.ToString();
+            }
+        }
+
+        public async Task<List<BillingReportDTO>> GetBillingReportBySupplyType()
+        {
+            return await _context.ViewFacturacionPorTipo
+                .Select(b => new BillingReportDTO
+                {
+                    TipoSuministro = b.TipoDeSuministro,
+                    TotalFacturado = (decimal)b.TotalFacturado,
+                    EstadoAutorizacion = b.EstadoAutorización
+                }).ToListAsync();
+        }
+
+        public async Task<decimal> GetDiscountByInsurance(int obraSocialId, int invoiceNumber)
+        {
+            decimal discountTotal = 0;
+
+            using (var connection = _context.Database.GetDbConnection())
+            {
+                await connection.OpenAsync();
+                using (var command = connection.CreateCommand())
+                {
+                    command.CommandText = $"SELECT dbo.FX_CALCULAR_DESCUENTO(@obraSocialId, @invoiceNumber)";
+                    command.Parameters.Add(new SqlParameter("@obraSocialId", obraSocialId));
+                    command.Parameters.Add(new SqlParameter("@invoiceNumber", invoiceNumber));
+
+                    var result = await command.ExecuteScalarAsync();
+                    if (result != DBNull.Value && result != null)
+                    {
+                        discountTotal = Convert.ToDecimal(result);
+                    }
+                }
+            }
+
+            return discountTotal;
+        }
+
+        public async Task<List<TopSuppliersDTO>> GetTopSuppliersByDeliveries()
+        {
+            using (var command = _context.Database.GetDbConnection().CreateCommand())
+            {
+                command.CommandText = "SP_TOP_PROVEEDORES_ENTREGAS";
+                command.CommandType = CommandType.StoredProcedure;
+
+                if (command.Connection.State != ConnectionState.Open)
+                {
+                    await command.Connection.OpenAsync();
+                }
+
+                var suppliers = new List<TopSuppliersDTO>();
+                using (var reader = await command.ExecuteReaderAsync())
+                {
+                    while (await reader.ReadAsync())
+                    {
+                        suppliers.Add(new TopSuppliersDTO
+                        {
+                            CompanyName = reader.GetString(0),
+                            TotalDelivered = reader.GetInt32(1)
+                        });
+                    }
+                }
+
+                return suppliers;
+            }
         }
     }
 }

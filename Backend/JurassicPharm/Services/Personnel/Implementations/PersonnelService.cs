@@ -4,6 +4,10 @@ using JurassicPharm.DTO.Stores;
 using JurassicPharm.Models;
 using JurassicPharm.Repositories.Personnel.Interfaces;
 using JurassicPharm.Services.Personnel.Interfaces;
+using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
+using System.Data;
+using System.Text;
 
 namespace JurassicPharm.Services.Personnel.Implementations
 {
@@ -54,6 +58,10 @@ namespace JurassicPharm.Services.Personnel.Implementations
         public async Task<Empleado> GetByEmail(string email)
         {
             return await _repository.GetByEmail(email);
+        }
+        public async Task<string> CheckProlongedPrescriptionDate(int clientId)
+        {
+            return await _repository.CheckProlongedPrescriptionDate(clientId);
         }
     }
 }

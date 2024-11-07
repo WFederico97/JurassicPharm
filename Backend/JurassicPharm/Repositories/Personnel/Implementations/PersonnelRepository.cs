@@ -7,6 +7,9 @@ using System.Net.Mail;
 using System.Text.RegularExpressions;
 using JurassicPharm.DTO.Cities;
 using JurassicPharm.DTO.Stores;
+using Microsoft.Data.SqlClient;
+using System.Data;
+using System.Text;
 
 
 namespace JurassicPharm.Repositories.Personnel.Implementations
@@ -277,6 +280,33 @@ namespace JurassicPharm.Repositories.Personnel.Implementations
                 .Include(e => e.IdCiudadNavigation)
                 .Include(e => e.IdSucursalNavigation)
                 .FirstOrDefaultAsync(e => e.CorreoElectronico == email & e.Active == true);
+        }
+
+        public async Task<string> CheckProlongedPrescriptionDate(int clientId)
+        {
+            using (var command = _context.Database.GetDbConnection().CreateCommand())
+            {
+                command.CommandText = "SP_CONTROLAR_RECETA_PROLONGADA";
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.Add(new SqlParameter("@ID_CLIENTE", clientId));
+                command.Parameters.Add(new SqlParameter("@FECHA_ACTUAL", DateTime.Now));
+
+                if (command.Connection.State != ConnectionState.Open)
+                {
+                    await command.Connection.OpenAsync();
+                }
+
+                var result = new StringBuilder();
+                using (var reader = await command.ExecuteReaderAsync())
+                {
+                    while (await reader.ReadAsync())
+                    {
+                        result.Append(reader.GetString(0));
+                    }
+                }
+
+                return result.ToString();
+            }
         }
 
     }
