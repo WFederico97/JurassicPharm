@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Jurassic Pharm - Login</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+      crossorigin="anonymous"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Commissioner:wght@100..900&family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="shortcut icon" href="../Assets/Images/jph-icon.jpg" />
+    <link rel="stylesheet" href="../styles/login.css" />
+  </head>
+  <body class="d-flex py-4">
+    <main class="form-signin w-50 m-auto">
+      <div id="alertContainer" class="container mt-3"></div>
+      <form id="login-form">
+        <img
+          class="mb-3 img-fluid JPH_logo"
+          src="../Assets/Images/jph-logo.jpg"
+          alt="Jurassic Pharm Logo"
+          width="150"
+          height="150"
+        />
+        <h1 class="h3 mb-3 fw-normal text-light">Iniciar Sesion</h1>
+
+        <div class="form-floating">
+          <input
+            type="email"
+            class="form-control"
+            id="floatingInput"
+            placeholder="correo@ejemplo.com"
+          />
+          <label for="floatingInput">Correo Electronico</label>
+        </div>
+        <div class="form-floating">
+          <input
+            type="password"
+            class="form-control"
+            id="floatingPassword"
+            placeholder="Password"
+          />
+          <label for="floatingPassword">Contraseña</label>
+        </div>
+
+        <div class="form-check text-start my-3">
+          <input
+            class="form-check-input"
+            type="checkbox"
+            value="remember-me"
+            id="flexCheckDefault"
+          />
+          <label class="form-check-label text-light" for="flexCheckDefault">
+            Remember me
+          </label>
+        </div>
+        <button class="btn w-100 py-2 btn-login" type="submit">
+          <p class="btn-login-font m-0 p-0">Iniciar Sesion</p>
+          <span
+            class="spinner-border spinner-border-sm text-light d-none"
+            role="status"
+            aria-hidden="true"
+          ></span>
+        </button>
+        <p class="mt-5 mb-3 fw-normal text-light">
+          © BD I - TUP - UTN - FRC
+        </p>
+      </form>
+    </main>
+    <script  type="module" src="../Javascript/login.js"></script>
+  </body>
+</html>

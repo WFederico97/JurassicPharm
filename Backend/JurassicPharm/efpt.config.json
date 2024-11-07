@@ -1,6 +1,6 @@
 ﻿{
    "CodeGenerationMode": 4,
-   "ContextClassName": "jurassic_pharmContext",
+   "ContextClassName": "JurassicPharmContext",
    "ContextNamespace": null,
    "FilterSchemas": false,
    "IncludeConnectionString": false,
@@ -85,6 +85,22 @@
       {
          "Name": "[dbo].[TIPOS_SUMINISTRO]",
          "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[VIEW_FACTURACION_POR_TIPO]",
+         "ObjectType": 3
+      },
+      {
+         "Name": "[dbo].[SP_CONTROLAR_RECETA_PROLONGADA]",
+         "ObjectType": 1
+      },
+      {
+         "Name": "[dbo].[SP_TOP_PROVEEDORES_ENTREGAS]",
+         "ObjectType": 1
+      },
+      {
+         "Name": "[dbo].[FX_CALCULAR_DESCUENTO]",
+         "ObjectType": 2
       }
    ],
    "UiHint": null,
@@ -95,7 +111,7 @@
    "UseDateOnlyTimeOnly": true,
    "UseDbContextSplitting": false,
    "UseDecimalDataAnnotationForSprocResult": true,
-   "UseFluentApiOnly": true,
+   "UseFluentApiOnly": false,
    "UseHandleBars": false,
    "UseHierarchyId": false,
    "UseInflector": false,
@@ -105,7 +121,7 @@
    "UseNoNavigations": false,
    "UseNoObjectFilter": false,
    "UseNodaTime": false,
-   "UseNullableReferences": false,
+   "UseNullableReferences": true,
    "UsePrefixNavigationNaming": false,
    "UseSchemaFolders": false,
    "UseSchemaNamespaces": false,
