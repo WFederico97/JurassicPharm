@@ -8,18 +8,19 @@ using Microsoft.EntityFrameworkCore;
 
 namespace JurassicPharm.Models;
 
-[Table("MARCAS")]
-public partial class Marca
+[Keyless]
+public partial class ViewFacturacionPorTipo
 {
-    [Key]
-    [Column("id_marca")]
-    public int IdMarca { get; set; }
-
-    [Column("nombre")]
+    [Column("Tipo de Suministro")]
     [StringLength(50)]
     [Unicode(false)]
-    public string? Nombre { get; set; }
+    public string? TipoDeSuministro { get; set; }
 
-    [InverseProperty("IdMarcaNavigation")]
-    public virtual ICollection<Suministro> Suministros { get; set; } = new List<Suministro>();
+    [Column("Total Facturado")]
+    public int? TotalFacturado { get; set; }
+
+    [Column("Estado Autorización")]
+    [StringLength(16)]
+    [Unicode(false)]
+    public string EstadoAutorización { get; set; } = null!;
 }
