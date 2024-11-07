@@ -59,7 +59,7 @@ async function fetchSupplies(){
         if(response.ok) return await response.json();
     }
     catch (error) {
-        showAlert("error", `Error: ${error}`);
+        showAlert(`Error: ${error}`, 'danger' );
         return [];
     }
 }
