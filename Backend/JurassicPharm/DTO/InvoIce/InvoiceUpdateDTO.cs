@@ -14,6 +14,6 @@ namespace JurassicPharm.DTO.InvoIce
         public int BranchId { get; set; }
 
 
-        public DateTime Date { get; set; } = DateTime.Now;
+        public DateOnly Date { get; set; } = DateOnly.FromDateTime(DateTime.Now);
     }
 }
