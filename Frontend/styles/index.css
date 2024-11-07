@@ -6,6 +6,34 @@ html{
   font-family: "Ubuntu", sans-serif;
 }
 
+/**Navbar**/
+
+.container-fluid {
+  height: 100vh;
+}
+
+.sidebar {
+  height: 100vh;
+  position: fixed;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding-top: 1rem;
+}
+
+.sidebar .dropdown {
+    margin-top: auto; 
+}
+
+.main-content {
+  margin-left: 16.66%; 
+  width: 83.33%; 
+  height: 100vh;
+  overflow-y: auto; 
+  padding: 0 1rem;
+}
+
 .nav-link.active {
     background-color: #d5d5d5  !important;
 }

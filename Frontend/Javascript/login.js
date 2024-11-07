@@ -84,7 +84,7 @@ document
               showAlert("Empleado no encontrado.", "danger");
             }
 
-            window.location = "../index.html";
+            window.location = "../Pages/dashboard-db1.html";
           } else {
             console.error(
               "Error al obtener los empleados:",

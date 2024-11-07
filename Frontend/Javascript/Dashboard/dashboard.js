@@ -3,7 +3,7 @@ import { showAlert } from "../helpers/showAlert.js";
 async function fetchEmployeesByStore() {
     const token = localStorage.getItem('jwtToken'); 
     try {
-        const response = await fetch('https://localhost:3000/GetStores',{
+        const response = await fetch('https://localhost:3000/api/GetStores',{
             headers: {
                 'Authorization': `Bearer ${token}`,
                 'Content-Type': 'application/json'
