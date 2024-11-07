@@ -16,6 +16,34 @@ namespace JurassicPharm.Controllers.Invoices
             _invoiceService = invoiceService;
         }
 
+        [HttpGet("check-prescription-date/{clientId}")]
+        public async Task<IActionResult> CheckPrescriptionDate(int clientId)
+        {
+            var result = await _invoiceService.CheckProlongedPrescriptionDate(clientId);
+            return Ok(result);
+        }
+
+        [HttpGet("billing-report")]
+        public async Task<IActionResult> GetBillingReport()
+        {
+            var report = await _invoiceService.GetBillingReportBySupplyType();
+            return Ok(report);
+        }
+
+        [HttpGet("discount/{obraSocialId}/{invoiceNumber}")]
+        public async Task<IActionResult> GetDiscount(int obraSocialId, int invoiceNumber)
+        {
+            var discount = await _invoiceService.GetDiscountByInsurance(obraSocialId, invoiceNumber);
+            return Ok(discount);
+        }
+
+        [HttpGet("top-suppliers")]
+        public async Task<IActionResult> GetTopSuppliers()
+        {
+            var suppliers = await _invoiceService.GetTopSuppliersByDeliveries();
+            return Ok(suppliers);
+        }
+
         [HttpGet("invoice")]
         public async Task<IActionResult> GetAll()
         {
