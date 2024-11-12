@@ -22,13 +22,14 @@ namespace JurassicPharm.Controllers.Supplies
         {
             try
             {
-               return Ok(await _service.GetAllSupply());
+                return Ok(await _service.GetAllSupply());
             }
             catch (Exception ex)
             {
                 return StatusCode(500, $"Error al realizar la operacion: {ex.Message}");
             }
         }
+
 
         [HttpPost("NewSupply")]
 
@@ -50,10 +51,10 @@ namespace JurassicPharm.Controllers.Supplies
         }
         //public async Task<IActionResult> DeleteSupply()
         //{
-            
+
         //}
 
 
-        
+
     }
 }

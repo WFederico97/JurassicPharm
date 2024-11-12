@@ -15,6 +15,8 @@ export const generateTable = async (invoices) => {
       },
       index
     ) => {
+      console.log(date);
+
       tbody.innerHTML += `
             <tr>
               <td>${invoiceNumber}</td>
@@ -101,8 +103,8 @@ export const generateTable = async (invoices) => {
 const getTotal = (details) => {
   let total = 0;
 
-  details.forEach(({ unitPrice }) => {
-    total += unitPrice;
+  details.forEach(({ unitPrice, amount }) => {
+    total += unitPrice * amount;
   });
 
   return total;

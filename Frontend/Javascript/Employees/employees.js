@@ -4,28 +4,30 @@ let employees = [];
 const userRole = localStorage.getItem("role");
 
 // Check user role and display the "Add Employee" button if the user is an ADMIN
-if (userRole === 'ADMIN') {
-    document.getElementById('addEmployeeButtonContainer').style.display = 'block';
+if (userRole === "ADMIN") {
+  document.getElementById("addEmployeeButtonContainer").style.display = "block";
 }
 
 // Display user's full name in the navbar
 document.addEventListener("DOMContentLoaded", () => {
-    const fullName = localStorage.getItem("fullName");
-    console.log("User role:", userRole);
-    if (fullName) {
-        document.getElementById("fullName").textContent = fullName;
-    }
+  const fullName = localStorage.getItem("fullName");
+  console.log("User role:", userRole);
+  if (fullName) {
+    document.getElementById("fullName").textContent = fullName;
+  }
 });
 
 // Load the employee table when the page is loaded
 addEventListener("load", async () => {
-    await generateTable();
+  await generateTable();
 });
 
 // Populate the Edit Employee Modal with selected employee data
-document.getElementById('editEmployeeModal').addEventListener('show.bs.modal', function (event) {
+document
+  .getElementById("editEmployeeModal")
+  .addEventListener("show.bs.modal", function (event) {
     const button = event.relatedTarget;
-    const index = button.getAttribute('data-index');
+    const index = button.getAttribute("data-index");
     const employee = employees[index];
 
     // Split the address into street and number
@@ -33,11 +35,11 @@ document.getElementById('editEmployeeModal').addEventListener('show.bs.modal', f
     const match = domicilio.match(/^(.+?)\s(\d+)$/);
 
     // Populate modal fields with employee data
-    document.getElementById('editNombre').value = employee.nombre || '';
-    document.getElementById('editApellido').value = employee.apellido || '';
+    document.getElementById("editNombre").value = employee.nombre || "";
+    document.getElementById("editApellido").value = employee.apellido || "";
     if (match) {
-        document.getElementById('editCalle').value = match[1] || '';
-        document.getElementById('editAltura').value = match[2] || '';
+      document.getElementById("editCalle").value = match[1] || "";
+      document.getElementById("editAltura").value = match[2] || "";
     }
     document.getElementById("editCorreo").value =
       employee.correoElectronico || "";
@@ -56,7 +58,7 @@ document
 
     const index = parseInt(this.getAttribute("data-index"));
     const originalEmployee = employees[index];
-    const email = document.getElementById('editCorreo').value;
+    const email = document.getElementById("editCorreo").value;
 
     // Validate email format
     if (!validateEmail(email)) {
@@ -66,13 +68,13 @@ document
 
     // Collect updated field values
     let updatedFields = {};
-  
-    const nombre = document.getElementById('editNombre').value;
-    const apellido = document.getElementById('editApellido').value;
-    const calle = document.getElementById('editCalle').value;
-    const altura = document.getElementById('editAltura').value;
+
+    const nombre = document.getElementById("editNombre").value;
+    const apellido = document.getElementById("editApellido").value;
+    const calle = document.getElementById("editCalle").value;
+    const altura = document.getElementById("editAltura").value;
     const correoElectronico = email;
-    const rol = document.getElementById('editRol').value;
+    const rol = document.getElementById("editRol").value;
 
     // Compare with original values and store updates
     if (nombre !== originalEmployee.nombre) updatedFields.nombre = nombre;
@@ -95,7 +97,7 @@ document
 
     // Update local data and refresh table
     employees[index] = { ...originalEmployee, ...updatedFields };
-  
+
     const modalInstance = bootstrap.Modal.getInstance(
       document.getElementById("editEmployeeModal")
     );
@@ -104,63 +106,67 @@ document
     generateTable();
   });
 
-
 // Populate City Select
 async function populateCitySelect(selectElement) {
-    const cities = await getCities();
-    const citiesWithStores = cities.filter(city => city.sucursales.length > 0);
-    selectElement.innerHTML = '';
-    if (citiesWithStores.length === 0) {
-        console.error("No se encontraron ciudades");
-        return;
-    }
+  const cities = await getCities();
+  const citiesWithStores = cities.filter((city) => city.sucursales.length > 0);
+  selectElement.innerHTML = "";
+  if (citiesWithStores.length === 0) {
+    console.error("No se encontraron ciudades");
+    return;
+  }
 
-    citiesWithStores.forEach(city => {
+  citiesWithStores.forEach((city) => {
+    const option = document.createElement("option");
+    option.value = city.idCiudad;
+    option.textContent = city.nombre;
+    selectElement.appendChild(option);
+  });
 
-        const option = document.createElement('option');
-        option.value = city.idCiudad;
-        option.textContent = city.nombre;
-        selectElement.appendChild(option);
-    });
-
-    // Add event listener to update the store select based on the chosen city
-    selectElement.addEventListener('change', async function () {
-        const selectedCityName = selectElement.options[selectElement.selectedIndex].text;
-        const storeSelect = document.getElementById('addIdSucursal');
-        await populateStoreSelect(storeSelect, selectedCityName);
-    });
+  // Add event listener to update the store select based on the chosen city
+  selectElement.addEventListener("change", async function () {
+    const selectedCityName =
+      selectElement.options[selectElement.selectedIndex].text;
+    const storeSelect = document.getElementById("addIdSucursal");
+    await populateStoreSelect(storeSelect, selectedCityName);
+  });
 }
 
 // Populate Store Select with filtering by city
 async function populateStoreSelect(selectElement, selectedCityName = null) {
-    const stores = await getStores();
-    selectElement.innerHTML = '';
-    if (stores.length === 0) {
-        console.error("No se encontraron sucursales");
-        return;
-    }
+  const stores = await getStores();
+  selectElement.innerHTML = "";
+  if (stores.length === 0) {
+    console.error("No se encontraron sucursales");
+    return;
+  }
 
-    // Filter stores by the selected city if city name is provided
-    const filteredStores = selectedCityName ? stores.filter(store => store.ciudad === selectedCityName) : stores;
-    filteredStores.forEach(store => {
-        const option = document.createElement('option');
-        option.value = store.idSucursal;
-        option.textContent = store.calle + ' ' + store.altura;
-        selectElement.appendChild(option);
-    });
+  // Filter stores by the selected city if city name is provided
+  const filteredStores = selectedCityName
+    ? stores.filter((store) => store.ciudad === selectedCityName)
+    : stores;
+  filteredStores.forEach((store) => {
+    const option = document.createElement("option");
+    option.value = store.idSucursal;
+    option.textContent = store.calle + " " + store.altura;
+    selectElement.appendChild(option);
+  });
 }
 
-
 // Populate the Add Employee Modal with city and store options
-document.getElementById('addEmployeeModal').addEventListener('show.bs.modal', async function () {
-    const citySelect = document.getElementById('addIdCiudad');
+document
+  .getElementById("addEmployeeModal")
+  .addEventListener("show.bs.modal", async function () {
+    const citySelect = document.getElementById("addIdCiudad");
     await populateCitySelect(citySelect);
-    const storeSelect = document.getElementById('addIdSucursal');
+    const storeSelect = document.getElementById("addIdSucursal");
     await populateStoreSelect(storeSelect);
-});
+  });
 
 // Handle Add Employee Form submission
-document.getElementById('addEmployeeForm').addEventListener('submit', async function (event) {
+document
+  .getElementById("addEmployeeForm")
+  .addEventListener("submit", async function (event) {
     event.preventDefault();
 
     const email = document.getElementById("addCorreo").value;
@@ -189,18 +195,19 @@ document.getElementById('addEmployeeForm').addEventListener('submit', async func
       idCiudad: parseInt(document.getElementById("addIdCiudad").value),
     };
 
-
     await addEmployee(newEmployee);
-    const modalInstance = bootstrap.Modal.getInstance(document.getElementById('addEmployeeModal'));
+    const modalInstance = bootstrap.Modal.getInstance(
+      document.getElementById("addEmployeeModal")
+    );
     modalInstance.hide();
     generateTable();
 
-    document.getElementById('addEmployeeForm').reset();
-});
+    document.getElementById("addEmployeeForm").reset();
+  });
 
 // Prepare the Delete Employee Modal
-window.prepareDeleteModal = function(index) {
-    const employee = employees[index];
+window.prepareDeleteModal = function (index) {
+  const employee = employees[index];
 
   document.getElementById("deleteLegajo").textContent = employee.legajoEmpleado;
   document.getElementById("deleteNombre").textContent = employee.nombre;
@@ -208,20 +215,34 @@ window.prepareDeleteModal = function(index) {
   document.getElementById("deleteCorreo").textContent =
     employee.correoElectronico;
 
-
-    document.getElementById('confirmDeleteButton').onclick = function () {
-        deleteEmployee(employee.legajoEmpleado);
-    };
-}
+  document.getElementById("confirmDeleteButton").onclick = function () {
+    deleteEmployee(employee.legajoEmpleado);
+  };
+};
 
 // Generate the table with employee data
 const generateTable = async () => {
-    employees = await fetchEmployeesData();
-    const userRole = localStorage.getItem('role');
-    let tableContent = '';
+  employees = await fetchEmployeesData();
+  const userRole = localStorage.getItem("role");
+  let tableContent = "";
 
-    employees.forEach(({ nombre, apellido, legajoEmpleado, rol, correoElectronico, ciudad, direccionSucursal, domicilio, localidad, provincia }, index) => {
-        tableContent += `
+  employees.forEach(
+    (
+      {
+        nombre,
+        apellido,
+        legajoEmpleado,
+        rol,
+        correoElectronico,
+        ciudad,
+        direccionSucursal,
+        domicilio,
+        localidad,
+        provincia,
+      },
+      index
+    ) => {
+      tableContent += `
         <tr>
             <td>${legajoEmpleado}</td>
             <td>${nombre}, ${apellido}</td>
@@ -234,7 +255,7 @@ const generateTable = async () => {
             <td>${rol}</td>
             <td>
                 ${
-                    userRole === 'ADMIN'
+                  userRole === "ADMIN"
                     ? `<div class="d-flex">
                         <button 
                             type="button" 
@@ -276,146 +297,153 @@ const generateTable = async () => {
     }
   );
 
-
-    const tableBody = document.querySelector("#employees-table tbody");
-    tableBody.innerHTML = tableContent;
+  const tableBody = document.querySelector("#employees-table tbody");
+  tableBody.innerHTML = tableContent;
 };
 
 // Fetch all employee data from API
 async function fetchEmployeesData() {
-    const token = localStorage.getItem('jwtToken');
-    try {
-        const response = await fetch('https://localhost:3000/api/GetAll', {
-            method: 'GET',
-            headers: {
-                'Authorization': `Bearer ${token}`,
-                'Content-Type': 'application/json'
-            }
-        });
-        if (response.ok) {
-            return await response.json();
-        } else {
-            showAlert(`Error al obtener los datos: ${response.status}`, 'danger');
-            return [];
-        }
-    } catch (err) {
-        showAlert(`Error al obtener los datos: ${err}`, 'danger');
-        return [];
+  const token = localStorage.getItem("jwtToken");
+  try {
+    const response = await fetch("http://localhost:3000/api/GetAll", {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    });
+    if (response.ok) {
+      return await response.json();
+    } else {
+      showAlert(`Error al obtener los datos: ${response.status}`, "danger");
+      return [];
     }
+  } catch (err) {
+    showAlert(`Error al obtener los datos: ${err}`, "danger");
+    return [];
+  }
 }
 
 // Update employee endpoint
 async function updateEmployee(updatedFields) {
-    const token = localStorage.getItem('jwtToken');
-    try {
-        const response = await fetch(`https://localhost:3000/UpdateEmployee/${updatedFields.legajoEmpleado}`, {
-            method: 'PUT',
-            headers: {
-                'Authorization': `Bearer ${token}`,
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(updatedFields)
-        });
-        if (response.ok) {
-            const message = await response.text();
-            showAlert(message, 'success');
-            return message;
-        } else {
-            const errorText = await response.text();
-            showAlert(`Error al modificar los datos: ${errorText}`, 'danger');
-            return [];
-        }
-    } catch (err) {
-        showAlert('Error de conexión o modificación', 'danger');
-        return [];
+  const token = localStorage.getItem("jwtToken");
+  try {
+    const response = await fetch(
+      `http://localhost:3000/api/UpdateEmployee/${updatedFields.legajoEmpleado}`,
+      {
+        method: "PUT",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(updatedFields),
+      }
+    );
+    if (response.ok) {
+      const message = await response.text();
+      showAlert(message, "success");
+      return message;
+    } else {
+      const errorText = await response.text();
+      showAlert(`Error al modificar los datos: ${errorText}`, "danger");
+      return [];
     }
+  } catch (err) {
+    showAlert("Error de conexión o modificación", "danger");
+    return [];
+  }
 }
 
 // Add new employee endpoint
 async function addEmployee(newEmployee) {
-    const token = localStorage.getItem('jwtToken');
-    try {
-        const response = await fetch('https://localhost:3000/api/NewEmployee', {
-            method: 'POST',
-            headers: {
-                'Authorization': `Bearer ${token}`,
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(newEmployee)
-        });
-        if (response.ok) {
-            const message = await response.text();
-            showAlert(message, 'success');
-            return message;
-        } else {
-            const errorText = await response.text();
-            showAlert(`Error al agregar el empleado: ${errorText}`, 'danger');
-            return [];
-        }
-    } catch (err) {
-        showAlert('Error de conexión o agregado', 'danger');
-        return [];
+  const token = localStorage.getItem("jwtToken");
+  try {
+    const response = await fetch("http://localhost:3000/api/NewEmployee", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(newEmployee),
+    });
+    if (response.ok) {
+      const message = await response.text();
+      showAlert(message, "success");
+      return message;
+    } else {
+      const errorText = await response.text();
+      showAlert(`Error al agregar el empleado: ${errorText}`, "danger");
+      return [];
     }
+  } catch (err) {
+    showAlert("Error de conexión o agregado", "danger");
+    return [];
+  }
 }
 
 // Delete employee endpoint
 async function deleteEmployee(legajoEmpleado) {
-    const token = localStorage.getItem('jwtToken');
-    try {
-        const response = await fetch(`https://localhost:3000/api/DeleteEmployee/${legajoEmpleado}`, {
-            method: 'PUT',
-            headers: {
-                'Authorization': `Bearer ${token}`,
-                'Content-Type': 'application/json'
-            }
-        });
-        if (response.ok) {
-            const message = await response.text();
-            showAlert(message, 'success');
-            const deleteModal = bootstrap.Modal.getInstance(document.getElementById('deleteEmployeeModal'));
-            deleteModal.hide();
-            await generateTable();
-        } else {
-            const errorText = await response.text();
-            showAlert(`Error al eliminar el empleado: ${errorText}`, 'danger');
-        }
-    } catch (err) {
-        showAlert('Error de conexión o eliminación', 'danger');
+  const token = localStorage.getItem("jwtToken");
+  try {
+    const response = await fetch(
+      `http://localhost:3000/api/DeleteEmployee/${legajoEmpleado}`,
+      {
+        method: "PUT",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    if (response.ok) {
+      const message = await response.text();
+      showAlert(message, "success");
+      const deleteModal = bootstrap.Modal.getInstance(
+        document.getElementById("deleteEmployeeModal")
+      );
+      deleteModal.hide();
+      await generateTable();
+    } else {
+      const errorText = await response.text();
+      showAlert(`Error al eliminar el empleado: ${errorText}`, "danger");
     }
+  } catch (err) {
+    showAlert("Error de conexión o eliminación", "danger");
+  }
 }
 
 // Fetch all cities from API
 async function getCities() {
-    const token = localStorage.getItem('jwtToken');
-    try {
-        const response = await fetch('https://localhost:3000/api/GetCities', {
-            method: 'GET',
-            headers: {
-                'Authorization': `Bearer ${token}`,
-                'Content-Type': 'application/json'
-            }
-        });
-        return response.ok ? await response.json() : [];
-    } catch (err) {
-        return [];
-    }
+  const token = localStorage.getItem("jwtToken");
+  try {
+    const response = await fetch("http://localhost:3000/api/GetCities", {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    });
+    return response.ok ? await response.json() : [];
+  } catch (err) {
+    return [];
+  }
 }
 
 // Fetch all stores from API
 async function getStores() {
-    const token = localStorage.getItem('jwtToken');
-    try {
-        const response = await fetch('https://localhost:3000/api/GetStores', {
-            method: 'GET',
-            headers: {
-                'Authorization': `Bearer ${token}`,
-                'Content-Type': 'application/json'
-            }
-        });
-        return response.ok ? await response.json() : [];
-    } catch (err) {
-        return [];
-    }
+  const token = localStorage.getItem("jwtToken");
+  try {
+    const response = await fetch("http://localhost:3000/api/GetStores", {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    });
+    return response.ok ? await response.json() : [];
+  } catch (err) {
+    return [];
+  }
 }
 
 // Validate email format

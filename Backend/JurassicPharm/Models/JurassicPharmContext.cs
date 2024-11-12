@@ -49,7 +49,7 @@ public partial class JurassicPharmContext : DbContext
 
     public virtual DbSet<TipoSuministro> TiposSuministro { get; set; }
 
-    public virtual DbSet<ViewFacturacionPorTipo> ViewFacturacionPorTipo { get; set; }
+    public virtual DbSet<ViewFacturacionPorAnio> ViewFacturacionPorAnio { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -197,9 +197,9 @@ public partial class JurassicPharmContext : DbContext
             entity.HasKey(e => e.IdTipoSuministro).HasName("PK__TIPOS_SU__22748C15A8DFDC5D");
         });
 
-        modelBuilder.Entity<ViewFacturacionPorTipo>(entity =>
+        modelBuilder.Entity<ViewFacturacionPorAnio>(entity =>
         {
-            entity.ToView("VIEW_FACTURACION_POR_TIPO");
+            entity.ToView("VIEW_FACTURACION_POR_ANIO");
         });
 
         OnModelCreatingGeneratedFunctions(modelBuilder);

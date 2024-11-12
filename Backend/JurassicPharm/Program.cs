@@ -1,4 +1,6 @@
 using JurassicPharm.Models;
+using JurassicPharm.Repositories.Branches.Implementations;
+using JurassicPharm.Repositories.Branches.Interfaces;
 using JurassicPharm.Repositories.Clients.Implementations;
 using JurassicPharm.Repositories.Clients.Interfaces;
 using JurassicPharm.Repositories.Invoices;
@@ -6,6 +8,8 @@ using JurassicPharm.Repositories.Personnel.Implementations;
 using JurassicPharm.Repositories.Personnel.Interfaces;
 using JurassicPharm.Repositories.Supplies.implementations;
 using JurassicPharm.Repositories.Supplies.Interfaces;
+using JurassicPharm.Services.Branches.Implementations;
+using JurassicPharm.Services.Branches.Interfaces;
 using JurassicPharm.Services.Clients.Implementations;
 using JurassicPharm.Services.Clients.Interfaces;
 using JurassicPharm.Services.Invoices;
@@ -68,6 +72,9 @@ builder.Services.AddScoped<IsuppliesRepository, SuppliesRepository>();
 /*--Clients--*/
 builder.Services.AddScoped<IClientService, ClientService>();
 builder.Services.AddScoped<IClientRepository, ClientRepository>();
+/*--Branches--*/
+builder.Services.AddScoped<IBranchesService, BranchesService>();
+builder.Services.AddScoped<IBranchesRepository, BranchesRepository>();
 
 
 //Authorization

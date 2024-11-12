@@ -14,7 +14,7 @@ namespace JurassicPharm.Repositories.Supplies.implementations
     {
         private readonly JurassicPharmContext _context;
 
-        public SuppliesRepository(JurassicPharmContext context) 
+        public SuppliesRepository(JurassicPharmContext context)
         {
             _context = context;
         }
@@ -26,7 +26,7 @@ namespace JurassicPharm.Repositories.Supplies.implementations
                 .Include(s => s.IdTipoDistribucionNavigation)
                 .Include(s => s.IdTipoSuministroNavigation)
                 .Select(s => new GetSupplyDTO
-                {   
+                {
                     IdSupply = s.IdSuministro,
                     Name = s.Nombre,
                     Brand = s.IdMarcaNavigation.Nombre,
@@ -46,39 +46,44 @@ namespace JurassicPharm.Repositories.Supplies.implementations
 
             var marca = await _context.Marcas
                 .Where(m => m.IdMarca == supply.IdBrand).ToListAsync();
-                if (marca == null)
-                {
-                    throw new Exception("Marca Inexistente");
-                }
-                var distribucion = await _context.TiposDistribucion
-                    .Where(d => d.IdTipoDistribucion == supply.IdDistribution).ToListAsync();   
-                if (distribucion == null)
-                {
-                    throw new Exception("Distribucion Inexistente");
-                }
+            if (marca == null)
+            {
+                throw new Exception("Marca Inexistente");
+            }
+            var distribucion = await _context.TiposDistribucion
+                .Where(d => d.IdTipoDistribucion == supply.IdDistribution).ToListAsync();
+            if (distribucion == null)
+            {
+                throw new Exception("Distribucion Inexistente");
+            }
 
-                try
+            try
+            {
+                Suministro NewSupply = new Suministro()
                 {
-                    Suministro NewSupply = new Suministro()
-                    {
-                        Nombre = supply.Name,
-                        PreUnitario = supply.Price,
-                        IdTipoSuministro = supply.IdSupplyType,
-                        IdTipoDistribucion = supply.IdDistribution,
-                        IdMarca = supply.IdBrand
-                    };
+                    Nombre = supply.Name,
+                    PreUnitario = supply.Price,
+                    IdTipoSuministro = supply.IdSupplyType,
+                    IdTipoDistribucion = supply.IdDistribution,
+                    IdMarca = supply.IdBrand
+                };
 
-                    await _context.Suministros.AddAsync(NewSupply);
-                    await _context.SaveChangesAsync();
-                    flag = true;
-                }
-                catch( Exception ex)
-                {
-                    throw new Exception($"Error al crear suministro: {ex.Message}");
-                }
+                await _context.Suministros.AddAsync(NewSupply);
+                await _context.SaveChangesAsync();
+                flag = true;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Error al crear suministro: {ex.Message}");
+            }
 
             return flag;
 
+        }
+
+        public async Task<List<ViewFacturacionPorAnio>> GetSalesPerYear()
+        {
+            return await _context.ViewFacturacionPorAnio.ToListAsync();
         }
 
         //public async Task<bool> DeleteSupply(int supplyId)
