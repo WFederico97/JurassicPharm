@@ -54,7 +54,7 @@ namespace JurassicPharm.Services.Invoices
         {
             return await _invoiceRepository.CheckProlongedPrescriptionDate(clientId);
         }
-        public async Task<List<BillingReportDTO>> GetBillingReportBySupplyType()
+        public async Task<List<ViewFacturacionPorAnio>> GetBillingReportBySupplyType()
         {
             return await _invoiceRepository.GetBillingReportBySupplyType();
         }

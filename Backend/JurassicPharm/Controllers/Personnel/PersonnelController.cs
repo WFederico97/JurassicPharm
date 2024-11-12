@@ -15,11 +15,11 @@ namespace JurassicPharm.Controllers.Personnel
 
         private readonly IPersonnelService _service;
 
-        public PersonnelController (IPersonnelService service)
+        public PersonnelController(IPersonnelService service)
         {
             _service = service;
         }
-        
+
 
         [HttpGet("GetCities")]
         public async Task<IActionResult> GetCities()
@@ -62,7 +62,7 @@ namespace JurassicPharm.Controllers.Personnel
         }
 
         [HttpGet("GetEmployeeById/{legajo}")]
-        public async Task<IActionResult> GetById([FromRouteAttribute]  int legajo)
+        public async Task<IActionResult> GetById([FromRouteAttribute] int legajo)
         {
             try
             {
@@ -74,11 +74,11 @@ namespace JurassicPharm.Controllers.Personnel
                 return StatusCode(500, $"Error al cometer la operacion: {ex.Message}");
             }
         }
-        [Authorize(Policy = "RequireAdminRole")]
+        // [Authorize(Policy = "RequireAdminRole")]
         [HttpPost("NewEmployee")]
         public async Task<IActionResult> CreateEmployee([FromBody] CreatePersonnelDTO employee)
         {
-            if(employee.IdSucursal <= 0 || employee.IdCiudad <= 0)
+            if (employee.IdSucursal <= 0 || employee.IdCiudad <= 0)
             {
                 return BadRequest("Sucursal o Ciudad incorrecta");
             }
@@ -89,7 +89,7 @@ namespace JurassicPharm.Controllers.Personnel
                 {
                     return BadRequest($"El empleado {employee.Nombre},{employee.Apellido} no pudo ser dado de alta");
                 }
-                    return Ok("Empleado dado de alta correctamente");
+                return Ok("Empleado dado de alta correctamente");
             }
             catch (Exception ex)
             {

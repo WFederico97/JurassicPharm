@@ -45,12 +45,12 @@ namespace JurassicPharm.Repositories.Invoices
 
             try
             {
-                await _context.Facturas.AddAsync(invoiceToCreate);
+                _context.Facturas.Add(invoiceToCreate);
+                await _context.SaveChangesAsync();
 
-                //Auto-generated id
                 int invoiceId = invoiceToCreate.NroFactura;
 
-                invoice.Details.ForEach(async detail =>
+                foreach (var detail in invoice.Details)
                 {
                     Suministro? supply = await _context.Suministros.FirstOrDefaultAsync(s => s.IdSuministro == detail.SupplyId);
 
@@ -67,23 +67,21 @@ namespace JurassicPharm.Repositories.Invoices
                         Cantidad = detail.Amount
                     };
 
-                    await _context.DetallesFactura.AddAsync(detailToCreate);
-                });
+                    _context.DetallesFactura.Add(detailToCreate);
+                }
 
                 await _context.SaveChangesAsync();
-
                 await transaction.CommitAsync();
 
                 return true;
-
             }
             catch (Exception error)
             {
                 await transaction.RollbackAsync();
                 throw new Exception(error.Message);
-
             }
         }
+
 
         public async Task<bool> Delete(int invoiceId)
         {
@@ -194,15 +192,9 @@ namespace JurassicPharm.Repositories.Invoices
             }
         }
 
-        public async Task<List<BillingReportDTO>> GetBillingReportBySupplyType()
+        public async Task<List<ViewFacturacionPorAnio>> GetBillingReportBySupplyType()
         {
-            return await _context.ViewFacturacionPorTipo
-                .Select(b => new BillingReportDTO
-                {
-                    TipoSuministro = b.TipoDeSuministro,
-                    TotalFacturado = (decimal)b.TotalFacturado,
-                    EstadoAutorizacion = b.EstadoAutorización
-                }).ToListAsync();
+            return await _context.ViewFacturacionPorAnio.ToListAsync();
         }
 
         public async Task<decimal> GetDiscountByInsurance(int obraSocialId, int invoiceNumber)

@@ -30,7 +30,7 @@ document
 
     if (tokenStored == null) {
       try {
-        const res = await fetch("https://localhost:3000/api/auth/login", {
+        const res = await fetch("http://localhost:3000/api/auth/login", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -58,7 +58,7 @@ document
           localStorage.setItem("tokenExpiration", payload.exp);
 
           const employeesResponse = await fetch(
-            "https://localhost:3000/GetAll",
+            "http://localhost:3000/api/GetAll",
             {
               method: "GET",
               headers: {
@@ -135,7 +135,7 @@ function showAlert(message, type = "info") {
     `;
 
   alertContainer.appendChild(alertDiv);
-  
+
   setTimeout(() => {
     alertDiv.classList.remove("show");
     alertDiv.classList.add("hide");

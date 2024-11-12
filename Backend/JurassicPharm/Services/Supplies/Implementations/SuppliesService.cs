@@ -1,4 +1,5 @@
 ﻿using JurassicPharm.DTO.Supplies;
+using JurassicPharm.Models;
 using JurassicPharm.Repositories.Supplies.Interfaces;
 using JurassicPharm.Services.Supplies.Interfaces;
 
@@ -21,7 +22,12 @@ namespace JurassicPharm.Services.Supplies.Implementations
 
         public async Task<bool> CreateSupply(CreateSupplyDTO supply)
         {
-           return await _repository.CreateSupply(supply);
+            return await _repository.CreateSupply(supply);
+        }
+
+        public async Task<List<ViewFacturacionPorAnio>> GetSalesPerYear()
+        {
+            return await _repository.GetSalesPerYear();
         }
 
         //public async Task<bool> DeleteSupply(int supplyId)

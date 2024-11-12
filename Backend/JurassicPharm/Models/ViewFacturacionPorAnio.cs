@@ -9,18 +9,12 @@ using Microsoft.EntityFrameworkCore;
 namespace JurassicPharm.Models;
 
 [Keyless]
-public partial class ViewFacturacionPorTipo
+public partial class ViewFacturacionPorAnio
 {
-    [Column("Tipo de Suministro")]
-    [StringLength(50)]
-    [Unicode(false)]
-    public string? TipoDeSuministro { get; set; }
-
+    [Column("Suministro")]
+    public string? Supply { get; set; }
+    [Column("Año")]
+    public int Year { get; set; }
     [Column("Total Facturado")]
-    public int? TotalFacturado { get; set; }
-
-    [Column("Estado Autorización")]
-    [StringLength(16)]
-    [Unicode(false)]
-    public string EstadoAutorización { get; set; } = null!;
+    public int Total { get; set; }
 }
