@@ -1,4 +1,6 @@
 export const generateTable = async (invoices) => {
+  const role = localStorage.getItem("role");
+
   const tbody = document.getElementById("invoices-tbody-table");
   //Reset tbody
   tbody.innerHTML = "";
@@ -15,7 +17,6 @@ export const generateTable = async (invoices) => {
       },
       index
     ) => {
-      console.log(date);
 
       tbody.innerHTML += `
             <tr>
@@ -36,13 +37,14 @@ export const generateTable = async (invoices) => {
               </td>
               <td>$${getTotal(details)}</td>
               <td class="d-flex">
-                <button 
-                  name="btn-edit"
+                <button
+                  id="btn-edit"
                   type="button" 
                   class="btn btn-primary rounded-pill px-3 m-1 editBtn"  
                   data-bs-toggle="modal" 
                   data-bs-target="#editInvoiceModal" 
                   data-index="${index}"
+                  ${role === "ADMIN" ? "disabled" : ""}
                 >
                   <svg height="1em" viewBox="0 0 512 512">
                       <path
@@ -56,6 +58,7 @@ export const generateTable = async (invoices) => {
                   data-bs-toggle="modal" 
                   data-bs-target="#deleteEmployeeModal" 
                   onclick="prepareDeleteModal(${index})"
+                  ${role === "ADMIN" ? "disabled" : ""}
                 >
                   <svg
                     class="bin-top"

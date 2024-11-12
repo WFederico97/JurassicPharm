@@ -9,7 +9,6 @@ let clients = [];
 // Display user's full name in the navbar
 document.addEventListener("DOMContentLoaded", () => {
   const fullName = localStorage.getItem("fullName");
-  console.log("User role:", userRole);
   if (fullName) {
     document.getElementById("fullName").textContent = fullName;
   }

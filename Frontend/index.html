@@ -120,40 +120,91 @@
             <div class="p-5 dashboard-container">
               <h1 class="fs-3 fw-bold mb-4">Dashboard de Ventas</h1>
 
-              <!-- Chart Container -->
-              <div class="card mb-5 shadow-sm">
-                <div class="card-body">
-                  <h2 class="card-title fs-5 fw-bold">
-                    Gráfico de Ventas Anuales
-                  </h2>
-                  <canvas id="salesChart"></canvas>
+              <!-- Sales Form -->
+              <div class="card shadow-sm" id="salesFormContainer">
+                <div class="card-body flex">
+                  <h2 class="card-title fs-5 fw-bold">Agregar Venta</h2>
+
+                  <form id="create-invoice-form" class="form w-100">
+                    <label>
+                      <select
+                        id="create-invoice-client-select"
+                        class="input"
+                        required
+                      ></select>
+                      <span>Cliente</span>
+                    </label>
+                    <label>
+                      <select
+                        id="create-invoice-branch-select"
+                        class="input"
+                        required
+                      ></select>
+                      <span>Sucursal</span>
+                    </label>
+                    <label>
+                      <select
+                        id="create-invoice-supply-select"
+                        class="input"
+                        required
+                      ></select>
+                      <span>Suministro</span>
+                    </label>
+                    <label>
+                      <input
+                        required
+                        type="number"
+                        id="create-invoice-supply-price-input"
+                        class="input"
+                      />
+                      <span>Precio</span>
+                    </label>
+                    <label>
+                      <input
+                        required
+                        type="number"
+                        id="create-invoice-supply-amount-input"
+                        class="input"
+                      />
+                      <span>Cantidad</span>
+                    </label>
+                    <label>
+                      <input
+                        required
+                        type="date"
+                        id="create-invoice-date-input"
+                        class="input"
+                      />
+                    </label>
+
+                    <button type="submit" class="submit">Agregar</button>
+                    <button type="button" class="btn btn-success" id="confirm">
+                      Confirmar venta
+                    </button>
+                  </form>
+                  <div>
+                    <h2 class="card-title fs-5 fw-bold">Detalle</h2>
+                    <table
+                      id="invoices-table"
+                      class="table table-sm table-hover table-bordered align-middle caption-top"
+                    >
+                      <thead class="table-header">
+                        <tr class="table-primary">
+                          <th scope="col">Codigo de Suministro</th>
+                          <th scope="col">Nombre de la droga</th>
+                          <th scope="col">Precio Unitario</th>
+                          <th scope="col">Cantidad</th>
+                          <th scope="col">Acciones</th>
+                        </tr>
+                      </thead>
+                      <tbody id="invoice-details-tbody-table"></tbody>
+                    </table>
+                  </div>
                 </div>
               </div>
-
-              <!-- Chart Container -->
-              <div class="card mb-5 shadow-sm">
-                <div class="card-body">
-                  <h2 class="card-title fs-5 fw-bold">
-                    Gráfico de facturacion por suministro
-                  </h2>
-                  <canvas
-                    id="salesBySupplyChart"
-                    width="150"
-                    height="150"
-                  ></canvas>
-                </div>
-              </div>
-
-              <!-- Chart Container -->
-              <div class="card mb-5 shadow-sm">
-                <div class="card-body">
-                  <h2 class="card-title fs-5 fw-bold">Gráfico de Sucursales</h2>
-                  <canvas id="storeChart"></canvas>
-                </div>
-              </div>
-
+              
               <!-- Employees store summary -->
-              <div class="card mb-5 shadow-sm">
+              <div class="card mb-5 shadow-sm" id="employeesByStoreContainer">
                 <div class="card-body">
                   <h2 class="card-title fs-5 fw-bold">
                     Empleados por Sucursal
@@ -180,62 +231,38 @@
                 </div>
               </div>
 
-              <!-- Sales Form -->
-              <div class="card shadow-sm">
+              <!-- Chart Container -->
+              <div class="card mb-5 shadow-sm" id="storesChartContainer">
                 <div class="card-body">
-                  <h2 class="card-title fs-5 fw-bold">Agregar Venta</h2>
-                  <form id="add-sale-form" class="form">
-                    <div class="mb-3">
-                      <label for="clientId" class="form-label"
-                        >Numero de cliente:</label
-                      >
-                      <input
-                        type="number"
-                        id="clientId"
-                        name="clientId"
-                        class="form-control"
-                        required
-                      />
-                    </div>
-                    <div class="mb-3">
-                      <label for="branchId" class="form-label"
-                        >Numero de Sucursal:</label
-                      >
-                      <input
-                        type="number"
-                        id="branchId"
-                        name="branchId"
-                        class="form-control"
-                        required
-                      />
-                    </div>
-                    <div class="mb-3">
-                      <label for="date" class="form-label">Fecha:</label>
-                      <input
-                        type="date"
-                        id="date"
-                        name="date"
-                        class="form-control"
-                        required
-                      />
-                    </div>
-                    <div class="mb-3">
-                      <button
-                        type="button"
-                        class="btn btn-primary"
-                        id="addSupplyButton"
-                        data-bs-toggle="modal"
-                        data-bs-target="#exampleModal"
-                      >
-                        Añadir articulo
-                      </button>
-                    </div>
-                    <button type="submit" class="btn btn-primary">
-                      Agregar Venta
-                    </button>
-                  </form>
+                  <h2 class="card-title fs-5 fw-bold">Gráfico de Sucursales</h2>
+                  <canvas id="storeChart"></canvas>
                 </div>
               </div>
+
+              <!-- Chart Container -->
+              <div class="card mb-5 shadow-sm" id="annualSalesChartContainer">
+                <div class="card-body">
+                  <h2 class="card-title fs-5 fw-bold">
+                    Gráfico de Ventas Anuales
+                  </h2>
+                  <canvas id="salesChart"></canvas>
+                </div>
+              </div>
+
+              <!-- Chart Container -->
+              <div class="card mb-5 shadow-sm" id="salesBySuppliesChartContainer">
+                <div class="card-body">
+                  <h2 class="card-title fs-5 fw-bold">
+                    Gráfico de facturacion por suministro
+                  </h2>
+                  <canvas
+                    id="salesBySupplyChart"
+                    width="150"
+                    height="150"
+                  ></canvas>
+                </div>
+              </div>
+              
             </div>
           </div>
 
@@ -251,6 +278,25 @@
         </div>
       </div>
     </div>
+    <script>
+      const today = new Date();
+      const dd = String(today.getDate()).padStart(2, "0");
+      const mm = String(today.getMonth() + 1).padStart(2, "0");
+      const yyyy = today.getFullYear();
+
+      const maxDate = `${yyyy}-${mm}-${dd}`;
+      const minDay = String(dd - 2).padStart(2, "0");
+      const minDate = `${yyyy}-${mm}-${minDay}`;
+
+      const dateSelectInput = document.getElementById(
+        "create-invoice-date-input"
+      );
+
+      dateSelectInput.setAttribute("min", minDate);
+      dateSelectInput.setAttribute("max", maxDate);
+
+      dateSelectInput.value = maxDate;
+    </script>
 
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
@@ -260,6 +306,6 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script type="module" src="./Javascript/index.js"></script>
     <script type="module" src="./Javascript/Auth/auth.js"></script>
-    <script type="module" src="./Javascript/Dashboard/index.js"></script>
+    <script type="module" src="./Javascript/Dashboard/dashboard.js"></script>
   </body>
 </html>
