@@ -19,7 +19,6 @@ async function fetchEmployeesByStore() {
     if (!response.ok) throw new Error("Error al obtener las sucursales");
 
     const stores = await response.json();
-
     const tableBody = document.querySelector("#employeeTable tbody");
     tableBody.innerHTML = "";
 
@@ -59,102 +58,102 @@ async function fetchEmployeesByStore() {
   }
 }
 
-const createSalesChart = async () => {
-  const sales = await fetchBilingReport();
+// const createSalesChart = async () => {
+//   const sales = await fetchBilingReport();
 
-  if (sales.length === 0) return;
+//   if (sales.length === 0) return;
 
-  const years = sales.map((sale) => sale.year);
+//   const years = sales.map((sale) => sale.year);
 
-  const yearsWithotDuplicates = new Set(years);
-  const yearsArray = Array.from(yearsWithotDuplicates);
+//   const yearsWithotDuplicates = new Set(years);
+//   const yearsArray = Array.from(yearsWithotDuplicates);
 
-  const totalsByYear = yearsArray.map((year) =>
-    sales.reduce((acc, item) => {
-      return item.year === year ? acc + item.total : acc;
-    }, 0)
-  );
+//   const totalsByYear = yearsArray.map((year) =>
+//     sales.reduce((acc, item) => {
+//       return item.year === year ? acc + item.total : acc;
+//     }, 0)
+//   );
 
-  const salesChart = document.getElementById("salesChart").getContext("2d");
-  const salesBySupplyChart = document
-    .getElementById("salesBySupplyChart")
-    .getContext("2d");
+//   const salesChart = document.getElementById("salesChart").getContext("2d");
+//   const salesBySupplyChart = document
+//     .getElementById("salesBySupplyChart")
+//     .getContext("2d");
 
-  new Chart(salesChart, {
-    type: "bar",
-    data: {
-      labels: yearsArray,
-      datasets: [
-        {
-          label: "Facturacion por año ($)",
-          data: totalsByYear,
-          backgroundColor: "#d17d0f",
-          borderColor: "#d17d0f",
-          borderWidth: 1,
-        },
-      ],
-    },
-    options: {
-      responsive: true,
-      scales: {
-        y: {
-          beginAtZero: true,
-        },
-      },
-      plugins: {
-        tooltip: {
-          callbacks: {
-            label: function (context) {
-              return `Facturacion: $${context.raw.toFixed(2)}`;
-            },
-          },
-        },
-      },
-    },
-  });
+//   new Chart(salesChart, {
+//     type: "bar",
+//     data: {
+//       labels: yearsArray,
+//       datasets: [
+//         {
+//           label: "Facturacion por año ($)",
+//           data: totalsByYear,
+//           backgroundColor: "#d17d0f",
+//           borderColor: "#d17d0f",
+//           borderWidth: 1,
+//         },
+//       ],
+//     },
+//     options: {
+//       responsive: true,
+//       scales: {
+//         y: {
+//           beginAtZero: true,
+//         },
+//       },
+//       plugins: {
+//         tooltip: {
+//           callbacks: {
+//             label: function (context) {
+//               return `Facturacion: $${context.raw.toFixed(2)}`;
+//             },
+//           },
+//         },
+//       },
+//     },
+//   });
 
-  new Chart(salesBySupplyChart, {
-    type: "bar",
-    data: {
-      labels: sales.map((sale) => sale.supply),
-      datasets: [
-        {
-          label: "Facturacion por suministro ($)",
-          data: sales.map((sale) => sale.total),
-          fill: false,
-          borderColor: "rgb(75, 192, 192)",
-          backgroundColor: [
-            "rgb(255, 99, 132)",
-            "rgb(255, 159, 64)",
-            "rgb(255, 205, 86)",
-            "rgb(75, 192, 192)",
-            "rgb(54, 162, 235)",
-            "rgb(153, 102, 255)",
-            "rgb(201, 203, 207)",
-          ],
-          tension: 0.1,
-        },
-      ],
-    },
-    options: {
-      responsive: true,
-      scales: {
-        y: {
-          beginAtZero: true,
-        },
-      },
-      plugins: {
-        tooltip: {
-          callbacks: {
-            label: function (context) {
-              return `Facturacion: $${context.raw.toFixed(2)}`;
-            },
-          },
-        },
-      },
-    },
-  });
-};
+//   new Chart(salesBySupplyChart, {
+//     type: "bar",
+//     data: {
+//       labels: sales.map((sale) => sale.supply),
+//       datasets: [
+//         {
+//           label: "Facturacion por suministro ($)",
+//           data: sales.map((sale) => sale.total),
+//           fill: false,
+//           borderColor: "rgb(75, 192, 192)",
+//           backgroundColor: [
+//             "rgb(255, 99, 132)",
+//             "rgb(255, 159, 64)",
+//             "rgb(255, 205, 86)",
+//             "rgb(75, 192, 192)",
+//             "rgb(54, 162, 235)",
+//             "rgb(153, 102, 255)",
+//             "rgb(201, 203, 207)",
+//           ],
+//           tension: 0.1,
+//         },
+//       ],
+//     },
+//     options: {
+//       responsive: true,
+//       scales: {
+//         y: {
+//           beginAtZero: true,
+//         },
+//       },
+//       plugins: {
+//         tooltip: {
+//           callbacks: {
+//             label: function (context) {
+//               return `Facturacion: $${context.raw.toFixed(2)}`;
+//             },
+//           },
+//         },
+//       },
+//     },
+//   });
+// };
 
 function createStoreChart(stores) {
   const ctx = document.getElementById("storeChart").getContext("2d");
@@ -244,9 +243,20 @@ const populateDataToCreateInvoice = async () => {
 };
 
 document.addEventListener("DOMContentLoaded", async () => {
+  const role = localStorage.getItem("role");
+  if(role == 'ADMIN'){
+    document.getElementById("salesFormContainer").style.display = "none";
+  }
+  else if(role == 'CAJERO'){
+    document.getElementById("employeesByStoreContainer").style.display = "none";
+    document.getElementById("storesChartContainer").style.display = "none";
+    document.getElementById("annualSalesChartContainer").style.display = "none";
+    document.getElementById("salesBySuppliesChartContainer").style.display = "none";
+  }
+
   fetchEmployeesByStore();
   populateDataToCreateInvoice();
-  createSalesChart();
+  // createSalesChart();
 });
 
 document
@@ -377,7 +387,6 @@ confirmButton.addEventListener("click", async () => {
 
   try {
     const response = await createInvoice(payload);
-    console.log(response);
 
     document.getElementById("create-invoice-client-select").value = "";
 
@@ -388,6 +397,5 @@ confirmButton.addEventListener("click", async () => {
     showAlert("Factura creada exitosamente!", "success");
   } catch (error) {
     showAlert("Error inesperado al crear una factura", "danger");
-    console.log(console.error(error.message));
   }
 });
