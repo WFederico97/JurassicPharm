@@ -18,10 +18,66 @@
     />
     <link rel="shortcut icon" href="../Assets/Images/jph-icon.jpg" />
     <link rel="stylesheet" href="../styles/login.css" />
+    <link rel="stylesheet" href="../styles/index.css" />
   </head>
   <body class="d-flex py-4">
     <main class="form-signin w-50 m-auto">
-      <div id="alertContainer" class="container mt-3"></div>
+      <div
+        id="alertContainer"
+        class="container mt-3 position-absolute top-0 end-0"
+      ></div>
+
+      <!-- Forgot Password Modal -->
+      <div
+        class="modal fade"
+        id="addEmployeeModal"
+        tabindex="-1"
+        aria-labelledby="addEmployeeModalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header" style="border-bottom: 0px">
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="container">
+              <div class="logo">
+                <img
+                  src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23272042'%3E%3Cpath d='M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z'/%3E%3C/svg%3E"
+                  alt="Recovery Icon"
+                  style="width: 100%; height: 100%; object-fit: contain"
+                />
+              </div>
+              <h1>Recuperar Contraseña</h1>
+              <form id="forgot-password-form">
+                <div class="form-group">
+                  <input
+                    id="forgot-password-input"
+                    type="email"
+                    placeholder="Correo Electrónico"
+                    required
+                  />
+                </div>
+                <!-- <button type="submit">Enviar email</button> -->
+                <button class="btn w-100 py-2 my-2 btn-login" type="submit">
+                  <p class="btn-login-font m-0 p-0">Enviar email</p>
+                  <span
+                    class="spinner-border spinner-border-sm text-light d-none"
+                    role="status"
+                    aria-hidden="true"
+                  ></span>
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <form id="login-form">
         <img
           class="mb-3 img-fluid JPH_logo"
@@ -51,18 +107,17 @@
           <label for="floatingPassword">Contraseña</label>
         </div>
 
-        <div class="form-check text-start my-3">
-          <input
-            class="form-check-input"
-            type="checkbox"
-            value="remember-me"
-            id="flexCheckDefault"
-          />
-          <label class="form-check-label text-light" for="flexCheckDefault">
-            Remember me
-          </label>
+        <div id="addEmployeeButtonContainer">
+          <button
+            type="button"
+            class="fw-normal forgot-password-link text-decoration-none"
+            data-bs-toggle="modal"
+            data-bs-target="#addEmployeeModal"
+          >
+            Olvidaste tu contraseña?
+          </button>
         </div>
-        <button class="btn w-100 py-2 btn-login" type="submit">
+        <button class="btn w-100 py-2 my-2 btn-login" type="submit">
           <p class="btn-login-font m-0 p-0">Iniciar Sesion</p>
           <span
             class="spinner-border spinner-border-sm text-light d-none"
@@ -70,11 +125,14 @@
             aria-hidden="true"
           ></span>
         </button>
-        <p class="mt-5 mb-3 fw-normal text-light">
-          © BD I - TUP - UTN - FRC
-        </p>
+        <p class="mt-5 mb-3 fw-normal text-light">© BD I - TUP - UTN - FRC</p>
       </form>
     </main>
-    <script  type="module" src="../Javascript/login.js"></script>
+    <script type="module" src="../Javascript/login.js"></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+      crossorigin="anonymous"
+    ></script>
   </body>
 </html>

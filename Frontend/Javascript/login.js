@@ -1,3 +1,7 @@
+import { forgotPassword } from "./modules/Auth/api.js";
+
+const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
 document
   .getElementById("login-form")
   .addEventListener("submit", async function (e) {
@@ -15,7 +19,6 @@ document
       return;
     }
 
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(CorreoElectronico)) {
       showAlert("Por favor, ingrese un correo electrónico válido.", "warning");
       showBtnLoading();
@@ -30,7 +33,7 @@ document
 
     if (tokenStored == null) {
       try {
-        const res = await fetch("https://localhost:3000/api/auth/login", {
+        const res = await fetch("http://localhost:3000/api/auth/login", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -58,7 +61,7 @@ document
           localStorage.setItem("tokenExpiration", payload.exp);
 
           const employeesResponse = await fetch(
-            "https://localhost:3000/GetAll",
+            "http://localhost:3000/api/GetAll",
             {
               method: "GET",
               headers: {
@@ -84,7 +87,7 @@ document
               showAlert("Empleado no encontrado.", "danger");
             }
 
-            window.location = "../Pages/dashboard-db1.html";
+            window.location = "../index.html";
           } else {
             console.error(
               "Error al obtener los empleados:",
@@ -135,7 +138,7 @@ function showAlert(message, type = "info") {
     `;
 
   alertContainer.appendChild(alertDiv);
-  
+
   setTimeout(() => {
     alertDiv.classList.remove("show");
     alertDiv.classList.add("hide");
@@ -151,3 +154,33 @@ const showBtnLoading = () => {
   btnText.classList.toggle("d-none");
   spinner.classList.toggle("d-none");
 };
+
+//Handle forgot password
+document
+  .getElementById("forgot-password-form")
+  .addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const email = document.getElementById("forgot-password-input").value;
+
+    if (!emailRegex.test(email)) {
+      showAlert("Por favor, ingrese un correo electrónico válido.", "warning");
+      return;
+    }
+
+    try {
+      showBtnLoading();
+      await forgotPassword(email);
+      //Close modal
+      document.querySelector(".btn-close").click();
+
+      showAlert(
+        "Si su correo está registrado, recibirás un mensaje con instrucciones para recuperar tu contraseña. Por favor, revisa tu bandeja de entrada o carpeta de spam.",
+        "success"
+      );
+      showBtnLoading();
+    } catch (error) {
+      showBtnLoading();
+      console.error(error);
+    }
+  });

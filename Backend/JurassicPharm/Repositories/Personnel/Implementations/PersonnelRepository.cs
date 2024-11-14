@@ -63,7 +63,7 @@ namespace JurassicPharm.Repositories.Personnel.Implementations
                     Nombre = c.Nombre,
                     Localidad = c.IdLocalidadNavigation.Nombre,
                     Provincia = c.IdLocalidadNavigation.IdProvinciaNavigation.Nombre,
-                    Sucursales = c.Sucursales.Select(s => new GetStoreDTO 
+                    Sucursales = c.Sucursales.Select(s => new GetStoreDTO
                     {
                         IdSucursal = s.IdSucursal,
                         Calle = s.Calle,
@@ -162,9 +162,10 @@ namespace JurassicPharm.Repositories.Personnel.Implementations
                 personnelToUpdate.Rol = personnel.Rol;
             }
 
+
             _context.Empleados.Update(personnelToUpdate);
 
-            return await _context.SaveChangesAsync() > 0; 
+            return await _context.SaveChangesAsync() > 0;
         }
 
         public async Task<bool> DeletePersonnel(int legajo)
@@ -180,7 +181,7 @@ namespace JurassicPharm.Repositories.Personnel.Implementations
 
             _context.Empleados.Update(personnelToDelete);
 
-            return await _context.SaveChangesAsync() > 0; 
+            return await _context.SaveChangesAsync() > 0;
         }
 
         public async Task<bool> CreateEmployee(CreatePersonnelDTO employee)
@@ -221,7 +222,7 @@ namespace JurassicPharm.Repositories.Personnel.Implementations
                     Altura = employee.Altura,
                     CorreoElectronico = employee.CorreoElectronico,
                     PasswordEmpleado = hashedPassword,
-                    Rol= employee.Rol,
+                    Rol = employee.Rol,
                     IdCiudad = employee.IdCiudad,
                     IdSucursal = employee.IdSucursal,
                     Active = true
@@ -267,7 +268,7 @@ namespace JurassicPharm.Repositories.Personnel.Implementations
                 return false;
             }
             bool passwordReveal = BCrypt.Net.BCrypt.EnhancedVerify(password, employee.PasswordEmpleado);
-            if (!passwordReveal) 
+            if (!passwordReveal)
             {
                 throw new InvalidPropertyException("Credenciales inválidas");
             }
@@ -283,6 +284,7 @@ namespace JurassicPharm.Repositories.Personnel.Implementations
         }
 
         public async Task<string> CheckProlongedPrescriptionDate(int clientId)
+
         {
             using (var command = _context.Database.GetDbConnection().CreateCommand())
             {

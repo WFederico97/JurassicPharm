@@ -21,7 +21,7 @@
             class="col-md-3 col-lg-2 d-flex flex-column flex-shrink-0 p-3 bg-light sidebar"
             >
             <div class="d-flex align-items-center justify-content-evenly flex-column">
-                <a href="dashboard-db1.html"><img
+                <a href="../index.html"><img
                 style="width: 80px; height: 80px"
                 src="../Assets/Images/jph-logo.jpg"
                 alt="logo"
@@ -33,7 +33,7 @@
                 <ul class="nav nav-pills flex-column mb-auto py-5 text-center">
                 <li class="nav-item">
                     <a
-                    href="dashboard-db1.html"
+                    href="../index.html"
                     class="nav-link active"
                     aria-current="page"
                     style="color: inherit"
@@ -96,6 +96,12 @@
                 <!-- Header -->
                 <header class="bg-light mb-4" style="height: 82px"></header>
                 <div id="alertContainer" class="container mt-3"></div>
+                <div id="addEmployeeButtonContainer" style="display: none;">
+                    <button type="button" class="btn btn-success rounded-pill btnAgregarEmpleado" data-bs-toggle="modal" data-bs-target="#addEmployeeModal">
+                      <span class="button__text">Agregar Empleado</span>
+                      <span class="button__icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" viewBox="0 0 24 24" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" stroke="currentColor" height="24" fill="none" class="svg"><line y2="19" y1="5" x2="12" x1="12"></line><line y2="12" y1="12" x2="19" x1="5"></line></svg></span>
+                    </button>
+                  </div>
                 <div class=" p-5 table-responsive" style="height: 100%;">
                     <table id="clients-table" class="table table-hover table-bordered align-middle caption-top">
                     <caption class="table-caption fs-4 fw-bold ">Listado de clientes</caption>

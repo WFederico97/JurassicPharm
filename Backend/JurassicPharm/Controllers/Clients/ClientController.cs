@@ -16,7 +16,7 @@ namespace JurassicPharm.Controllers.Clients
         {
             _clientService = clientService;
         }
-        [HttpGet("Client")]
+        [HttpGet("GetClients")]
         public async Task<IActionResult> GetAllCLient()
         {
             try
@@ -33,21 +33,21 @@ namespace JurassicPharm.Controllers.Clients
             }
         }
 
-        [HttpPost("Client")]
+        [HttpPost("NewClient")]
         public async Task<IActionResult> CreateClient([FromBody] CreateClientDTO client)
         {
             if (client.IdHealthPlan <= 0 || client.IdCity <= 0)
             {
-                return BadRequest("Invalid Health Plan or City");
+                return BadRequest("Obra Social o Ciudad incorrecta");
             }
             try
             {
                 bool isCreated = await _clientService.CreateClient(client);
                 if (isCreated)
                 {
-                    return Ok("Client created successfully");
+                    return Ok("Client Creado con Exito");
                 }
-                return BadRequest("The client was not created");
+                return BadRequest("El cliente no pudo ser creado");
             }
             catch (Exception error)
             {
@@ -55,7 +55,7 @@ namespace JurassicPharm.Controllers.Clients
                 );
             }
         }
-        [HttpDelete("Client/{idClient}")]
+        [HttpDelete("DeleteClient/{idClient}")]
         public async Task<IActionResult> Delete([FromRoute] int idClient)
         {
             try
@@ -64,10 +64,10 @@ namespace JurassicPharm.Controllers.Clients
 
                 if (isDeleted)
                 {
-                    return Ok("Invoice deleted successfully");
+                    return Ok("Cliente Eliminado Correctamente");
                 }
 
-                return BadRequest("The invoice was not deleted");
+                return BadRequest("El Cliente no fue eliminado");
             }
             catch (Exception error)
             {
@@ -86,10 +86,10 @@ namespace JurassicPharm.Controllers.Clients
 
                 if (isUpdated)
                 {
-                    return Ok("Invoice updated successfully");
+                    return Ok("Cliente actualizado correctamente");
                 }
 
-                return BadRequest("The invoice was not updated");
+                return BadRequest("El cliente no pudo ser actualizado");
             }
             catch (Exception error)
             {

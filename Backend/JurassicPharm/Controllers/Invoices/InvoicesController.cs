@@ -2,6 +2,7 @@ using JurassicPharm.DTO.Invoice;
 using JurassicPharm.DTO.InvoIce;
 using JurassicPharm.Models;
 using JurassicPharm.Services.Invoices;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace JurassicPharm.Controllers.Invoices
@@ -16,14 +17,14 @@ namespace JurassicPharm.Controllers.Invoices
             _invoiceService = invoiceService;
         }
 
-        [HttpGet("check-prescription-date/{clientId}")]
+        [HttpGet("checkPrescriptionDate/{clientId}")]
         public async Task<IActionResult> CheckPrescriptionDate(int clientId)
         {
             var result = await _invoiceService.CheckProlongedPrescriptionDate(clientId);
             return Ok(result);
         }
 
-        [HttpGet("billing-report")]
+        [HttpGet("billingReport")]
         public async Task<IActionResult> GetBillingReport()
         {
             var report = await _invoiceService.GetBillingReportBySupplyType();
@@ -37,14 +38,14 @@ namespace JurassicPharm.Controllers.Invoices
             return Ok(discount);
         }
 
-        [HttpGet("top-suppliers")]
+        [HttpGet("topSuppliers")]
         public async Task<IActionResult> GetTopSuppliers()
         {
             var suppliers = await _invoiceService.GetTopSuppliersByDeliveries();
             return Ok(suppliers);
         }
 
-        [HttpGet("invoice")]
+        [HttpGet("GetInvoices")]
         public async Task<IActionResult> GetAll()
         {
             try
@@ -61,8 +62,8 @@ namespace JurassicPharm.Controllers.Invoices
             }
         }
 
-
-        [HttpPost("invoice")]
+        [Authorize("AdminOrCashier")]
+        [HttpPost("NewInvoice")]
         public async Task<IActionResult> Create([FromBody] InvoiceCreateDTO invoice)
         {
             if (invoice.ClientId <= 0 || invoice.BranchId <= 0)
@@ -91,7 +92,8 @@ namespace JurassicPharm.Controllers.Invoices
 
         }
 
-        [HttpDelete("invoice/{invoiceId}")]
+        [Authorize("AdminOrCashier")]
+        [HttpDelete("DeleteInvoice/{invoiceId}")]
         public async Task<IActionResult> Delete([FromRoute] int invoiceId)
         {
             try
@@ -113,8 +115,8 @@ namespace JurassicPharm.Controllers.Invoices
                 );
             }
         }
-
-        [HttpPut("invoice/{invoiceId}")]
+        [Authorize("AdminOrCashier")]
+        [HttpPut("UpdateInvoice/{invoiceId}")]
         public async Task<IActionResult> Update([FromBody] InvoiceUpdateDTO invoice, [FromRoute] int invoiceId)
         {
             try
