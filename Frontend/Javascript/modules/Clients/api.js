@@ -3,7 +3,7 @@ const token = localStorage.getItem("jwtToken");
 
 export async function fetchClients() {
   try {
-    const response = await fetch("http://localhost:3000/api/Client", {
+    const response = await fetch("http://localhost:3000/api/GetClients", {
       headers: {
         Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",

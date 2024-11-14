@@ -33,8 +33,7 @@ const generateTable = async () => {
                 <td>${client.street} ${client.number}</td>
                 <td>${client.city}</td>
                 <td>${client.state}</td>
-                <td>${client.healthPlan}</td>
-
+                <td>${client.healthPlan ? client.healthPlan : "No Registrado"}</td>
             </tr>
         `;
   });
