@@ -82,44 +82,13 @@ namespace JurassicPharm.Repositories.Invoices
             }
         }
 
-
-        public async Task<bool> Delete(int invoiceId)
-        {
-            var invoicesToDelete = await GetInvoceById(invoiceId);
-
-            if (invoicesToDelete == null)
-            {
-                throw new Exception("Invoce not found");
-            }
-
-            using var transaction = await _context.Database.BeginTransactionAsync();
-
-            try
-            {   //First, bulk delete all details from invoice
-                _context.DetallesFactura.Where(detail => detail.NroFactura == invoiceId).ExecuteDelete();
-
-                //Then remove invoice
-                _context.Facturas.Remove(invoicesToDelete);
-
-                await _context.SaveChangesAsync();
-
-                await transaction.CommitAsync();
-
-                return true;
-            }
-            catch (Exception)
-            {
-                await transaction.RollbackAsync();
-                return false;
-            }
-        }
-
         public async Task<Factura?> GetInvoceById(int invoiceId)
         {
             return await _context.Facturas.FirstOrDefaultAsync(invoice => invoice.NroFactura == invoiceId);
         }
 
         public async Task<List<InvoiceResponseDTO>> GetAll()
+
         {
             return await _context.Facturas
                 .Include(invoice => invoice.DetallesFactura)
@@ -140,29 +109,6 @@ namespace JurassicPharm.Repositories.Invoices
                         Amount = (int)detail.Cantidad
                     }).ToList()
                 }).ToListAsync();
-        }
-
-
-        public async Task<bool> Update(InvoiceUpdateDTO invoice, int invoiceId)
-        {
-            bool result = false;
-
-            var invoiceToUpdate = await _context.Facturas.FindAsync(invoiceId);
-
-            if (invoiceToUpdate == null)
-            {
-                throw new Exception("Invoice not found");
-            }
-
-            invoiceToUpdate.IdCliente = invoice.ClientId;
-            invoiceToUpdate.IdSucursal = invoice.BranchId;
-            invoiceToUpdate.Fecha = invoice.Date;
-
-            _context.Facturas.Update(invoiceToUpdate);
-
-            result = await _context.SaveChangesAsync() == 1;
-
-            return result;
         }
 
         public async Task<string> CheckProlongedPrescriptionDate(int clientId)
