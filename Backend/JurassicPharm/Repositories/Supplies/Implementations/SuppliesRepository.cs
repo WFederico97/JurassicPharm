@@ -1,12 +1,8 @@
-using JurassicPharm.DTO.Personnel;
-using JurassicPharm.DTO.Stores;
 using JurassicPharm.DTO.Supplies;
 using JurassicPharm.Models;
 using JurassicPharm.Repositories.Exceptions;
 using JurassicPharm.Repositories.Supplies.Interfaces;
 using Microsoft.EntityFrameworkCore;
-using System.Net.Mail;
-using System.Text.RegularExpressions;
 
 namespace JurassicPharm.Repositories.Supplies.implementations
 {
@@ -19,6 +15,48 @@ namespace JurassicPharm.Repositories.Supplies.implementations
             _context = context;
         }
 
+        public async Task<List<ViewFacturacionPorSuministroAnual>> GetCurrentYearSalesBySupply()
+        {
+            return await _context.ViewFacturacionPorSuministroAnual
+                .Where(v => v.Anio == DateTime.Now.Year)
+                .ToListAsync();
+        }
+
+        public async Task<Dictionary<string, List<SelectOptionDTO>>> GetSelectOptionsDictionary()
+        {
+            var marcas = await _context.Marcas
+                .Select(m => new SelectOptionDTO
+                {
+                    Id = m.IdMarca,
+                    Nombre = m.Nombre
+                })
+                .ToListAsync();
+
+            var tiposSuministro = await _context.TiposSuministro
+                .Select(ts => new SelectOptionDTO
+                {
+                    Id = ts.IdTipoSuministro,
+                    Nombre = ts.Nombre
+                })
+                .ToListAsync();
+
+            var tiposDistribucion = await _context.TiposDistribucion
+                .Select(td => new SelectOptionDTO
+                {
+                    Id = td.IdTipoDistribucion,
+                    Nombre = td.Descripcion
+                })
+                .ToListAsync();
+
+            var result = new Dictionary<string, List<SelectOptionDTO>>
+                {
+                    { "marcas", marcas },
+                    { "tiposSuministro", tiposSuministro },
+                    { "tiposDistribucion", tiposDistribucion }
+                };
+
+            return result;
+        }
         public async Task<List<GetSupplyDTO>> GetAllSupply()
         {
             var suministros = await _context.Suministros
@@ -42,16 +80,15 @@ namespace JurassicPharm.Repositories.Supplies.implementations
 
         public async Task<bool> CreateSupply(CreateSupplyDTO supply)
         {
-            bool flag = false;
-
             var marca = await _context.Marcas
-                .Where(m => m.IdMarca == supply.IdBrand).ToListAsync();
+                .FirstOrDefaultAsync(m => m.IdMarca == supply.IdBrand);
             if (marca == null)
             {
                 throw new Exception("Marca Inexistente");
             }
+
             var distribucion = await _context.TiposDistribucion
-                .Where(d => d.IdTipoDistribucion == supply.IdDistribution).ToListAsync();
+                .FirstOrDefaultAsync(d => d.IdTipoDistribucion == supply.IdDistribution);
             if (distribucion == null)
             {
                 throw new Exception("Distribucion Inexistente");
@@ -59,26 +96,25 @@ namespace JurassicPharm.Repositories.Supplies.implementations
 
             try
             {
-                Suministro NewSupply = new Suministro()
+                var newSupply = new Suministro
                 {
                     Nombre = supply.Name,
                     PreUnitario = supply.Price,
+                    Stock = supply.Stock,
+                    StockMinimo = supply.MinimumStock,
                     IdTipoSuministro = supply.IdSupplyType,
                     IdTipoDistribucion = supply.IdDistribution,
                     IdMarca = supply.IdBrand
                 };
 
-                await _context.Suministros.AddAsync(NewSupply);
+                await _context.Suministros.AddAsync(newSupply);
                 await _context.SaveChangesAsync();
-                flag = true;
+                return true;
             }
             catch (Exception ex)
             {
                 throw new Exception($"Error al crear suministro: {ex.Message}");
             }
-
-            return flag;
-
         }
 
         public async Task<List<ViewFacturacionPorAnio>> GetSalesPerYear()
@@ -86,43 +122,37 @@ namespace JurassicPharm.Repositories.Supplies.implementations
             return await _context.ViewFacturacionPorAnio.ToListAsync();
         }
 
-        //public async Task<bool> DeleteSupply(int supplyId)
-        //{
-        //    Suministro SupplyToDelete = await _context.Suministros.Where (s => s.IdSupply == supplyId).FirstOrDefaultAsync(); 
-        //    if (SupplyToDelete == null)
-        //    {
-        //        throw new NotFoundException($"no se encontro el suministro {supplyId}");
-        //    }
 
-        //    SupplyToDelete.Active = false;
+        public async Task<bool> UpdateSupply(UpdateSupplyDTO supply, int codigo)
+        {
+            Suministro supplyToUpdate = await _context.Suministros.Where(s => s.IdSuministro == codigo).FirstOrDefaultAsync();
+            if (supplyToUpdate == null)
+            {
+                throw new NotFoundException($"No hay registros para el suministro con id: {codigo}");
+            }
 
-        //    _context.Suministros.Update(SupplyToDelete);
+            if (!string.IsNullOrEmpty(supply.Name) && supply.Name != supplyToUpdate.Nombre)
+            {
+                supplyToUpdate.Nombre = supply.Name;
+            }
 
-        //    return await _context.SaveChangesAsync() > 0;
-        //}
+            if ( supply.Price > 0 && supply.Price != supplyToUpdate.PreUnitario)
+            {
+                supplyToUpdate.PreUnitario = supply.Price;
+            }
+            if(supply.Stock > 0 && supply.Stock != supplyToUpdate.Stock)
+            {
+                supplyToUpdate.Stock = supply.Stock;
+            }
+            if(supply.StockMinimo > 0 && supply.StockMinimo != supplyToUpdate.StockMinimo)
+            {
+                supplyToUpdate.StockMinimo = supply.StockMinimo;
+            }
 
-        //public async Task<bool> UpdateSupply(CreateSupplyDTO supply, int codigo)
-        //{
-        //    Suministro supplyToUpdate = await _context.Suministros.Where(s => s.IdSupply == codigo & s.Active == true).FirstOrDefaultAsync();
-        //    if (supplyToUpdate == null)
-        //    {
-        //        throw new NotFoundException($"No hay registros para el suministro con id: {codigo}");
-        //    }
+            _context.Suministros.Update(supplyToUpdate);
 
-        //    if (!string.IsNullOrEmpty(supply.Name) && supply.Name != supplyToUpdate.Nombre)
-        //    {
-        //        supplyToUpdate.Nombre = supply.Name;
-        //    }
-
-        //    if (!string.IsNullOrEmpty(supply.Price) && supply.Price != supplyToUpdate.PreUnitario)
-        //    {
-        //        supplyToUpdate.PreUnitario = supply.Price;
-        //    }
-
-        //    _context.Suministros.Update(supplyToUpdate);
-
-        //    return await _context.SaveChangesAsync() > 0;
-        //}
+            return await _context.SaveChangesAsync() > 0;
+        }
     }
 }
 

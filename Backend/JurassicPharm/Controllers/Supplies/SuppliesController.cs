@@ -1,5 +1,7 @@
 ﻿using JurassicPharm.DTO.Supplies;
+using JurassicPharm.Services.Supplies.Implementations;
 using JurassicPharm.Services.Supplies.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,8 +18,27 @@ namespace JurassicPharm.Controllers.Supplies
             _service = service;
         }
 
-        [HttpGet("Supplies")]
+        [HttpGet("salesBySupply")]
+        public async Task<IActionResult> GetSalesBySupply()
+        {
+            try
+            {
+                var result = await _service.GetCurrentYearSalesBySupply();
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Error al obtener la facturación por suministro: {ex.Message}");
+            }
+        }
+        [HttpGet("selectOptions")]
+        public async Task<IActionResult> GetSelectOptions()
+        {
+            var result = await _service.GetSelectOptions();
+            return Ok(result);
+        }
 
+        [HttpGet("Supplies")]
         public async Task<IActionResult> GetAllSupply()
         {
             try
@@ -30,7 +51,7 @@ namespace JurassicPharm.Controllers.Supplies
             }
         }
 
-
+        [Authorize("RequireStockManagerRole")]
         [HttpPost("NewSupply")]
 
         public async Task<IActionResult> CreateSupply([FromBody] CreateSupplyDTO supply)
@@ -40,7 +61,7 @@ namespace JurassicPharm.Controllers.Supplies
                 bool isValid = await _service.CreateSupply(supply);
                 if (isValid)
                 {
-                    Ok("Suministro creado con exito");
+                    return Ok("Suministro creado con exito");
                 }
                 return StatusCode(500, $"Error al realizar la operacion");
             }
@@ -49,10 +70,25 @@ namespace JurassicPharm.Controllers.Supplies
                 return StatusCode(500, $"Error al realizar la operacion: {ex.Message}");
             }
         }
-        //public async Task<IActionResult> DeleteSupply()
-        //{
 
-        //}
+        [Authorize("RequireStockManagerRole")]
+        [HttpPut("UpdateSupply/{codigo}")]
+        public async Task<IActionResult> UpdateSupply([FromBody] UpdateSupplyDTO supply,[FromRoute] int codigo)
+        {
+            try
+            {
+                bool isValid = await _service.UpdateSupply(supply, codigo);
+                if (isValid)
+                {
+                    return Ok("Suministro actualizado con exito");
+                }
+                return StatusCode(500, $"Error al realizar la operacion");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Error al realizar la operacion: {ex.Message}");
+            }
+        }
 
 
 

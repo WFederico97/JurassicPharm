@@ -14,6 +14,14 @@ namespace JurassicPharm.Services.Supplies.Implementations
         {
             _repository = repository;
         }
+        public async Task<List<ViewFacturacionPorSuministroAnual>> GetCurrentYearSalesBySupply()
+        {
+            return await _repository.GetCurrentYearSalesBySupply();
+        }
+        public async Task<Dictionary<string, List<SelectOptionDTO>>> GetSelectOptions()
+        {
+            return await _repository.GetSelectOptionsDictionary();
+        }
 
         public async Task<List<GetSupplyDTO>> GetAllSupply()
         {
@@ -30,15 +38,10 @@ namespace JurassicPharm.Services.Supplies.Implementations
             return await _repository.GetSalesPerYear();
         }
 
-        //public async Task<bool> DeleteSupply(int supplyId)
-        //{
-        //    return await _repository.DeleteSupply(supplyId);
-        //}
-
-        //public async Task<bool> UpdateSupply(CreateSupplyDTO supply, int codigo) 
-        //{
-        //    return await _repository.UpdateSupply(supply, codigo);
-        //}
+        public async Task<bool> UpdateSupply(UpdateSupplyDTO supply, int codigo)
+        {
+            return await _repository.UpdateSupply(supply, codigo);
+        }
 
     }
 }
