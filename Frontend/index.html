@@ -32,7 +32,7 @@
             <span class="fs-5">Jurassic Pharm</span>
           </div>
           <hr />
-          <nav>
+          <nav class="d-flex flex-column flex-grow-1">
             <ul class="nav nav-pills flex-column mb-auto py-5 text-center">
               <li class="nav-item">
                 <a
@@ -112,20 +112,20 @@
         <div class="col-md-9 col-lg-10 d-flex flex-column p-0">
           <!-- Header -->
           <header class="p-3 bg-light text-center">
-            <h1 class="fs-1">JURASSIC PHARM S.A</h1>
+            <h1 class="fs-2">JURASSIC PHARM S.A</h1>
           </header>
           <div id="alertContainer" class="container mt-3"></div>
 
           <div>
-            <div class="p-5 dashboard-container">
+            <div class="dashboard-container">
               <h1 class="fs-3 fw-bold mb-4">Dashboard de Ventas</h1>
 
               <!-- Sales Form -->
               <div class="card shadow-sm" id="salesFormContainer">
-                <div class="card-body flex">
+                <div class="card-body d-flex flex-wrap">
                   <h2 class="card-title fs-5 fw-bold">Agregar Venta</h2>
 
-                  <form id="create-invoice-form" class="form w-100">
+                  <form id="create-invoice-form" class="form w-100 me-5">
                     <label>
                       <select
                         id="create-invoice-client-select"
@@ -154,6 +154,7 @@
                       <input
                         required
                         type="number"
+                        min="0"
                         id="create-invoice-supply-price-input"
                         class="input"
                       />
@@ -162,6 +163,7 @@
                     <label>
                       <input
                         required
+                        min="0"
                         type="number"
                         id="create-invoice-supply-amount-input"
                         class="input"
@@ -250,7 +252,10 @@
               </div>
 
               <!-- Chart Container -->
-              <div class="card mb-5 shadow-sm" id="salesBySuppliesChartContainer">
+              <div
+                class="card mb-5 shadow-sm"
+                id="salesBySuppliesChartContainer"
+              >
                 <div class="card-body">
                   <h2 class="card-title fs-5 fw-bold">
                     Gráfico de facturacion por suministro

@@ -12,6 +12,8 @@ using JurassicPharm.Services.Branches.Implementations;
 using JurassicPharm.Services.Branches.Interfaces;
 using JurassicPharm.Services.Clients.Implementations;
 using JurassicPharm.Services.Clients.Interfaces;
+using JurassicPharm.Services.EmailSenderService;
+using JurassicPharm.Services.EmailSenderService.Implementations;
 using JurassicPharm.Services.Invoices;
 using JurassicPharm.Services.JWT;
 using JurassicPharm.Services.Personnel.Implementations;
@@ -75,6 +77,8 @@ builder.Services.AddScoped<IClientRepository, ClientRepository>();
 /*--Branches--*/
 builder.Services.AddScoped<IBranchesService, BranchesService>();
 builder.Services.AddScoped<IBranchesRepository, BranchesRepository>();
+/*--EmailSender--*/
+builder.Services.AddScoped<IEmailSender, EmailSenderService>();
 
 
 //Authorization
