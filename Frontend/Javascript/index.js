@@ -26,8 +26,6 @@ if (tokenStored == null) {
 
 document.getElementById("logout").addEventListener("click", logout);
 async function logout() {
-  localStorage.removeItem("jwtToken");
-  localStorage.removeItem("userEmail");
-  localStorage.removeItem("userRole");
+  localStorage.clear();
   window.location = "../Pages/login.html";
 }

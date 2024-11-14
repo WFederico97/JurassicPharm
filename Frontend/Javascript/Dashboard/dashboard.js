@@ -75,9 +75,6 @@ const createSalesChart = async () => {
   );
 
   const salesChart = document.getElementById("salesChart").getContext("2d");
-  const salesBySupplyChart = document
-    .getElementById("salesBySupplyChart")
-    .getContext("2d");
 
   new Chart(salesChart, {
     type: "bar",
@@ -111,49 +108,72 @@ const createSalesChart = async () => {
       },
     },
   });
-
-  new Chart(salesBySupplyChart, {
-    type: "bar",
-    data: {
-      labels: sales.map((sale) => sale.supply),
-      datasets: [
-        {
-          label: "Facturacion por suministro ($)",
-          data: sales.map((sale) => sale.total),
-          fill: false,
-          borderColor: "rgb(75, 192, 192)",
-          backgroundColor: [
-            "rgb(255, 99, 132)",
-            "rgb(255, 159, 64)",
-            "rgb(255, 205, 86)",
-            "rgb(75, 192, 192)",
-            "rgb(54, 162, 235)",
-            "rgb(153, 102, 255)",
-            "rgb(201, 203, 207)",
-          ],
-          tension: 0.1,
-        },
-      ],
-    },
-    options: {
-      responsive: true,
-      scales: {
-        y: {
-          beginAtZero: true,
-        },
-      },
-      plugins: {
-        tooltip: {
-          callbacks: {
-            label: function (context) {
-              return `Facturacion: $${context.raw.toFixed(2)}`;
-            },
-          },
-        },
-      },
-    },
-  });
 };
+
+const createSalesBySuppliesChart = async () => {
+  const annualSuppliesSales = await salesBySupply();
+  console.log(annualSuppliesSales)
+  if (annualSuppliesSales.length === 0) return;
+
+  const years = annualSuppliesSales.map((sale) => sale.anio);
+
+  
+  const yearsWithotDuplicates = new Set(years);
+  const yearsArray = Array.from(yearsWithotDuplicates);
+  console.log(yearsArray)
+
+  const totalsByYear = yearsArray.map((year) =>
+    annualSuppliesSales.reduce((acc, item) => {
+      return item.anio === year ? acc + item.total : acc;
+    }, 0)
+  );
+  
+  const salesBySupplyChart = document.getElementById("salesBySuppliesChart").getContext("2d");
+
+
+  // new Chart(salesBySupplyChart, {
+  //   type: "bar",
+  //   data: {
+  //     labels: sales.map((sale) => sale.supply),
+  //     datasets: [
+  //       {
+  //         label: "Facturacion por suministro ($)",
+  //         data: sales.map((sale) => sale.total),
+  //         fill: false,
+  //         borderColor: "rgb(75, 192, 192)",
+  //         backgroundColor: [
+  //           "rgb(255, 99, 132)",
+  //           "rgb(255, 159, 64)",
+  //           "rgb(255, 205, 86)",
+  //           "rgb(75, 192, 192)",
+  //           "rgb(54, 162, 235)",
+  //           "rgb(153, 102, 255)",
+  //           "rgb(201, 203, 207)",
+  //         ],
+  //         tension: 0.1,
+  //       },
+  //     ],
+  //   },
+  //   options: {
+  //     responsive: true,
+  //     scales: {
+  //       y: {
+  //         beginAtZero: true,
+  //       },
+  //     },
+  //     plugins: {
+  //       tooltip: {
+  //         callbacks: {
+  //           label: function (context) {
+  //             return `Facturacion: $${context.raw.toFixed(2)}`;
+  //           },
+  //         },
+  //       },
+  //     },
+  //   },
+  // });
+}
+
 
 function createStoreChart(stores) {
   const ctx = document.getElementById("storeChart").getContext("2d");
@@ -256,6 +276,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   fetchEmployeesByStore();
   populateDataToCreateInvoice();
   createSalesChart();
+  createSalesBySuppliesChart();
 });
 document
   .getElementById("create-invoice-form")
