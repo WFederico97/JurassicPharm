@@ -23,6 +23,7 @@ using JurassicPharm.Services.Supplies.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -54,7 +55,37 @@ builder.Services.AddScoped<JwtService>();
 
 //Swagger
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+//Swagger configuration
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "JurassicPharm", Version = "v1" });
+
+    // Configuración para JWT
+    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        Name = "Authorization",
+        Type = SecuritySchemeType.Http,
+        Scheme = "bearer",
+        BearerFormat = "JWT",
+        In = ParameterLocation.Header,
+        Description = "Introduce el token JWT aquí. Ejemplo: Bearer {token}"
+    });
+
+    c.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Type = ReferenceType.SecurityScheme,
+                    Id = "Bearer"
+                }
+            },
+            Array.Empty<string>()
+        }
+    });
+});
 
 //DB Contex
 builder.Services.AddDbContext<JurassicPharmContext>(
@@ -82,10 +113,15 @@ builder.Services.AddScoped<IEmailSender, EmailSenderService>();
 
 
 //Authorization
-builder.Services.AddAuthorization(options =>
-{
-    options.AddPolicy("RequireAdminRole", policy => policy.RequireRole("ADMIN"));
-});
+builder.Services.AddAuthorizationBuilder()
+                   //Authorization
+                   .AddPolicy("RequireAdminRole", policy => policy.RequireRole("ADMIN"))
+                   //Authorization
+                   .AddPolicy("RequireStockManagerRole", policy => policy.RequireRole("REPOSITOR"))
+                   //Authorization
+                   .AddPolicy("RequireCashierRole", policy => policy.RequireRole("CAJERO"))
+                   //Authorization
+                   .AddPolicy("AdminOrCashier", policy => policy.RequireRole("ADMIN", "CAJERO"));
 
 //Authentication
 builder.Services.AddAuthentication(options =>
@@ -117,11 +153,12 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseCors("AllowFrontend");
 
+app.UseCors("AllowFrontend");
 app.UseHttpsRedirection();
 
 app.UseAuthentication();
+
 
 app.UseAuthorization();
 
