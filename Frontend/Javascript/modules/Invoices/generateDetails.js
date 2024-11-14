@@ -8,11 +8,11 @@ export const generateDetails = (details) => {
 
   modalTableBody = document.createElement("tbody");
 
-  details.forEach(({ supplyName, unitPrice, amount }) => {
+  details.forEach(({ supplyName, salePrice, amount }) => {
     const row = document.createElement("tr");
     row.innerHTML = `
             <td>${supplyName}</td>
-            <td>$${unitPrice}</td>
+            <td>$${salePrice}</td>
             <td>${amount}</td>
           `;
     modalTableBody.appendChild(row);

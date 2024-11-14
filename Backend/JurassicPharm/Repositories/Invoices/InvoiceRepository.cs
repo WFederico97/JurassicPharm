@@ -136,7 +136,7 @@ namespace JurassicPharm.Repositories.Invoices
                     Details = invoice.DetallesFactura.Select(detail => new InvoiceDetailResponseDTO
                     {
                         SupplyName = detail.IdSuministroNavigation.Nombre,
-                        UnitPrice = (int)detail.IdSuministroNavigation.PreUnitario,
+                        SalePrice = (int)detail.PreVenta,
                         Amount = (int)detail.Cantidad
                     }).ToList()
                 }).ToListAsync();
