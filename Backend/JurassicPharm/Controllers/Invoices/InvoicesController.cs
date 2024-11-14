@@ -91,53 +91,5 @@ namespace JurassicPharm.Controllers.Invoices
             }
 
         }
-
-        [Authorize("AdminOrCashier")]
-        [HttpDelete("DeleteInvoice/{invoiceId}")]
-        public async Task<IActionResult> Delete([FromRoute] int invoiceId)
-        {
-            try
-            {
-                bool isDeleted = await _invoiceService.Delete(invoiceId);
-
-                if (isDeleted)
-                {
-                    return Ok("Invoice deleted successfully");
-                }
-
-                return BadRequest("The invoice was not deleted");
-            }
-            catch (Exception error)
-            {
-                return StatusCode(
-                    500,
-                    $"An unexpected error occurred while deleting invoice. Error: {error.Message}"
-                );
-            }
-        }
-        [Authorize("AdminOrCashier")]
-        [HttpPut("UpdateInvoice/{invoiceId}")]
-        public async Task<IActionResult> Update([FromBody] InvoiceUpdateDTO invoice, [FromRoute] int invoiceId)
-        {
-            try
-            {
-                bool isUpdated = await _invoiceService.Update(invoice, invoiceId);
-
-                if (isUpdated)
-                {
-                    return Ok("Invoice updated successfully");
-                }
-
-                return BadRequest("The invoice was not updated");
-            }
-            catch (Exception error)
-            {
-                return StatusCode(
-                    500,
-                    $"An unexpected error occurred while updating invoice. Error: {error.Message}"
-                );
-            }
-        }
-
     }
 }
