@@ -2,6 +2,7 @@ import { showAlert } from "../helpers/showAlert.js";
 
 let employees = [];
 const userRole = localStorage.getItem("role");
+const token = localStorage.getItem("jwtToken");
 
 // Check user role and display the "Add Employee" button if the user is an ADMIN
 if (userRole === "ADMIN") {
@@ -86,6 +87,9 @@ document
       updatedFields.correoElectronico = correoElectronico;
     if (rol !== originalEmployee.rol) updatedFields.rol = rol;
 
+    // Update local storage with new role
+    localStorage.setItem("role", rol);
+    
     // Send updated data to API if there are changes
     if (Object.keys(updatedFields).length > 0) {
       updatedFields.legajoEmpleado = originalEmployee.legajoEmpleado;
@@ -258,7 +262,7 @@ const generateTable = async () => {
                   type="button" 
                   class="btn btn-primary rounded-pill px-3 m-1 editBtn"  
                   data-bs-toggle="modal" 
-                  data-bs-target="#editInvoiceModal" 
+                  data-bs-target="#editEmployeeModal" 
                   data-index="${index}"
                   ${userRole != "ADMIN" ? "disabled" : ""}
                 >
