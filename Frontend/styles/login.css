@@ -57,3 +57,89 @@ body {
 .btn-login-font:hover {
   color: #000;
 }
+
+.forgot-password-link{
+  all: unset; /* Reinicia todos los estilos por defecto */
+  cursor: pointer; /* Asegura que tenga el cursor de enlace */
+  color: white; /* Color de texto, puedes cambiarlo */
+  text-decoration: underline; /* Subrayado como enlace */
+  font-size: inherit; /* Hereda el tamaño de fuente */
+}
+.forgot-password-link:hover{
+  opacity: 0.8;
+}
+
+
+/*reset password modal */
+
+.container {
+  width: 100%;
+  max-width: 400px;
+  padding: 20px;
+  text-align: center;
+}
+
+.logo {
+  width: 120px;
+  height: 120px;
+  margin-bottom: 20px;
+  background-color: #8BA89B;
+  border-radius: 25px;
+  padding: 15px;
+  margin: 0 auto 30px;
+}
+
+h1 {
+  color: white;
+  font-size: 28px;
+  margin-bottom: 30px;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+input {
+  width: 100%;
+  padding: 15px;
+  border: none;
+  border-radius: 8px;
+  background-color: #ffffff;
+  font-size: 16px;
+  box-sizing: border-box;
+  margin-bottom: 15px;
+}
+
+button {
+  width: 100%;
+  padding: 15px;
+  border: none;
+  border-radius: 8px;
+  background-color: #0D4B26;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+button:hover {
+  background-color: #0A3B1E;
+}
+
+
+
+.modal-content{
+  background: -webkit-linear-gradient(
+    to right,
+    #0f0c29,
+    #302b63,
+    #24243e
+  ); /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(
+    to right,
+    #0f0c29,
+    #302b63,
+    #24243e
+  );
+}
+

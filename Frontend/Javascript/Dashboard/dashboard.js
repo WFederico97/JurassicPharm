@@ -58,102 +58,102 @@ async function fetchEmployeesByStore() {
   }
 }
 
-// const createSalesChart = async () => {
-//   const sales = await fetchBilingReport();
+const createSalesChart = async () => {
+  const sales = await fetchBilingReport();
 
-//   if (sales.length === 0) return;
+  if (sales.length === 0) return;
 
-//   const years = sales.map((sale) => sale.year);
+  const years = sales.map((sale) => sale.year);
 
-//   const yearsWithotDuplicates = new Set(years);
-//   const yearsArray = Array.from(yearsWithotDuplicates);
+  const yearsWithotDuplicates = new Set(years);
+  const yearsArray = Array.from(yearsWithotDuplicates);
 
-//   const totalsByYear = yearsArray.map((year) =>
-//     sales.reduce((acc, item) => {
-//       return item.year === year ? acc + item.total : acc;
-//     }, 0)
-//   );
+  const totalsByYear = yearsArray.map((year) =>
+    sales.reduce((acc, item) => {
+      return item.year === year ? acc + item.total : acc;
+    }, 0)
+  );
 
-//   const salesChart = document.getElementById("salesChart").getContext("2d");
-//   const salesBySupplyChart = document
-//     .getElementById("salesBySupplyChart")
-//     .getContext("2d");
+  const salesChart = document.getElementById("salesChart").getContext("2d");
+  const salesBySupplyChart = document
+    .getElementById("salesBySupplyChart")
+    .getContext("2d");
 
-//   new Chart(salesChart, {
-//     type: "bar",
-//     data: {
-//       labels: yearsArray,
-//       datasets: [
-//         {
-//           label: "Facturacion por año ($)",
-//           data: totalsByYear,
-//           backgroundColor: "#d17d0f",
-//           borderColor: "#d17d0f",
-//           borderWidth: 1,
-//         },
-//       ],
-//     },
-//     options: {
-//       responsive: true,
-//       scales: {
-//         y: {
-//           beginAtZero: true,
-//         },
-//       },
-//       plugins: {
-//         tooltip: {
-//           callbacks: {
-//             label: function (context) {
-//               return `Facturacion: $${context.raw.toFixed(2)}`;
-//             },
-//           },
-//         },
-//       },
-//     },
-//   });
+  new Chart(salesChart, {
+    type: "bar",
+    data: {
+      labels: yearsArray,
+      datasets: [
+        {
+          label: "Facturacion por año ($)",
+          data: totalsByYear,
+          backgroundColor: "#d17d0f",
+          borderColor: "#d17d0f",
+          borderWidth: 1,
+        },
+      ],
+    },
+    options: {
+      responsive: true,
+      scales: {
+        y: {
+          beginAtZero: true,
+        },
+      },
+      plugins: {
+        tooltip: {
+          callbacks: {
+            label: function (context) {
+              return `Facturacion: $${context.raw.toFixed(2)}`;
+            },
+          },
+        },
+      },
+    },
+  });
 
-//   new Chart(salesBySupplyChart, {
-//     type: "bar",
-//     data: {
-//       labels: sales.map((sale) => sale.supply),
-//       datasets: [
-//         {
-//           label: "Facturacion por suministro ($)",
-//           data: sales.map((sale) => sale.total),
-//           fill: false,
-//           borderColor: "rgb(75, 192, 192)",
-//           backgroundColor: [
-//             "rgb(255, 99, 132)",
-//             "rgb(255, 159, 64)",
-//             "rgb(255, 205, 86)",
-//             "rgb(75, 192, 192)",
-//             "rgb(54, 162, 235)",
-//             "rgb(153, 102, 255)",
-//             "rgb(201, 203, 207)",
-//           ],
-//           tension: 0.1,
-//         },
-//       ],
-//     },
-//     options: {
-//       responsive: true,
-//       scales: {
-//         y: {
-//           beginAtZero: true,
-//         },
-//       },
-//       plugins: {
-//         tooltip: {
-//           callbacks: {
-//             label: function (context) {
-//               return `Facturacion: $${context.raw.toFixed(2)}`;
-//             },
-//           },
-//         },
-//       },
-//     },
-//   });
-// };
+  new Chart(salesBySupplyChart, {
+    type: "bar",
+    data: {
+      labels: sales.map((sale) => sale.supply),
+      datasets: [
+        {
+          label: "Facturacion por suministro ($)",
+          data: sales.map((sale) => sale.total),
+          fill: false,
+          borderColor: "rgb(75, 192, 192)",
+          backgroundColor: [
+            "rgb(255, 99, 132)",
+            "rgb(255, 159, 64)",
+            "rgb(255, 205, 86)",
+            "rgb(75, 192, 192)",
+            "rgb(54, 162, 235)",
+            "rgb(153, 102, 255)",
+            "rgb(201, 203, 207)",
+          ],
+          tension: 0.1,
+        },
+      ],
+    },
+    options: {
+      responsive: true,
+      scales: {
+        y: {
+          beginAtZero: true,
+        },
+      },
+      plugins: {
+        tooltip: {
+          callbacks: {
+            label: function (context) {
+              return `Facturacion: $${context.raw.toFixed(2)}`;
+            },
+          },
+        },
+      },
+    },
+  });
+};
 
 function createStoreChart(stores) {
   const ctx = document.getElementById("storeChart").getContext("2d");
@@ -244,21 +244,19 @@ const populateDataToCreateInvoice = async () => {
 
 document.addEventListener("DOMContentLoaded", async () => {
   const role = localStorage.getItem("role");
-  if(role == 'ADMIN'){
-    document.getElementById("salesFormContainer").style.display = "none";
-  }
-  else if(role == 'CAJERO'){
+
+  if (role == "CAJERO") {
     document.getElementById("employeesByStoreContainer").style.display = "none";
     document.getElementById("storesChartContainer").style.display = "none";
     document.getElementById("annualSalesChartContainer").style.display = "none";
-    document.getElementById("salesBySuppliesChartContainer").style.display = "none";
+    document.getElementById("salesBySuppliesChartContainer").style.display =
+      "none";
   }
 
   fetchEmployeesByStore();
   populateDataToCreateInvoice();
-  // createSalesChart();
+  createSalesChart();
 });
-
 document
   .getElementById("create-invoice-form")
   .addEventListener("submit", async (e) => {
@@ -275,8 +273,8 @@ document
     );
 
     const tbody = document.getElementById("invoice-details-tbody-table");
-    tbody.innerHTML = "";
 
+    // Agregar el nuevo detalle al arreglo
     details.push({
       supplyId: supplySelect.value,
       name: selectedSupply.textContent,
@@ -284,64 +282,84 @@ document
       amount: amountInput.value,
     });
 
+    // Limpiar los campos del formulario
     supplySelect.value = "";
     priceInput.value = "";
     amountInput.value = "";
 
-    details.forEach(({ supplyId, salePrice, name, amount }) => {
-      tbody.innerHTML += ` <tr>
-                    <td>${supplyId}</td>
-                    <td>${name}</td>
-                    <td>${salePrice}</td>
-                    <td>${amount}</td>
-                    <td>
-                        <button 
-                  type="button" 
-                  class="btn btn-danger rounded-pill px-3 m-1 bin-button"  
-                  data-bs-toggle="modal" 
-                  data-bs-target="#deleteEmployeeModal" 
-                  
-                >
-                  <svg
-                    class="bin-top"
-                    viewBox="0 0 39 7"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <line y1="5" x2="39" y2="5" stroke="white" stroke-width="4"></line>
-                    <line
-                    x1="12"
-                    y1="1.5"
-                    x2="26.0357"
-                    y2="1.5"
-                    stroke="white"
-                    stroke-width="3"
-                    ></line>
-                  </svg>
-                  <svg
-                      class="bin-bottom"
-                      viewBox="0 0 33 39"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                  >
-                      <mask id="path-1-inside-1_8_19" fill="white">
-                      <path
-                          d="M0 0H33V35C33 37.2091 31.2091 39 29 39H4C1.79086 39 0 37.2091 0 35V0Z"
-                      ></path>
-                      </mask>
-                      <path
-                      d="M0 0H33H0ZM37 35C37 39.4183 33.4183 43 29 43H4C-0.418278 43 -4 39.4183 -4 35H4H29H37ZM4 43C-0.418278 43 -4 39.4183 -4 35V0H4V35V43ZM37 0V35C37 39.4183 33.4183 43 29 43V35V0H37Z"
-                      fill="white"
-                      mask="url(#path-1-inside-1_8_19)"
-                      ></path>
-                      <path d="M12 6L12 29" stroke="white" stroke-width="4"></path>
-                      <path d="M21 6V29" stroke="white" stroke-width="4"></path>
-                  </svg>
-                </button>              
-                    </td>
-                </tr>`;
+    // Actualizar la tabla
+    renderDetailsTable();
+  });
+
+/**
+ * Función para renderizar la tabla de detalles
+ */
+function renderDetailsTable() {
+  const tbody = document.getElementById("invoice-details-tbody-table");
+  tbody.innerHTML = ""; // Limpiar la tabla
+
+  details.forEach(({ supplyId, salePrice, name, amount }, index) => {
+    tbody.innerHTML += ` <tr>
+                  <td>${supplyId}</td>
+                  <td>${name}</td>
+                  <td>${salePrice}</td>
+                  <td>${amount}</td>
+                  <td>
+                      <button 
+                        type="button" 
+                        class="btn btn-danger rounded-pill px-3 m-1 bin-button"  
+                        data-index=${index}
+                      >
+                        <svg
+                          class="bin-top"
+                          viewBox="0 0 39 7"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <line y1="5" x2="39" y2="5" stroke="white" stroke-width="4"></line>
+                          <line
+                          x1="12"
+                          y1="1.5"
+                          x2="26.0357"
+                          y2="1.5"
+                          stroke="white"
+                          stroke-width="3"
+                          ></line>
+                        </svg>
+                        <svg
+                            class="bin-bottom"
+                            viewBox="0 0 33 39"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                        >
+                            <mask id="path-1-inside-1_8_19" fill="white">
+                            <path
+                                d="M0 0H33V35C33 37.2091 31.2091 39 29 39H4C1.79086 39 0 37.2091 0 35V0Z"
+                            ></path>
+                            </mask>
+                            <path
+                            d="M0 0H33H0ZM37 35C37 39.4183 33.4183 43 29 43H4C-0.418278 43 -4 39.4183 -4 35H4H29H37ZM4 43C-0.418278 43 -4 39.4183 -4 35V0H4V35V43ZM37 0V35C37 39.4183 33.4183 43 29 43V35V0H37Z"
+                            fill="white"
+                            mask="url(#path-1-inside-1_8_19)"
+                            ></path>
+                            <path d="M12 6L12 29" stroke="white" stroke-width="4"></path>
+                            <path d="M21 6V29" stroke="white" stroke-width="4"></path>
+                        </svg>
+                      </button>              
+                  </td>
+              </tr>`;
+  });
+
+  // Agregar evento a los botones de eliminación
+  const deleteInvoiceBtn = document.querySelectorAll(".btn-danger");
+  deleteInvoiceBtn.forEach((btn) => {
+    btn.addEventListener("click", (e) => {
+      const index = e.target.closest("button").getAttribute("data-index");
+      details.splice(index, 1); // Eliminar del arreglo
+      renderDetailsTable(); // Volver a renderizar la tabla
     });
   });
+}
 
 const confirmButton = document.getElementById("confirm");
 confirmButton.addEventListener("click", async () => {

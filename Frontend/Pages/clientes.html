@@ -96,6 +96,12 @@
                 <!-- Header -->
                 <header class="bg-light mb-4" style="height: 82px"></header>
                 <div id="alertContainer" class="container mt-3"></div>
+                <div id="addEmployeeButtonContainer" style="display: none;">
+                    <button type="button" class="btn btn-success rounded-pill btnAgregarEmpleado" data-bs-toggle="modal" data-bs-target="#addEmployeeModal">
+                      <span class="button__text">Agregar Empleado</span>
+                      <span class="button__icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" viewBox="0 0 24 24" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" stroke="currentColor" height="24" fill="none" class="svg"><line y2="19" y1="5" x2="12" x1="12"></line><line y2="12" y1="12" x2="19" x1="5"></line></svg></span>
+                    </button>
+                  </div>
                 <div class=" p-5 table-responsive" style="height: 100%;">
                     <table id="clients-table" class="table table-hover table-bordered align-middle caption-top">
                     <caption class="table-caption fs-4 fw-bold ">Listado de clientes</caption>
