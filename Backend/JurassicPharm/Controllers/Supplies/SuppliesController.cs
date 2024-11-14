@@ -18,19 +18,7 @@ namespace JurassicPharm.Controllers.Supplies
             _service = service;
         }
 
-        [HttpGet("salesBySupply")]
-        public async Task<IActionResult> GetSalesBySupply()
-        {
-            try
-            {
-                var result = await _service.GetCurrentYearSalesBySupply();
-                return Ok(result);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"Error al obtener la facturación por suministro: {ex.Message}");
-            }
-        }
+
         [HttpGet("selectOptions")]
         public async Task<IActionResult> GetSelectOptions()
         {
@@ -73,7 +61,7 @@ namespace JurassicPharm.Controllers.Supplies
 
         [Authorize("RequireStockManagerRole")]
         [HttpPut("UpdateSupply/{codigo}")]
-        public async Task<IActionResult> UpdateSupply([FromBody] UpdateSupplyDTO supply,[FromRoute] int codigo)
+        public async Task<IActionResult> UpdateSupply([FromBody] UpdateSupplyDTO supply, [FromRoute] int codigo)
         {
             try
             {

@@ -49,7 +49,7 @@ function checkTokenExpiration() {
   }
 }
 
-document.addEventListener("DOMContentLoaded", checkTokenExpiration);
+document?.addEventListener("DOMContentLoaded", checkTokenExpiration);
 
 //RESET PASSWORD
 const resetForm = document.querySelector(".reset-form");
@@ -57,7 +57,7 @@ const dangerAlert = document.querySelector(".alert-danger");
 const newPassword = document.getElementById("password");
 const confirmedPassword = document.getElementById("confirm-password");
 
-resetForm.addEventListener("submit", async (e) => {
+resetForm?.addEventListener("submit", async (e) => {
   e.preventDefault();
 
   if (newPassword.value !== confirmedPassword.value) {
@@ -92,7 +92,7 @@ resetForm.addEventListener("submit", async (e) => {
   }
 });
 
-confirmedPassword.addEventListener("change", (e) => {
+confirmedPassword?.addEventListener("change", (e) => {
   if (newPassword.value === e.target.value) {
     dangerAlert.classList.add("d-none");
   }

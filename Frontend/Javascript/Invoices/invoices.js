@@ -1,6 +1,6 @@
 import { showAlert } from "../helpers/showAlert.js";
 import { generateTable } from "../modules/Invoices/generateTable.js";
-import { getInvoices, updateInvoice } from "../modules/Invoices/api.js";
+import { getInvoices } from "../modules/Invoices/api.js";
 import { generateDetails } from "../modules/Invoices/generateDetails.js";
 import { setSelectedOption } from "../helpers/setSelectedOption.js";
 
@@ -50,78 +50,3 @@ const handleTableActions = (event, invoices) => {
       break;
   }
 };
-
-const prepareInvoiceEdit = (selectedInvoice, invoices) => {
-  //Populate select inputs
-  setClients(invoices);
-  setBranches(selectedInvoice.branch);
-
-  //Set values of selected invoice
-  setDefaultValue(selectedInvoice);
-};
-
-const setClients = (invoices) => {
-  const editClientSelect = document.getElementById("edit-client-select");
-  //Reset options
-  editClientSelect.innerHTML = "";
-
-  //Remove duplicated clients
-  const mapFromInvoices = new Map(
-    invoices.map((invoice) => [invoice.clientId, invoice])
-  );
-  const uniqueClients = [...mapFromInvoices.values()];
-
-  uniqueClients.forEach(({ clienLastName, clientName, clientId }) => {
-    editClientSelect.innerHTML += `<option value="${clientId}" >${clienLastName}, ${clientName}</option>`;
-  });
-};
-
-const setBranches = ({ id, address }) => {
-  const editBranchSelect = document.getElementById("edit-branch-select");
-
-  //Reset options
-  editBranchSelect.innerHTML = "";
-  editBranchSelect.innerHTML += `<option value="${id}">${address}</option>`;
-};
-
-const setDefaultValue = ({ clientId, date, branch: { id: branchId } }) => {
-  const clientOptions = document.querySelectorAll("#edit-client-select option");
-  const branchOptions = document.querySelectorAll("#edit-branch-select option");
-  const [ISOdate] = date.split("T");
-
-  document.getElementById("edit-date-input").value = ISOdate;
-
-  //To change the value of the selected item
-  setSelectedOption(clientOptions, String(clientId));
-  setSelectedOption(branchOptions, String(branchId));
-};
-
-const handleEdit = async (e) => {
-  e.preventDefault();
-  const clientId = document.getElementById("edit-client-select").value;
-  const branchId = document.getElementById("edit-branch-select").value;
-  const date = document.getElementById("edit-date-input").value;
-
-  const body = {
-    clientId,
-    branchId,
-    date: new Date(date).toISOString(),
-    invoiceNumber: selectedInvoiceNumber,
-  };
-
-  try {
-    //Close edit modal
-    document.querySelector(".btn-close").click();
-
-    await updateInvoice(body);
-
-    await getInvoicesAndGenerateTable();
-
-    showAlert("Factura actualizada con éxito", "success");
-  } catch (error) {
-    showAlert(`Error al actualizar factura: ${error.message}`, "danger");
-  }
-};
-
-const editInvoiceForm = document.getElementById("edit-invoice-form");
-editInvoiceForm.addEventListener("submit", handleEdit);

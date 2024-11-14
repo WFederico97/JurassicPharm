@@ -655,26 +655,6 @@ namespace JurassicPharm.Migrations
                     b.ToView("VIEW_FACTURACION_POR_ANIO", (string)null);
                 });
 
-            modelBuilder.Entity("JurassicPharm.Models.ViewFacturacionPorSuministroAnual", b =>
-                {
-                    b.Property<int>("Ano")
-                        .HasColumnType("int")
-                        .HasColumnName("Año");
-
-                    b.Property<string>("Suministro")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)")
-                        .HasColumnName("Suministro");
-
-                    b.Property<decimal>("TotalFacturado")
-                        .HasColumnType("decimal(18, 2)")
-                        .HasColumnName("TotalFacturado");
-
-                    b.ToTable((string)null);
-
-                    b.ToView("VIEW_FACTURACION_POR_SUMINISTRO_ANUAL", (string)null);
-                });
-
             modelBuilder.Entity("JurassicPharm.Models.Ciudad", b =>
                 {
                     b.HasOne("JurassicPharm.Models.Localidad", "IdLocalidadNavigation")
