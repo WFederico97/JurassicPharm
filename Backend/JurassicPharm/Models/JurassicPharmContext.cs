@@ -50,6 +50,7 @@ public partial class JurassicPharmContext : DbContext
     public virtual DbSet<TipoSuministro> TiposSuministro { get; set; }
 
     public virtual DbSet<ViewFacturacionPorAnio> ViewFacturacionPorAnio { get; set; }
+    public virtual DbSet<ViewFacturacionPorSuministroAnual> ViewFacturacionPorSuministroAnual { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -200,6 +201,13 @@ public partial class JurassicPharmContext : DbContext
         modelBuilder.Entity<ViewFacturacionPorAnio>(entity =>
         {
             entity.ToView("VIEW_FACTURACION_POR_ANIO");
+        });
+        modelBuilder.Entity<ViewFacturacionPorSuministroAnual>(entity =>
+        {
+            entity.ToView("VIEW_FACTURACION_POR_SUMINISTRO_ANUAL");
+            entity.HasNoKey();
+            entity.Property(e => e.TotalFacturado).HasColumnType("decimal(18, 2)");
+
         });
 
         OnModelCreatingGeneratedFunctions(modelBuilder);
