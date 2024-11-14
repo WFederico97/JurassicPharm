@@ -5,7 +5,6 @@ namespace JurassicPharm.Repositories.Supplies.Interfaces
 {
     public interface IsuppliesRepository
     {
-        Task<List<ViewFacturacionPorSuministroAnual>> GetCurrentYearSalesBySupply();
         Task<Dictionary<string, List<SelectOptionDTO>>> GetSelectOptionsDictionary();
         Task<List<GetSupplyDTO>> GetAllSupply();
         Task<List<ViewFacturacionPorAnio>> GetSalesPerYear();

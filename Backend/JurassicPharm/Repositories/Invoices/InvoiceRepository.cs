@@ -194,7 +194,20 @@ namespace JurassicPharm.Repositories.Invoices
 
         public async Task<List<ViewFacturacionPorAnio>> GetBillingReportBySupplyType()
         {
-            return await _context.ViewFacturacionPorAnio.ToListAsync();
+            List<ViewFacturacionPorAnio> list = new List<ViewFacturacionPorAnio>();
+
+            var bilingReports = await _context.ViewFacturacionPorAnio.ToListAsync();
+
+            bilingReports.ForEach(report =>
+            {
+                list.Add(new ViewFacturacionPorAnio()
+                {
+                    Supply = report.Supply,
+                    Year = report.Year,
+                    Total = report.Total
+                });
+            });
+            return bilingReports;
         }
 
         public async Task<decimal> GetDiscountByInsurance(int obraSocialId, int invoiceNumber)
