@@ -1,7 +1,7 @@
 const token = localStorage.getItem("jwtToken");
 
 export const getInvoices = async () => {
-  const response = await fetch("http://localhost:3000/api/invoice", {
+  const response = await fetch("http://localhost:3000/api/GetInvoices", {
     method: "GET",
     headers: {
       Authorization: `Bearer ${token}`,
@@ -12,7 +12,7 @@ export const getInvoices = async () => {
   return response.ok ? await response.json() : [];
 };
 export const fetchBilingReport = async () => {
-  const response = await fetch("http://localhost:3000/api/billing-report", {
+  const response = await fetch("http://localhost:3000/api/billingReport", {
     method: "GET",
     headers: {
       Authorization: `Bearer ${token}`,
@@ -26,7 +26,7 @@ export const fetchBilingReport = async () => {
 export const updateInvoice = async (payload) => {
   const { invoiceNumber, ...body } = payload;
 
-  return await fetch(`http://localhost:3000/api/invoice/${invoiceNumber}`, {
+  return await fetch(`http://localhost:3000/api/UpdateInvoice/${invoiceNumber}`, {
     method: "PUT",
     headers: {
       Authorization: `Bearer ${token}`,
@@ -37,7 +37,7 @@ export const updateInvoice = async (payload) => {
 };
 
 export const createInvoice = async (payload) => {
-  return await fetch("http://localhost:3000/api/invoice", {
+  return await fetch("http://localhost:3000/api/NewInvoice", {
     method: "POST",
     headers: {
       Authorization: `Bearer ${token}`,
