@@ -17,5 +17,8 @@ namespace JurassicPharm.Services.Personnel.Interfaces
         Task<List<GetCitySummaryDTO>> GetCities();
         Task<List<GetStoreDTO>> GetStores();
         Task<string> CheckProlongedPrescriptionDate(int clientId);
+
+        Task ForgotPassword(string email);
+        Task ResetPassword(string token, string newPassword);
     }
 }
