@@ -44,7 +44,9 @@ async function fetchEmployeesByStore() {
                     <td data-label="Employees">${activeEmployees
                       .map((emp) => `${emp.nombre} ${emp.apellido}`)
                       .join(", ")}</td>
-                    <td data-label="Total Employees">${activeEmployees.length}</td>
+                    <td data-label="Total Employees">${
+                      activeEmployees.length
+                    }</td>
                     <td data-label="Administrators">${activeAdmins.length}</td>
                     <td data-label="Cashiers">${activeCashiers.length}</td>
                     <td data-label="Repositors">${activeRepositores.length}</td>
@@ -106,55 +108,13 @@ const createSalesChart = async (sales) => {
       },
     },
   });
-
-  new Chart(salesBySupplyChart, {
-    type: "bar",
-    data: {
-      labels: sales.map((sale) => sale.supply),
-      datasets: [
-        {
-          label: "Facturacion por suministro ($)",
-          data: sales.map((sale) => sale.total),
-          fill: false,
-          borderColor: "rgb(75, 192, 192)",
-          backgroundColor: [
-            "rgb(255, 99, 132)",
-            "rgb(255, 159, 64)",
-            "rgb(255, 205, 86)",
-            "rgb(75, 192, 192)",
-            "rgb(54, 162, 235)",
-            "rgb(153, 102, 255)",
-            "rgb(201, 203, 207)",
-          ],
-          tension: 0.1,
-        },
-      ],
-    },
-    options: {
-      responsive: true,
-      scales: {
-        y: {
-          beginAtZero: true,
-        },
-      },
-      plugins: {
-        tooltip: {
-          callbacks: {
-            label: function (context) {
-              return `Facturacion: $${context.raw.toFixed(2)}`;
-            },
-          },
-        },
-      },
-    },
-  });
 };
 
 const createSalesBySuppliesChart = async (sales) => {
   if (sales.length === 0) return;
   const currentYear = new Date().getFullYear();
 
-  const currentYearSales = sales;
+  const currentYearSales = sales.filter((sale) => sale.year === currentYear);
 
   const salesBySupplyChart = document
     .getElementById("salesBySuppliesChart")
@@ -348,9 +308,14 @@ document
  * Function to update the total amount of the invoice
  */
 const updateTotalAmount = () => {
-    const totalAmount = details.reduce((total, item) => total + (item.salePrice * item.amount), 0);
-    document.getElementById("total-amount").textContent = `$${totalAmount.toFixed(2)}`;
-  };
+  const totalAmount = details.reduce(
+    (total, item) => total + item.salePrice * item.amount,
+    0
+  );
+  document.getElementById("total-amount").textContent = `$${totalAmount.toFixed(
+    2
+  )}`;
+};
 
 /**
  * Function to render the details table
@@ -469,7 +434,6 @@ confirmButton.addEventListener("click", async () => {
     await createInvoice(payload);
 
     showAlert("Factura creada exitosamente!", "success");
-
     setTimeout(() => {
       window.location.reload();
     }, 1000);

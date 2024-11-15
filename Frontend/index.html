@@ -114,7 +114,10 @@
           <header class="p-3 bg-light text-center">
             <h1 class="fs-2">JURASSIC PHARM S.A</h1>
           </header>
-          <div id="alertContainer" class="container mt-3"></div>
+          <div
+            id="alertContainer"
+            class="container mt-3 position-absolute top-0 end-0"
+          ></div>
 
           <div>
             <div class="dashboard-container">
@@ -123,14 +126,19 @@
               <!-- Sales Form -->
               <div class="card shadow-sm" id="salesFormContainer">
                 <div class="card-body">
-                  <h2 class="card-title fs-5 fw-bold mb-4">Dashboard de Ventas</h2>
-              
+                  <h2 class="card-title fs-5 fw-bold mb-4">
+                    Dashboard de Ventas
+                  </h2>
+
                   <div class="row">
                     <!-- Columna izquierda: Tabla de Detalle -->
                     <div class="col-12 col-lg-7 mb-4">
                       <h3 class="fs-5 fw-bold mb-3">Detalle</h3>
                       <div class="table-responsive">
-                        <table id="invoices-table" class="table table-sm table-hover table-bordered align-middle caption-top">
+                        <table
+                          id="invoices-table"
+                          class="table table-sm table-hover table-bordered align-middle caption-top"
+                        >
                           <thead class="table-header">
                             <tr class="table-primary">
                               <th scope="col">Codigo de Suministro</th>
@@ -144,48 +152,117 @@
                         </table>
                       </div>
                     </div>
-              
+
                     <!-- Columna derecha: Formulario y Total -->
                     <div class="col-12 col-lg-5">
                       <h3 class="fs-5 fw-bold mb-3">Agregar Venta</h3>
-                      
+
                       <!-- Formulario de Ventas -->
                       <form id="create-invoice-form" class="form">
                         <div class="row g-3">
                           <div class="col-12 col-md-6">
-                            <label for="create-invoice-client-select" class="form-label">Cliente</label>
-                            <select id="create-invoice-client-select" class="form-select" required></select>
+                            <label
+                              for="create-invoice-client-select"
+                              class="form-label"
+                              >Cliente</label
+                            >
+                            <select
+                              id="create-invoice-client-select"
+                              class="form-select"
+                              required
+                            ></select>
                           </div>
                           <div class="col-12 col-md-6">
-                            <label for="create-invoice-branch-select" class="form-label">Sucursal</label>
-                            <select id="create-invoice-branch-select" class="form-select" required></select>
+                            <label
+                              for="create-invoice-branch-select"
+                              class="form-label"
+                              >Sucursal</label
+                            >
+                            <select
+                              id="create-invoice-branch-select"
+                              class="form-select"
+                              required
+                            ></select>
                           </div>
                           <div class="col-12 col-md-6">
-                            <label for="create-invoice-supply-select" class="form-label">Suministro</label>
-                            <select id="create-invoice-supply-select" class="form-select" required></select>
+                            <label
+                              for="create-invoice-supply-select"
+                              class="form-label"
+                              >Suministro</label
+                            >
+                            <select
+                              id="create-invoice-supply-select"
+                              class="form-select"
+                              required
+                            ></select>
                           </div>
                           <div class="col-12 col-md-6">
-                            <label for="create-invoice-supply-price-input" class="form-label">Precio</label>
-                            <input type="number" min="0" id="create-invoice-supply-price-input" class="form-control" required />
+                            <label
+                              for="create-invoice-supply-price-input"
+                              class="form-label"
+                              >Precio</label
+                            >
+                            <input
+                              type="number"
+                              min="0"
+                              id="create-invoice-supply-price-input"
+                              class="form-control"
+                              required
+                            />
                           </div>
                           <div class="col-12 col-md-6">
-                            <label for="create-invoice-supply-amount-input" class="form-label">Cantidad</label>
-                            <input type="number" min="0" id="create-invoice-supply-amount-input" class="form-control" required />
+                            <label
+                              for="create-invoice-supply-amount-input"
+                              class="form-label"
+                              >Cantidad</label
+                            >
+                            <input
+                              type="number"
+                              min="0"
+                              id="create-invoice-supply-amount-input"
+                              class="form-control"
+                              required
+                            />
                           </div>
                           <div class="col-12 col-md-6">
-                            <label for="create-invoice-date-input" class="form-label">Fecha</label>
-                            <input type="date" id="create-invoice-date-input" class="form-control" required />
+                            <label
+                              for="create-invoice-date-input"
+                              class="form-label"
+                              >Fecha</label
+                            >
+                            <input
+                              type="date"
+                              id="create-invoice-date-input"
+                              class="form-control"
+                              required
+                            />
                           </div>
-                          <div class="col-12 d-flex flex-column flex-md-row justify-content-md-between mt-3">
-                            <button type="submit" class="btn btn-primary w-100 mb-2 mb-md-0 me-md-2">Agregar</button>
-                            <button type="button" class="btn btn-success w-100" id="confirm">Confirmar venta</button>
+                          <div
+                            class="col-12 d-flex flex-column flex-md-row justify-content-md-between mt-3"
+                          >
+                            <button
+                              type="submit"
+                              class="btn btn-primary w-100 mb-2 mb-md-0 me-md-2"
+                            >
+                              Agregar
+                            </button>
+                            <button
+                              type="button"
+                              class="btn btn-success w-100"
+                              id="confirm"
+                            >
+                              Confirmar venta
+                            </button>
                           </div>
                         </div>
                       </form>
-              
+
                       <!-- Total de la Compra -->
                       <div class="mt-4">
-                        <h5>Total de la compra: <span id="total-amount">$0.00</span></h5>
+                        <h5>
+                          Total de la compra:
+                          <span id="total-amount">$0.00</span>
+                        </h5>
                       </div>
                     </div>
                   </div>

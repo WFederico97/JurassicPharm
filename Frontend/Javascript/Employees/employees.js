@@ -6,7 +6,7 @@ const token = localStorage.getItem("jwtToken");
 
 // Check user role and display the "Add Employee" button if the user is an ADMIN
 if (userRole === "ADMIN") {
-  document.getElementById("addEmployeeButtonContainer").style.display = "block";
+  document.getElementById("addEmployeeButtonContainer").style.display = "flex";
 }
 
 // Display user's full name in the navbar
@@ -87,7 +87,6 @@ document
       updatedFields.correoElectronico = correoElectronico;
     if (rol !== originalEmployee.rol) updatedFields.rol = rol;
 
-    
     // Send updated data to API if there are changes
     if (Object.keys(updatedFields).length > 0) {
       updatedFields.legajoEmpleado = originalEmployee.legajoEmpleado;
@@ -254,7 +253,7 @@ const generateTable = async () => {
             <td>${domicilio}</td>
             <td>${correoElectronico}</td>
             <td>${rol}</td>
-            <td class="d-flex">
+            <td class="d-flex" style="height:100%;">
                 <button
                   id="btn-edit"
                   type="button" 

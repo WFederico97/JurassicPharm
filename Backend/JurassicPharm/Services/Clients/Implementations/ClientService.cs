@@ -33,7 +33,7 @@ namespace JurassicPharm.Services.Clients.Implementations
             return _clientRepository.GetClienteById(idCliente);
         }
 
-        public Task<bool> UpdateClient(UpdateClientDTO client, int idCliente)
+        public Task<bool> UpdateClient(CreateClientDTO client, int idCliente)
         {
             return _clientRepository.UpdateClient(client, idCliente);
         }

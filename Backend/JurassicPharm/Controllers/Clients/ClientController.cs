@@ -78,7 +78,7 @@ namespace JurassicPharm.Controllers.Clients
             }
         }
         [HttpPut("Client/{idClient}")]
-        public async Task<IActionResult> Update([FromBody] UpdateClientDTO client, [FromRoute] int idClient)
+        public async Task<IActionResult> Update([FromBody] CreateClientDTO client, [FromRoute] int idClient)
         {
             try
             {

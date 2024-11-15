@@ -17,7 +17,7 @@ namespace JurassicPharm.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.10")
+                .HasAnnotation("ProductVersion", "9.0.0")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -52,8 +52,11 @@ namespace JurassicPharm.Migrations
             modelBuilder.Entity("JurassicPharm.Models.Cliente", b =>
                 {
                     b.Property<int>("IdCliente")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasColumnName("id_cliente");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdCliente"));
 
                     b.Property<int?>("Altura")
                         .HasColumnType("int")
@@ -653,6 +656,26 @@ namespace JurassicPharm.Migrations
                     b.ToTable((string)null);
 
                     b.ToView("VIEW_FACTURACION_POR_ANIO", (string)null);
+                });
+
+            modelBuilder.Entity("JurassicPharm.Models.ViewFacturacionPorSuministroAnual", b =>
+                {
+                    b.Property<int>("Anio")
+                        .HasColumnType("int")
+                        .HasColumnName("Año");
+
+                    b.Property<string>("Suministro")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("Suministro");
+
+                    b.Property<decimal>("TotalFacturado")
+                        .HasColumnType("decimal(18, 2)")
+                        .HasColumnName("TotalFacturado");
+
+                    b.ToTable((string)null);
+
+                    b.ToView("VIEW_FACTURACION_POR_SUMINISTRO_ANUAL", (string)null);
                 });
 
             modelBuilder.Entity("JurassicPharm.Models.Ciudad", b =>

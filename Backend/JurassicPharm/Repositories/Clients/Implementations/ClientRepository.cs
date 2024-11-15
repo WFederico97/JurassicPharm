@@ -16,17 +16,19 @@ namespace JurassicPharm.Repositories.Clients.Implementations
         {
             try
             {
-                var HealthPlan = await _context.ObrasSociales.Where(healthPlan => healthPlan.IdObraSocial == client.IdHealthPlan).ToListAsync();
-                if (HealthPlan == null)
+                var healthPlanExists = await _context.ObrasSociales
+                                        .AnyAsync(healthPlan => healthPlan.IdObraSocial == client.IdHealthPlan);
+                if (!healthPlanExists)
                 {
                     throw new Exception("Obra social no existe");
                 }
-                var City = await _context.Ciudades.Where(city => city.IdCiudad == client.IdCity).ToListAsync();
-                if (City == null)
+                var cityExists = await _context.Ciudades
+                                    .AnyAsync(city => city.IdCiudad == client.IdCity);
+                if (!cityExists)
                 {
                     throw new Exception("Ciudad no existe");
                 }
-                Cliente cliente = new Cliente()
+                Cliente cliente = new Cliente
                 {
                     IdObraSocial = client.IdHealthPlan,
                     IdCiudad = client.IdCity,
@@ -36,12 +38,9 @@ namespace JurassicPharm.Repositories.Clients.Implementations
                     Calle = client.Street,
                     Altura = client.Number
                 };
+
                 await _context.Clientes.AddAsync(cliente);
-                if (await _context.SaveChangesAsync() == 1)
-                {
-                    return true;
-                }
-                else { return false; }
+                return await _context.SaveChangesAsync() == 1;
             }
             catch (Exception error)
             {
@@ -71,40 +70,40 @@ namespace JurassicPharm.Repositories.Clients.Implementations
             }
         }
 
-        public async Task<bool> UpdateClient(UpdateClientDTO client, int idCliente)
+        public async Task<bool> UpdateClient(CreateClientDTO client, int idCliente)
         {
             Cliente clientToUpdate = await _context.Clientes.Where(client => client.IdCliente == idCliente).FirstOrDefaultAsync();
-            if(clientToUpdate == null)
+            if (clientToUpdate == null)
             {
                 throw new Exception("Client Not Found");
             }
-            if(!string.IsNullOrEmpty(client.Nombre) && client.Nombre != clientToUpdate.Nombre)
+            if (!string.IsNullOrEmpty(client.Name) && client.Name != clientToUpdate.Nombre)
             {
-                clientToUpdate.Nombre = client.Nombre;
+                clientToUpdate.Nombre = client.Name;
             }
-            if (!string.IsNullOrEmpty(client.Apellido) && client.Apellido!= clientToUpdate.Apellido)
+            if (!string.IsNullOrEmpty(client.Lastname) && client.Lastname != clientToUpdate.Apellido)
             {
-                clientToUpdate.Apellido = client.Apellido;
+                clientToUpdate.Apellido = client.Lastname;
             }
-            if (!string.IsNullOrEmpty(client.Calle) && client.Calle != clientToUpdate.Calle)
+            if (!string.IsNullOrEmpty(client.Street) && client.Street != clientToUpdate.Calle)
             {
-                clientToUpdate.Calle = client.Calle;
+                clientToUpdate.Calle = client.Street;
             }
-            if (!string.IsNullOrEmpty(client.CorreoElectronico) && client.CorreoElectronico != clientToUpdate.CorreoElectronico)
+            if (!string.IsNullOrEmpty(client.Email) && client.Email != clientToUpdate.CorreoElectronico)
             {
-                clientToUpdate.CorreoElectronico= client.CorreoElectronico;
+                clientToUpdate.CorreoElectronico = client.Email;
             }
-            if (client.Altura.HasValue && client.Altura != clientToUpdate.Altura)
-            { 
-            clientToUpdate.Altura = client.Altura;
-            }
-            if(client.IdCiudad.HasValue && client.IdCiudad != clientToUpdate.IdCiudad)
+            if (client.Number.HasValue && client.Number != clientToUpdate.Altura)
             {
-                clientToUpdate.IdCiudad = client.IdCiudad;
+                clientToUpdate.Altura = client.Number;
             }
-            if(client.IdObraSocial.HasValue && client.IdObraSocial != clientToUpdate.IdObraSocial)
+            if (client.IdCity.HasValue && client.IdCity != clientToUpdate.IdCiudad)
             {
-                clientToUpdate.IdObraSocial = client.IdObraSocial;
+                clientToUpdate.IdCiudad = client.IdCity;
+            }
+            if (client.IdHealthPlan.HasValue && client.IdHealthPlan != clientToUpdate.IdObraSocial)
+            {
+                clientToUpdate.IdObraSocial = client.IdHealthPlan;
             }
             _context.Clientes.Update(clientToUpdate);
             if (await _context.SaveChangesAsync() == 1)
@@ -125,12 +124,12 @@ namespace JurassicPharm.Repositories.Clients.Implementations
                 .Include(c => c.IdObraSocialNavigation)
                 .Select(c => new ClientResponseDTO
                 {
-                    IdClient= c.IdCliente,
+                    IdClient = c.IdCliente,
                     Name = c.Nombre,
                     Lastname = c.Apellido,
                     Email = c.CorreoElectronico,
                     Street = c.Calle,
-                    Number= c.Altura,
+                    Number = c.Altura,
                     City = c.IdCiudadNavigation.Nombre,
                     State = c.IdCiudadNavigation.IdLocalidadNavigation.IdProvinciaNavigation.Nombre,
                     HealthPlan = c.IdObraSocialNavigation.Nombre,

@@ -92,40 +92,40 @@
           </nav>
         </div>
         <!-- Main Content -->
-        <div class="col-md-9 col-lg-10 main-content">
+        <div class="col-md-9 col-lg-10 main-content" >
           <!-- Header -->
           <header class="bg-light mb-4" style="height: 82px"></header>
           <div id="alertContainer" class="container mt-3"></div>
 
           <div class=" p-5 table-responsive" style="height: 100%;">
-            <table id="employees-table" class="table table-hover table-bordered align-middle caption-top">
-              <caption class="table-caption fs-4 fw-bold ">Listado de empleados activos en nuestras sucursales</caption>
-              <thead class="table-header">
-                <tr class="table-primary">
-                  <th scope="col">Legajo</th>
-                  <th scope="col">Nombre Completo</th>
-                  <th scope="col">Sucursal</th>
-                  <th scope="col">Ciudad</th>
-                  <th scope="col">Localidad</th>
-                  <th scope="col">Provincia</th>
-                  <th scope="col">Domicilio</th>
-                  <th scope="col">Email</th>
-                  <th scope="col">Puesto</th>
-                  <th scope="col">Acciones</th>
-                </tr>
-              </thead>
-              <tbody>
-
-              </tbody>
-            </table>
-
-            <div id="addEmployeeButtonContainer" style="display: none;">
+            <div id="addEmployeeButtonContainer" style="display: none; display: flex; justify-content: end;">
               <button type="button" class="btn btn-success rounded-pill btnAgregarEmpleado" data-bs-toggle="modal" data-bs-target="#addEmployeeModal">
                 <span class="button__text">Agregar Empleado</span>
                 <span class="button__icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" viewBox="0 0 24 24" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" stroke="currentColor" height="24" fill="none" class="svg"><line y2="19" y1="5" x2="12" x1="12"></line><line y2="12" y1="12" x2="19" x1="5"></line></svg></span>
               </button>
             </div>
-          </div>
+            <table id="employees-table" class="table table-hover table-bordered align-middle caption-top">
+              <caption class="table-caption fs-4 fw-bold ">Listado de empleados activos en nuestras sucursales</caption>
+            </div>
+            <thead class="table-header">
+              <tr class="table-primary">
+                <th scope="col">Legajo</th>
+                <th scope="col">Nombre Completo</th>
+                <th scope="col">Sucursal</th>
+                <th scope="col">Ciudad</th>
+                <th scope="col">Localidad</th>
+                <th scope="col">Provincia</th>
+                <th scope="col">Domicilio</th>
+                <th scope="col">Email</th>
+                <th scope="col">Puesto</th>
+                <th scope="col">Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              
+            </tbody>
+          </table>
+
 
           <!-- Edit Personnel Modal -->
           <div class="modal fade" id="editEmployeeModal" tabindex="-1" aria-labelledby="editEmployeeModalLabel" aria-hidden="true">
@@ -263,7 +263,7 @@
                   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body d-flex justify-content-center">
-                  <div class="delete-personnel-card">
+                  <div class="delete-personnel-card" style="max-width: 390px;">
                     <div class="delete-personnel-card-header">
                       <div class="delete-personnel-card-image">
                         <svg aria-hidden="true" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" fill="none">
@@ -272,7 +272,7 @@
                       <div class="delete-personnel-card-content">
                           <span class="delete-personnel-card-title">Dar de baja empleado</span>
                           <p class="delete-personnel-card-message">¿Estás seguro de que deseas dar de baja al siguiente empleado?</p>
-                          <ul>
+                          <ul style="display: flex; flex-direction: column; text-align: left;">
                             <li><strong>Legajo:</strong> <span id="deleteLegajo"></span></li>
                             <li><strong>Nombre:</strong> <span id="deleteNombre"></span></li>
                             <li><strong>Apellido:</strong> <span id="deleteApellido"></span></li>
