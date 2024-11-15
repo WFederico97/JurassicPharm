@@ -44,10 +44,12 @@ async function fetchEmployeesByStore() {
                     <td data-label="Employees">${activeEmployees
                       .map((emp) => `${emp.nombre} ${emp.apellido}`)
                       .join(", ")}</td>
-                    <td>${activeEmployees.length}</td>
-                    <td>${activeAdmins.length}</td>
-                    <td>${activeCashiers.length}</td>
-                    <td>${activeRepositores.length}</td>
+                    <td data-label="Total Employees">${
+                      activeEmployees.length
+                    }</td>
+                    <td data-label="Administrators">${activeAdmins.length}</td>
+                    <td data-label="Cashiers">${activeCashiers.length}</td>
+                    <td data-label="Repositors">${activeRepositores.length}</td>
                 `;
         tableBody.appendChild(row);
       }
@@ -106,24 +108,55 @@ const createSalesChart = async (sales) => {
       },
     },
   });
+
+  new Chart(salesBySupplyChart, {
+    type: "bar",
+    data: {
+      labels: sales.map((sale) => sale.supply),
+      datasets: [
+        {
+          label: "Facturacion por suministro ($)",
+          data: sales.map((sale) => sale.total),
+          fill: false,
+          borderColor: "rgb(75, 192, 192)",
+          backgroundColor: [
+            "rgb(255, 99, 132)",
+            "rgb(255, 159, 64)",
+            "rgb(255, 205, 86)",
+            "rgb(75, 192, 192)",
+            "rgb(54, 162, 235)",
+            "rgb(153, 102, 255)",
+            "rgb(201, 203, 207)",
+          ],
+          tension: 0.1,
+        },
+      ],
+    },
+    options: {
+      responsive: true,
+      scales: {
+        y: {
+          beginAtZero: true,
+        },
+      },
+      plugins: {
+        tooltip: {
+          callbacks: {
+            label: function (context) {
+              return `Facturacion: $${context.raw.toFixed(2)}`;
+            },
+          },
+        },
+      },
+    },
+  });
 };
 
-const createSalesBySuppliesChart = async () => {
-  const annualSuppliesSales = await salesBySupply();
-  console.log(annualSuppliesSales);
-  if (annualSuppliesSales.length === 0) return;
+const createSalesBySuppliesChart = async (sales) => {
+  if (sales.length === 0) return;
+  const currentYear = new Date().getFullYear();
 
-  const years = annualSuppliesSales.map((sale) => sale.anio);
-
-  const yearsWithotDuplicates = new Set(years);
-  const yearsArray = Array.from(yearsWithotDuplicates);
-  console.log(yearsArray);
-
-  const totalsByYear = yearsArray.map((year) =>
-    annualSuppliesSales.reduce((acc, item) => {
-      return item.anio === year ? acc + item.total : acc;
-    }, 0)
-  );
+  const currentYearSales = sales;
 
   const salesBySupplyChart = document
     .getElementById("salesBySuppliesChart")
@@ -294,7 +327,7 @@ document
 
     const tbody = document.getElementById("invoice-details-tbody-table");
 
-    // Agregar el nuevo detalle al arreglo
+    // Add the new detail to the array
     details.push({
       supplyId: supplySelect.value,
       name: selectedSupply.textContent,
@@ -307,12 +340,27 @@ document
     priceInput.value = "";
     amountInput.value = "";
 
-    // Actualizar la tabla
+    // Update the total amount
+    updateTotalAmount();
+    // Update the table
     renderDetailsTable();
   });
 
 /**
- * Función para renderizar la tabla de detalles
+ * Function to update the total amount of the invoice
+ */
+const updateTotalAmount = () => {
+  const totalAmount = details.reduce(
+    (total, item) => total + item.salePrice * item.amount,
+    0
+  );
+  document.getElementById("total-amount").textContent = `$${totalAmount.toFixed(
+    2
+  )}`;
+};
+
+/**
+ * Function to render the details table
  */
 function renderDetailsTable() {
   const tbody = document.getElementById("invoice-details-tbody-table");
@@ -375,8 +423,9 @@ function renderDetailsTable() {
   deleteInvoiceBtn.forEach((btn) => {
     btn.addEventListener("click", (e) => {
       const index = e.target.closest("button").getAttribute("data-index");
-      details.splice(index, 1); // Eliminar del arreglo
-      renderDetailsTable(); // Volver a renderizar la tabla
+      details.splice(index, 1); // Remove from array
+      renderDetailsTable(); // Re-render the table
+      updateTotalAmount(); // Update the total amount
     });
   });
 }
