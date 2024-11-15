@@ -253,7 +253,7 @@ const generateTable = async () => {
             <td>${domicilio}</td>
             <td>${correoElectronico}</td>
             <td>${rol}</td>
-            <td class="d-flex">
+            <td class="d-flex" style="height:100%;">
                 <button
                   id="btn-edit"
                   type="button" 
