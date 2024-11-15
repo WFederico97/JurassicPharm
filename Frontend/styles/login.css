@@ -58,17 +58,37 @@ body {
   color: #000;
 }
 
-.forgot-password-link{
+.forgot-password-link {
   all: unset; /* Reinicia todos los estilos por defecto */
   cursor: pointer; /* Asegura que tenga el cursor de enlace */
   color: white; /* Color de texto, puedes cambiarlo */
   text-decoration: underline; /* Subrayado como enlace */
   font-size: inherit; /* Hereda el tamaño de fuente */
-}
-.forgot-password-link:hover{
-  opacity: 0.8;
+  background-color: transparent; /* No muestra ningún fondo */
 }
 
+.forgot-password-link:hover {
+  opacity: 0.8; /* Cambia solo el color del texto al pasar el mouse */
+  background-color: transparent; /* Asegura que el fondo sea transparente */
+}
+
+
+
+.send-email-btn {
+  background-color: #302b63;
+  border: 3px solid #ffff;
+}
+
+.send-email-btn-font {
+  color: #fff;
+}
+
+.send-email-btn:hover {
+  background-color: #fff;
+}
+.send-email-btn-font:hover {
+  color: #000;
+}
 
 /*reset password modal */
 

@@ -14,10 +14,6 @@ namespace JurassicPharm.Services.Supplies.Implementations
         {
             _repository = repository;
         }
-        public async Task<List<ViewFacturacionPorSuministroAnual>> GetCurrentYearSalesBySupply()
-        {
-            return await _repository.GetCurrentYearSalesBySupply();
-        }
         public async Task<Dictionary<string, List<SelectOptionDTO>>> GetSelectOptions()
         {
             return await _repository.GetSelectOptionsDictionary();

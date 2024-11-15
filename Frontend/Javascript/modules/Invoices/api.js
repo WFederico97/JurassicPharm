@@ -23,19 +23,6 @@ export const fetchBilingReport = async () => {
   return response.ok ? await response.json() : [];
 };
 
-export const updateInvoice = async (payload) => {
-  const { invoiceNumber, ...body } = payload;
-
-  return await fetch(`http://localhost:3000/api/UpdateInvoice/${invoiceNumber}`, {
-    method: "PUT",
-    headers: {
-      Authorization: `Bearer ${token}`,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(body),
-  });
-};
-
 export const createInvoice = async (payload) => {
   return await fetch("http://localhost:3000/api/NewInvoice", {
     method: "POST",

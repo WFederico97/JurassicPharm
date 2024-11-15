@@ -1,4 +1,5 @@
 import { forgotPassword } from "./modules/Auth/api.js";
+import { showAlert } from "./helpers/showAlert.js";
 
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -126,28 +127,8 @@ document
     }
   });
 
-function showAlert(message, type = "info") {
-  const alertContainer = document.getElementById("alertContainer");
-
-  const alertDiv = document.createElement("div");
-  alertDiv.className = `alert alert-${type} alert-dismissible fade show`;
-  alertDiv.role = "alert";
-  alertDiv.innerHTML = `
-        ${message}
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    `;
-
-  alertContainer.appendChild(alertDiv);
-
-  setTimeout(() => {
-    alertDiv.classList.remove("show");
-    alertDiv.classList.add("hide");
-    setTimeout(() => alertDiv.remove(), 500);
-  }, 5000);
-}
-
-const showBtnLoading = () => {
-  const btnLogin = document.querySelector(".btn-login");
+const showBtnLoading = (selector = ".btn-login") => {
+  const btnLogin = document.querySelector(selector);
   const btnText = btnLogin.querySelector("p");
   const spinner = btnLogin.querySelector("span");
 
@@ -169,18 +150,29 @@ document
     }
 
     try {
-      showBtnLoading();
-      await forgotPassword(email);
-      //Close modal
-      document.querySelector(".btn-close").click();
+      showBtnLoading(".send-email-btn");
 
-      showAlert(
-        "Si su correo está registrado, recibirás un mensaje con instrucciones para recuperar tu contraseña. Por favor, revisa tu bandeja de entrada o carpeta de spam.",
-        "success"
-      );
-      showBtnLoading();
+      const res = await forgotPassword(email);
+
+      if (res.status === 500) {
+        showBtnLoading(".send-email-btn");
+        document.querySelector(".btn-close").click();
+
+        showAlert(
+          "Error inesperado. Comuniquese con servicio al cliente",
+          "danger"
+        );
+      } else {
+        showBtnLoading(".send-email-btn");
+        document.querySelector(".btn-close").click();
+        showAlert(
+          "Si su correo está registrado, recibirás un mensaje con instrucciones para recuperar tu contraseña. Por favor, revisa tu bandeja de entrada o carpeta de spam.",
+          "success"
+        );
+      }
     } catch (error) {
-      showBtnLoading();
       console.error(error);
+      showBtnLoading(".send-email-btn");
+      document.querySelector(".btn-close").click();
     }
   });
