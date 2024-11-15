@@ -2,7 +2,6 @@ import { showAlert } from "../../helpers/showAlert.js";
 
 const token = localStorage.getItem("jwtToken");
 
-
 export async function fetchSupplies() {
   try {
     const response = await fetch("http://localhost:3000/api/Supplies", {
@@ -31,16 +30,14 @@ export async function updateSupplies(supply) {
         body: JSON.stringify(supply),
       }
     );
-    if(response.ok){
+    if (response.ok) {
       showAlert("Supply updated successfully", "success");
       return await response.json();
-    }
-    else{
+    } else {
       showAlert("Error updating supply", "danger");
       return [];
     }
-  }
-  catch (error) {
+  } catch (error) {
     showAlert(`Error: ${error}`, "danger");
     return [];
   }
@@ -55,8 +52,7 @@ export async function getSuppliesSelectOptions() {
       },
     });
     if (response.ok) return await response.json();
-  }
-  catch (error) {
+  } catch (error) {
     showAlert(`Error: ${error}`, "danger");
     return [];
   }
@@ -65,39 +61,21 @@ export async function getSuppliesSelectOptions() {
 export async function addSupply(supply) {
   try {
     const response = await fetch("http://localhost:3000/api/NewSupply", {
-      method: "POST", 
+      method: "POST",
       headers: {
         Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
       },
       body: JSON.stringify(supply),
     });
-    if(response.ok){
+    if (response.ok) {
       showAlert("Supply added successfully", "success");
       return await response.json();
-    }
-    else{
+    } else {
       showAlert("Error adding supply", "danger");
       return [];
     }
-  }
-  catch (error) {
-    showAlert(`Error: ${error}`, "danger");
-    return [];
-  }
-}
-
-export async function salesBySupply() {
-  try {
-    const response = await fetch("http://localhost:3000/api/salesBySupply", {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-      },
-    });
-    if (response.ok) return await response.json();
-  }
-  catch (error) {
+  } catch (error) {
     showAlert(`Error: ${error}`, "danger");
     return [];
   }

@@ -87,9 +87,6 @@ document
       updatedFields.correoElectronico = correoElectronico;
     if (rol !== originalEmployee.rol) updatedFields.rol = rol;
 
-    // Update local storage with new role
-    localStorage.setItem("role", rol);
-
     // Send updated data to API if there are changes
     if (Object.keys(updatedFields).length > 0) {
       updatedFields.legajoEmpleado = originalEmployee.legajoEmpleado;

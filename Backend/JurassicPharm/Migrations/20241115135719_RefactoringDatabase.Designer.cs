@@ -12,15 +12,15 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace JurassicPharm.Migrations
 {
     [DbContext(typeof(JurassicPharmContext))]
-    [Migration("20241112021736_InitialMigration")]
-    partial class InitialMigration
+    [Migration("20241115135719_RefactoringDatabase")]
+    partial class RefactoringDatabase
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.10")
+                .HasAnnotation("ProductVersion", "9.0.0")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);

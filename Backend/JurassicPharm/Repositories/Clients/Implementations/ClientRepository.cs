@@ -16,17 +16,19 @@ namespace JurassicPharm.Repositories.Clients.Implementations
         {
             try
             {
-                var HealthPlan = await _context.ObrasSociales.Where(healthPlan => healthPlan.IdObraSocial == client.IdHealthPlan).ToListAsync();
-                if (HealthPlan == null)
+                var healthPlanExists = await _context.ObrasSociales
+                                        .AnyAsync(healthPlan => healthPlan.IdObraSocial == client.IdHealthPlan);
+                if (!healthPlanExists)
                 {
                     throw new Exception("Obra social no existe");
                 }
-                var City = await _context.Ciudades.Where(city => city.IdCiudad == client.IdCity).ToListAsync();
-                if (City == null)
+                var cityExists = await _context.Ciudades
+                                    .AnyAsync(city => city.IdCiudad == client.IdCity);
+                if (!cityExists)
                 {
                     throw new Exception("Ciudad no existe");
                 }
-                Cliente cliente = new Cliente()
+                Cliente cliente = new Cliente
                 {
                     IdObraSocial = client.IdHealthPlan,
                     IdCiudad = client.IdCity,
@@ -38,7 +40,6 @@ namespace JurassicPharm.Repositories.Clients.Implementations
                 };
 
                 await _context.Clientes.AddAsync(cliente);
-
                 return await _context.SaveChangesAsync() == 1;
             }
             catch (Exception error)

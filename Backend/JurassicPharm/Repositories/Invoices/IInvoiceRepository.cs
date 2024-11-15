@@ -10,10 +10,6 @@ namespace JurassicPharm.Repositories.Invoices
         public Task<Factura?> GetInvoceById(int invoiceId);
 
         public Task<bool> Create(InvoiceCreateDTO invoice);
-
-        public Task<bool> Update(InvoiceUpdateDTO invoice, int invoiceId);
-
-        public Task<bool> Delete(int invoiceId);
         public Task<string> CheckProlongedPrescriptionDate(int clientId);
         public Task<List<ViewFacturacionPorAnio>> GetBillingReportBySupplyType();
         public Task<decimal> GetDiscountByInsurance(int obraSocialId, int invoiceNumber);

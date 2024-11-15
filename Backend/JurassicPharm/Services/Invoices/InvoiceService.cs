@@ -24,24 +24,9 @@ namespace JurassicPharm.Services.Invoices
             return _invoiceRepository.Create(invoice);
         }
 
-        public Task<bool> Delete(int invoiceId)
-        {
-            return _invoiceRepository.Delete(invoiceId);
-        }
-
         public async Task<List<InvoiceResponseDTO>> GetAll()
         {
             return await _invoiceRepository.GetAll();
-        }
-
-        public Task<bool> Update(InvoiceUpdateDTO invoice, int invoiceId)
-        {
-            if (!ValidateDate(invoice))
-            {
-                throw new Exception("The invoice cannot be more than 2 days later");
-            }
-
-            return _invoiceRepository.Update(invoice, invoiceId);
         }
 
         private bool ValidateDate(InvoiceUpdateDTO invoice)

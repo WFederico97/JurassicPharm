@@ -44,12 +44,10 @@ async function fetchEmployeesByStore() {
                     <td data-label="Employees">${activeEmployees
                       .map((emp) => `${emp.nombre} ${emp.apellido}`)
                       .join(", ")}</td>
-                    <td data-label="Total Employees">${
-                      activeEmployees.length
-                    }</td>
-                    <td data-label="Administrators">${activeAdmins.length}</td>
-                    <td data-label="Cashiers">${activeCashiers.length}</td>
-                    <td data-label="Repositors">${activeRepositores.length}</td>
+                    <td>${activeEmployees.length}</td>
+                    <td>${activeAdmins.length}</td>
+                    <td>${activeCashiers.length}</td>
+                    <td>${activeRepositores.length}</td>
                 `;
         tableBody.appendChild(row);
       }
@@ -110,11 +108,22 @@ const createSalesChart = async (sales) => {
   });
 };
 
-const createSalesBySuppliesChart = async (sales) => {
-  if (sales.length === 0) return;
-  const currentYear = new Date().getFullYear();
+const createSalesBySuppliesChart = async () => {
+  const annualSuppliesSales = await salesBySupply();
+  console.log(annualSuppliesSales);
+  if (annualSuppliesSales.length === 0) return;
 
-  const currentYearSales = sales;
+  const years = annualSuppliesSales.map((sale) => sale.anio);
+
+  const yearsWithotDuplicates = new Set(years);
+  const yearsArray = Array.from(yearsWithotDuplicates);
+  console.log(yearsArray);
+
+  const totalsByYear = yearsArray.map((year) =>
+    annualSuppliesSales.reduce((acc, item) => {
+      return item.anio === year ? acc + item.total : acc;
+    }, 0)
+  );
 
   const salesBySupplyChart = document
     .getElementById("salesBySuppliesChart")
@@ -283,7 +292,9 @@ document
       "create-invoice-supply-amount-input"
     );
 
-    // Add the new detail to the array
+    const tbody = document.getElementById("invoice-details-tbody-table");
+
+    // Agregar el nuevo detalle al arreglo
     details.push({
       supplyId: supplySelect.value,
       name: selectedSupply.textContent,
@@ -296,12 +307,12 @@ document
     priceInput.value = "";
     amountInput.value = "";
 
-    // Update the table
+    // Actualizar la tabla
     renderDetailsTable();
   });
 
 /**
- * Function to render the details table
+ * Función para renderizar la tabla de detalles
  */
 function renderDetailsTable() {
   const tbody = document.getElementById("invoice-details-tbody-table");
@@ -364,8 +375,8 @@ function renderDetailsTable() {
   deleteInvoiceBtn.forEach((btn) => {
     btn.addEventListener("click", (e) => {
       const index = e.target.closest("button").getAttribute("data-index");
-      details.splice(index, 1); // Remove from array
-      renderDetailsTable(); // Re-render the table
+      details.splice(index, 1); // Eliminar del arreglo
+      renderDetailsTable(); // Volver a renderizar la tabla
     });
   });
 }

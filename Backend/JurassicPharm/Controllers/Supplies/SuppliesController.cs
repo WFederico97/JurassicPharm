@@ -18,24 +18,18 @@ namespace JurassicPharm.Controllers.Supplies
             _service = service;
         }
 
-        [HttpGet("salesBySupply")]
-        public async Task<IActionResult> GetSalesBySupply()
+        [HttpGet("selectOptions")]
+        public async Task<IActionResult> GetSelectOptions()
         {
             try
             {
-                var result = await _service.GetCurrentYearSalesBySupply();
+                var result = await _service.GetSelectOptions();
                 return Ok(result);
             }
             catch (Exception ex)
             {
-                return StatusCode(500, $"Error al obtener la facturación por suministro: {ex.Message}");
+                return StatusCode(500, new { message = $"Error al obtener las opciones de selección: {ex.Message}" });
             }
-        }
-        [HttpGet("selectOptions")]
-        public async Task<IActionResult> GetSelectOptions()
-        {
-            var result = await _service.GetSelectOptions();
-            return Ok(result);
         }
 
         [HttpGet("Supplies")]
@@ -43,52 +37,63 @@ namespace JurassicPharm.Controllers.Supplies
         {
             try
             {
-                return Ok(await _service.GetAllSupply());
+                var supplies = await _service.GetAllSupply();
+                return Ok(supplies);
             }
             catch (Exception ex)
             {
-                return StatusCode(500, $"Error al realizar la operacion: {ex.Message}");
+                return StatusCode(500, new { message = $"Error al obtener los suministros: {ex.Message}" });
             }
         }
 
         [Authorize("RequireStockManagerRole")]
         [HttpPost("NewSupply")]
-
         public async Task<IActionResult> CreateSupply([FromBody] CreateSupplyDTO supply)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(new { message = "Datos de suministro inválidos." });
+            }
+
             try
             {
-                bool isValid = await _service.CreateSupply(supply);
-                if (isValid)
+                bool isCreated = await _service.CreateSupply(supply);
+                if (isCreated)
                 {
-                    return Ok("Suministro creado con exito");
+                    return Ok(new { message = "Suministro creado con éxito" });
                 }
-                return StatusCode(500, $"Error al realizar la operacion");
+                return StatusCode(500, new { message = "No se pudo crear el suministro." });
             }
             catch (Exception ex)
             {
-                return StatusCode(500, $"Error al realizar la operacion: {ex.Message}");
+                return StatusCode(500, new { message = $"Error al crear el suministro: {ex.Message}" });
             }
         }
 
         [Authorize("RequireStockManagerRole")]
         [HttpPut("UpdateSupply/{codigo}")]
-        public async Task<IActionResult> UpdateSupply([FromBody] UpdateSupplyDTO supply,[FromRoute] int codigo)
+        public async Task<IActionResult> UpdateSupply([FromBody] UpdateSupplyDTO supply, [FromRoute] int codigo)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(new { message = "Datos de suministro inválidos." });
+            }
+
             try
             {
-                bool isValid = await _service.UpdateSupply(supply, codigo);
-                if (isValid)
+                bool isUpdated = await _service.UpdateSupply(supply, codigo);
+                if (isUpdated)
                 {
-                    return Ok("Suministro actualizado con exito");
+                    return Ok(new { message = "Suministro actualizado con éxito" });
                 }
-                return StatusCode(500, $"Error al realizar la operacion");
+                return NotFound(new { message = $"No se encontró un suministro con el código {codigo}." });
             }
             catch (Exception ex)
             {
-                return StatusCode(500, $"Error al realizar la operacion: {ex.Message}");
+                return StatusCode(500, new { message = $"Error al actualizar el suministro: {ex.Message}" });
             }
         }
+
 
 
 

@@ -15,13 +15,6 @@ namespace JurassicPharm.Repositories.Supplies.implementations
             _context = context;
         }
 
-        public async Task<List<ViewFacturacionPorSuministroAnual>> GetCurrentYearSalesBySupply()
-        {
-            return await _context.ViewFacturacionPorSuministroAnual
-                .Where(v => v.Anio == DateTime.Now.Year)
-                .ToListAsync();
-        }
-
         public async Task<Dictionary<string, List<SelectOptionDTO>>> GetSelectOptionsDictionary()
         {
             var marcas = await _context.Marcas
@@ -136,15 +129,15 @@ namespace JurassicPharm.Repositories.Supplies.implementations
                 supplyToUpdate.Nombre = supply.Name;
             }
 
-            if ( supply.Price > 0 && supply.Price != supplyToUpdate.PreUnitario)
+            if (supply.Price > 0 && supply.Price != supplyToUpdate.PreUnitario)
             {
                 supplyToUpdate.PreUnitario = supply.Price;
             }
-            if(supply.Stock > 0 && supply.Stock != supplyToUpdate.Stock)
+            if (supply.Stock > 0 && supply.Stock != supplyToUpdate.Stock)
             {
                 supplyToUpdate.Stock = supply.Stock;
             }
-            if(supply.StockMinimo > 0 && supply.StockMinimo != supplyToUpdate.StockMinimo)
+            if (supply.StockMinimo > 0 && supply.StockMinimo != supplyToUpdate.StockMinimo)
             {
                 supplyToUpdate.StockMinimo = supply.StockMinimo;
             }

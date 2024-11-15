@@ -137,7 +137,7 @@ html{
   transform-origin: right;
 }
 
-.btnAgregarEmpleado {
+.btnAgregarEmpleado, .btnAgregarSuministro{
   --main-focus: #2d8cf0;
   --font-color: #ffffff;
   --bg-color-sub: #0e481a;
@@ -154,17 +154,17 @@ html{
   overflow: hidden;
 }
 
-.btnAgregarEmpleado, .button__icon, .button__text {
+.btnAgregarEmpleado,.btnAgregarSuministro, .button__icon, .button__text {
   transition: all 0.3s;
 }
 
-.btnAgregarEmpleado .button__text {
+.btnAgregarEmpleado .button__text,.btnAgregarSuministro .button__text {
   transform: translateX(25px);
   color: var(--font-color);
   font-weight: 600;
 }
 
-.btnAgregarEmpleado .button__icon {
+.btnAgregarEmpleado .button__icon,.btnAgregarSuministro .button__icon {
   position: absolute;
   transform: translateX(12em);
   height: 100%;
@@ -175,24 +175,24 @@ html{
   justify-content: center;
 }
 
-.btnAgregarEmpleado .svg {
+.btnAgregarEmpleado .svg,.btnAgregarSuministro .svg {
   width: 20px;
 }
 
-.btnAgregarEmpleado:hover {
+.btnAgregarEmpleado:hover,.btnAgregarSuministro:hover {
   background: var(--bg-color);
 }
 
-.btnAgregarEmpleado:hover .button__text {
+.btnAgregarEmpleado:hover .button__text,.btnAgregarSuministro:hover .button__text {
   color: transparent;
 }
 
-.btnAgregarEmpleado:hover .button__icon {
+.btnAgregarEmpleado:hover .button__icon,.btnAgregarSuministro:hover .button__icon {
   width: 148px;
   transform: translateX(0);
 }
 
-.btnAgregarEmpleado:active {
+.btnAgregarEmpleado:active,.btnAgregarSuministro:active {
   transform: translate(3px, 3px);
   box-shadow: 0px 0px var(--main-color);
 }
@@ -603,4 +603,230 @@ html{
   transition-timing-function: cubic-bezier(0.25, 0.8, 0.25, 1);
   transition-duration: 400ms;
   transition-property: width, left;
+}
+
+/*Sales Form*/
+#salesFormContainer label {
+  font-weight: 500;
+  color: #495057;
+}
+
+#salesFormContainer .form-control,
+#salesFormContainer .form-select {
+  height: 38px;
+}
+
+#salesFormContainer button {
+  font-size: 0.9rem;
+}
+
+/** Media Queries Mobile-First based **/
+
+/* Small devices */
+@media (max-width: 768px) {
+  /* Sidebar */
+  .sidebar {
+    display: none; 
+  }
+  
+  .main-content {
+    margin: 0;
+    width: 100%;
+  }
+
+  .container-fluid {
+    padding: 0 10px;
+  }
+
+  .p-5 {
+    padding: 20px;
+  }
+
+  .modal-dialog {
+    max-width: 100%;
+    margin: 0;
+  }
+
+  .modal-content {
+    width: 100%;
+    border-radius: 0;
+  }
+
+  .table-responsive {
+    overflow-x: auto;
+  }
+
+  #addSupplyButtonContainer {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+  }
+
+  #addInvoiceButtonContainer {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+  }
+
+  /* Ajustar el dashboard y contenedores */
+  .dashboard-container {
+    padding: 20px;
+  }
+
+  /* Sales Form */
+  #salesFormContainer .row {
+    flex-direction: column;
+  }
+
+  #salesFormContainer .col-12.col-lg-7,
+  #salesFormContainer .col-12.col-lg-5 {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+
+  /* Total de la compra */
+  #total-amount {
+    font-size: 1.2rem;
+    text-align: center;
+  }
+
+  /* Empleados por sucursal */
+  #employeesByStoreContainer,
+  #storesChartContainer,
+  #annualSalesChartContainer,
+  #salesBySuppliesChartContainer {
+    padding: 10px;
+  }
+
+  /* Gráficos */
+  canvas {
+    max-width: 100%;
+    height: auto;
+  }
+}
+
+/* Tablets and small devices */
+@media (min-width: 769px) and (max-width: 1024px) {
+
+  .sidebar {
+    width: 200px;
+    padding: 10px;
+  }
+
+  .main-content {
+    margin-left: 200px;
+    width: calc(100% - 200px);
+  }
+
+  .table-responsive {
+    overflow-x: auto;
+  }
+
+  #addSupplyButtonContainer {
+    display: flex;
+    justify-content: center;
+  }
+
+  #addInvoiceButtonContainer {
+    display: flex;
+    justify-content: center;
+  }
+
+  .modal-dialog {
+    max-width: 80%;
+    margin: auto;
+  }
+
+  .modal-content {
+    padding: 20px;
+    border-radius: 8px;
+  }
+
+  /* Sales Form */
+  #salesFormContainer .row {
+    flex-direction: column;
+  }
+
+  #salesFormContainer .col-12.col-lg-7,
+  #salesFormContainer .col-12.col-lg-5 {
+    width: 100%;
+  }
+
+  /* Ajustes de tabla para que sea desplazable horizontalmente */
+  .table-responsive {
+    overflow-x: auto;
+  }
+
+  /* Ajustar padding del dashboard */
+  .dashboard-container {
+    padding: 30px;
+  }
+
+  /* Total de la compra */
+  #total-amount {
+    font-size: 1.5rem;
+    text-align: left;
+  }
+}
+
+/* Settings for bigger screen devices */
+@media (min-width: 1025px) {
+
+  .sidebar {
+    width: 250px;
+  }
+
+  .main-content {
+    margin-left: 250px;
+    width: calc(100% - 250px);
+  }
+
+  .p-5 {
+    padding: 50px;
+  }
+
+  #addSupplyButtonContainer {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 20px;
+  }
+
+  #addInvoiceButtonContainer {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 20px;
+  }
+  .table-responsive {
+    overflow-x: hidden;
+  }
+
+
+  .modal-dialog {
+    max-width: 600px;
+    margin: auto;
+  }
+
+  .modal-content {
+    border-radius: 10px;
+    padding: 30px;
+  }
+
+
+  /* Sales Form en la misma fila */
+  #salesFormContainer .row {
+    flex-direction: row;
+  }
+
+  #salesFormContainer .col-12.col-lg-7 {
+    width: 60%;
+  }
+
+  #salesFormContainer .col-12.col-lg-5 {
+    width: 40%;
+  }
+
+  /* Ajuste de tabla para pantallas grandes */
+  .table-responsive {
+    overflow-x: hidden;
+  }
 }
