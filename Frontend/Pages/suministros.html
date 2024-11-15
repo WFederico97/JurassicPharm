@@ -96,9 +96,17 @@
             <!-- Header -->
             <header class="bg-light mb-4" style="height: 82px"></header>
             <div id="alertContainer" class="container mt-3"></div>
+           
             <div class=" p-5 table-responsive" style="height: 100%;">
                 <table id="supplies-table" class="table table-hover table-bordered align-middle caption-top">
                     <caption class="table-caption fs-4 fw-bold ">Listado de suministros</caption>
+                    <div id="addSupplyButtonContainer" style="display: none;">
+                        <button type="button" class="btn btn-success rounded-pill btnAgregarSuministro" data-bs-toggle="modal" data-bs-target="#addSupplyModal">
+                            <span class="button__text">Agregar Suministro</span>
+                            <span class="button__icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" viewBox="0 0 24 24" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" stroke="currentColor" height="24" fill="none" class="svg"><line y2="19" y1="5" x2="12" x1="12"></line><line y2="12" y1="12" x2="19" x1="5"></line></svg></span>
+                        </button>
+                        </div>
+                    </div>
                     <thead class="table-header">
                         <tr class="table-primary">
                             <th scope="col">Codigo de Suministro</th>
@@ -116,13 +124,7 @@
                     </tbody>
                 </table>
 
-                <div id="addSupplyButtonContainer" style="display: none;">
-                    <button type="button" class="btn btn-success rounded-pill btnAgregarSuministro" data-bs-toggle="modal" data-bs-target="#addSupplyModal">
-                        <span class="button__text">Agregar Suministro</span>
-                        <span class="button__icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" viewBox="0 0 24 24" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" stroke="currentColor" height="24" fill="none" class="svg"><line y2="19" y1="5" x2="12" x1="12"></line><line y2="12" y1="12" x2="19" x1="5"></line></svg></span>
-                    </button>
-                    </div>
-                </div>
+                
         
                 <!-- Edit Supply Modal -->
                 <div class="modal fade" id="editSupplyModal" tabindex="-1" aria-labelledby="editSupplyModalLabel" aria-hidden="true">
@@ -241,7 +243,7 @@
             </div>
             <!-- Footer -->
             <footer class="mt-auto py-3 bg-light text-center">
-                <p class="text-body-secondary">© BD I - TUP - UTN - FRC</p>
+                <p class="text-body-secondary">© PROGRAMACION II - TUP - UTN - FRC</p>
                 <a href="about.html" class="text-decoration-none"><button class="btn-about">Nosotros</button></a>
             </footer>
         </div>
