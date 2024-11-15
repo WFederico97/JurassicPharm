@@ -15,3 +15,37 @@ export async function fetchClients() {
     return [];
   }
 }
+
+export const createClient = async (payload) => {
+  return await fetch("http://localhost:3000/api/NewClient", {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(payload),
+  });
+};
+
+export const updateClient = async (payload, clientId) => {
+  if (payload === null) return;
+
+  return await fetch(`http://localhost:3000/api/Client/${clientId}`, {
+    method: "PUT",
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(payload),
+  });
+};
+
+export const deleteClient = async (clientId) => {
+  return await fetch(`http://localhost:3000/api/DeleteClient/${clientId}`, {
+    method: "DELETE",
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    },
+  });
+};

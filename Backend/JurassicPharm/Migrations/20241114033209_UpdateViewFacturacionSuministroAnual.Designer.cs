@@ -55,8 +55,11 @@ namespace JurassicPharm.Migrations
             modelBuilder.Entity("JurassicPharm.Models.Cliente", b =>
                 {
                     b.Property<int>("IdCliente")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasColumnName("id_cliente");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdCliente"));
 
                     b.Property<int?>("Altura")
                         .HasColumnType("int")

@@ -14,6 +14,8 @@ using JurassicPharm.Services.Clients.Implementations;
 using JurassicPharm.Services.Clients.Interfaces;
 using JurassicPharm.Services.EmailSenderService;
 using JurassicPharm.Services.EmailSenderService.Implementations;
+using JurassicPharm.Services.HealthPlan.Interfaces;
+using JurassicPharm.Services.HealthPlan.Implementations;
 using JurassicPharm.Services.Invoices;
 using JurassicPharm.Services.JWT;
 using JurassicPharm.Services.Personnel.Implementations;
@@ -25,6 +27,12 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
+using JurassicPharm.Repositories.HealthPlan.Interfaces;
+using JurassicPharm.Repositories.HealthPlan.Implementations;
+using JurassicPharm.Services.City.Interfaces;
+using JurassicPharm.Services.City.Implementations;
+using JurassicPharm.Repositories.City.Interfaces;
+using JurassicPharm.Repositories.City.Implementations;
 
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
@@ -60,7 +68,7 @@ builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "JurassicPharm", Version = "v1" });
 
-    // Configuración para JWT
+    // Configuraciï¿½n para JWT
     c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
         Name = "Authorization",
@@ -68,7 +76,7 @@ builder.Services.AddSwaggerGen(c =>
         Scheme = "bearer",
         BearerFormat = "JWT",
         In = ParameterLocation.Header,
-        Description = "Introduce el token JWT aquí. Ejemplo: Bearer {token}"
+        Description = "Introduce el token JWT aquï¿½. Ejemplo: Bearer {token}"
     });
 
     c.AddSecurityRequirement(new OpenApiSecurityRequirement
@@ -110,6 +118,12 @@ builder.Services.AddScoped<IBranchesService, BranchesService>();
 builder.Services.AddScoped<IBranchesRepository, BranchesRepository>();
 /*--EmailSender--*/
 builder.Services.AddScoped<IEmailSender, EmailSenderService>();
+/*--HealthPlan--*/
+builder.Services.AddScoped<IHealthPlanService, HealthPlanService>();
+builder.Services.AddScoped<IHealthPlanRepository, HealthPlanRepository>();
+/*--City--*/
+builder.Services.AddScoped<ICityService, CityService>();
+builder.Services.AddScoped<ICityRepository, CityRepository>();
 
 
 //Authorization
