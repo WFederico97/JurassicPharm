@@ -100,7 +100,6 @@ TPI_V2/
 │   │   │   ├── Proveedor.cs
 │   │   │   ├── Provincia.cs
 │   │   │   ├── Receta.cs
-│   │   │   ├── SP_TOP_PROVEEDORES_ENTREGASResult.cs
 │   │   │   ├── Stock.cs
 │   │   │   ├── Sucursal.cs
 │   │   │   ├── Suministro.cs
@@ -292,6 +291,7 @@ TPI_V2/
 * Entity Framework
 * Bootstrap
 * Chart Js
+* MailKit
 ## Configuracion y Despliegue
 1. Clonar el repositorio
    ```bash
