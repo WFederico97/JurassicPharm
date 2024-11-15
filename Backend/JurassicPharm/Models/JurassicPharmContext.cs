@@ -64,7 +64,7 @@ public partial class JurassicPharmContext : DbContext
         {
             entity.HasKey(e => e.IdCliente).HasName("PK__CLIENTES__677F38F582F05F01");
 
-            entity.Property(e => e.IdCliente).ValueGeneratedNever();
+            entity.Property(e => e.IdCliente).ValueGeneratedOnAdd();
 
             entity.HasOne(d => d.IdCiudadNavigation).WithMany(p => p.Clientes).HasConstraintName("FK_CLIENTES_CIUDADES");
 

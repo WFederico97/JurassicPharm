@@ -18,20 +18,6 @@ namespace JurassicPharm.Controllers.Supplies
             _service = service;
         }
 
-        [HttpGet("salesBySupply")]
-        public async Task<IActionResult> GetSalesBySupply()
-        {
-            try
-            {
-                var result = await _service.GetCurrentYearSalesBySupply();
-                return Ok(result);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, new { message = $"Error al obtener la facturación por suministro: {ex.Message}" });
-            }
-        }
-
         [HttpGet("selectOptions")]
         public async Task<IActionResult> GetSelectOptions()
         {

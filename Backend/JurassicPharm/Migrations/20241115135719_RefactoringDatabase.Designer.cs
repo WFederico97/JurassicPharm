@@ -12,15 +12,15 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace JurassicPharm.Migrations
 {
     [DbContext(typeof(JurassicPharmContext))]
-    [Migration("20241114033209_UpdateViewFacturacionSuministroAnual")]
-    partial class UpdateViewFacturacionSuministroAnual
+    [Migration("20241115135719_RefactoringDatabase")]
+    partial class RefactoringDatabase
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.10")
+                .HasAnnotation("ProductVersion", "9.0.0")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -657,7 +657,6 @@ namespace JurassicPharm.Migrations
 
                     b.ToView("VIEW_FACTURACION_POR_ANIO", (string)null);
                 });
-
 
             modelBuilder.Entity("JurassicPharm.Models.Ciudad", b =>
                 {

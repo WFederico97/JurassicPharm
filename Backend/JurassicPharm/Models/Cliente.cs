@@ -13,6 +13,7 @@ public partial class Cliente
 {
     [Key]
     [Column("id_cliente")]
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int IdCliente { get; set; }
 
     [Column("id_obra_social")]
