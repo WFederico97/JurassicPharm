@@ -277,11 +277,12 @@ INSERT INTO [dbo].[CLIENTES] (id_obra_social, id_ciudad, nombre, apellido, corre
 
 -- Insertar datos en EMPLEADOS
 INSERT INTO [dbo].[EMPLEADOS] (id_sucursal, id_ciudad, nombre, apellido, calle, altura, correo_electronico, rol, password_empleado) VALUES
-(1, 1, 'Laura', 'Castro', 'Calle 70', 160, 'laura.castro@ejemplo.com', 'Farmacéutica', 'password1'),
-(2, 2, 'Diego', 'Rojas', 'Avenida Vélez Sarsfield', 260, 'diego.rojas@ejemplo.com', 'Cajero', 'password2'),
-(3, 3, 'Carolina', 'Méndez', 'Calle San Juan', 360, 'carolina.mendez@ejemplo.com', 'Vendedora', 'password3'),
-(4, 4, 'Fernando', 'Herrera', 'Avenida Belgrano', 460, 'fernando.herrera@ejemplo.com', 'Supervisor', 'password4'),
-(5, 5, 'Natalia', 'Ruiz', 'Calle Güemes', 560, 'natalia.ruiz@ejemplo.com', 'Gerente', 'password5');
+(1, 1, 'Laura', 'Castro', 'Calle 70', 160, 'laura.castro@ejemplo.com', 'CAJERO', 'password1'),
+(2, 2, 'Diego', 'Rojas', 'Avenida Vélez Sarsfield', 260, 'diego.rojas@ejemplo.com', 'CAJERO', 'password2'),
+(3, 3, 'Carolina', 'Méndez', 'Calle San Juan', 360, 'carolina.mendez@ejemplo.com', 'REPOSITOR', 'password3'),
+(4, 4, 'Fernando', 'Herrera', 'Avenida Belgrano', 460, 'fernando.herrera@ejemplo.com', 'REPOSITOR', 'password4'),
+(5, 5, 'Natalia', 'Ruiz', 'Calle Güemes', 560, 'natalia.ruiz@ejemplo.com', 'CAJERO', 'password5'),
+(5, 5, 'Julian', 'Rinaudo', 'Sarmiento', 922, 'julianrinaudo18@gmail.com', 'ADMIN', 'password5');
 
 -- Insertar datos en SUMINISTROS
 INSERT INTO [dbo].[SUMINISTROS] (nombre, pre_unitario, id_tipo_suministro, id_tipo_distribucion, id_marca, stock, stock_minimo) VALUES
@@ -311,7 +312,17 @@ INSERT INTO [dbo].[FACTURAS] (id_cliente, id_sucursal, fecha) VALUES
 (2, 2, '2024-11-05'),
 (3, 3, '2024-11-05'),
 (4, 4, '2024-11-05'),
-(5, 5, '2024-11-05');
+(5, 5, '2023-11-05'),
+(5, 5, '2023-11-05'),
+(5, 5, '2023-11-05'),
+(5, 2, '2023-11-05'),
+(2, 2, '2023-11-05'),
+(2, 1, '2023-11-05'),
+(2, 1, '2022-11-05'),
+(3, 1, '2022-11-05'),
+(3, 3, '2022-11-05'),
+(4, 4, '2022-11-05'),
+(1, 3, '2022-11-05');
 
 -- Insertar datos en DETALLES_FACTURA
 INSERT INTO [dbo].[DETALLES_FACTURA] (nro_factura, id_suministro, pre_venta, cantidad) VALUES
@@ -319,7 +330,17 @@ INSERT INTO [dbo].[DETALLES_FACTURA] (nro_factura, id_suministro, pre_venta, can
 (2, 2, 330, 3),
 (3, 3, 1500, 1),
 (4, 4, 700, 2),
-(5, 5, 1200, 1);
+(5, 5, 1200, 1),
+(6, 2, 1200, 1),
+(7, 2, 1200, 1),
+(8, 2, 1200, 1),
+(9, 3, 1200, 1),
+(10, 4, 1200, 1),
+(11, 3, 1200, 1),
+(12, 1, 1200, 1),
+(13, 1, 1200, 1),
+(14, 1, 1200, 1),
+(15, 2, 1200, 1);
 
 -- Insertar datos en STOCKS
 INSERT INTO [dbo].[STOCKS] (id_sucursal, id_proveedor, legajo_empleado, cantidad, fecha) VALUES

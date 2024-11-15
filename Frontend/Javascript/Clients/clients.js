@@ -155,10 +155,10 @@ const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 const setSelectValues = async (mode) => {
   const healthPlanSelect = document.getElementById(
-    `${mode === "edit" && "edit-"}health-plan-select`
+    `${mode === "edit" ? "edit-" : ""}health-plan-select`
   );
   const citySelect = document.getElementById(
-    `${mode === "edit" && "edit-"}city-select`
+    `${mode === "edit" ? "edit-" : ""}city-select`
   );
   const healtPlans = await getAllHealthPlan();
   const cities = await getAllCities();
@@ -166,11 +166,15 @@ const setSelectValues = async (mode) => {
   if (healtPlans.length < 0 || cities.length < 0) return;
 
   healtPlans.forEach(({ id, name }) => {
-    healthPlanSelect.innerHTML += `<option value="${id}">${name}</option>`;
+    if (healthPlanSelect) {
+      healthPlanSelect.innerHTML += `<option value="${id}">${name}</option>`;
+    }
   });
 
   cities.forEach(({ idCiudad, nombre, provincia }) => {
-    citySelect.innerHTML += `<option value="${idCiudad}">${nombre}, ${provincia}</option>`;
+    if (citySelect) {
+      citySelect.innerHTML += `<option value="${idCiudad}">${nombre}, ${provincia}</option>`;
+    }
   });
 };
 
@@ -268,7 +272,8 @@ window.prepareDeleteModal = function (index) {
 };
 
 //handle add client
-const addClientBtn = document.querySelector(".btnAgregarEmpleado");
+const addClientBtn = document.getElementById("addClientBtn");
+
 addClientBtn.addEventListener("click", () => setSelectValues("create"));
 
 const addClientform = document.getElementById("addClientForm");
@@ -281,5 +286,3 @@ const editClientform = document.getElementById("editClientForm");
 editClientform.addEventListener("submit", (e) =>
   handleClientActions(e, "edit")
 );
-
-//
