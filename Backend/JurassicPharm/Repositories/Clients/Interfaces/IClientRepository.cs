@@ -10,7 +10,7 @@ namespace JurassicPharm.Repositories.Clients.Interfaces
         Task<bool> CreateClient(CreateClientDTO client);
         Task<bool> DeleteClient(int idCliente);
         Task<Cliente> GetClienteById(int idCliente);
-        Task<bool> UpdateClient(UpdateClientDTO client, int idCliente);
+        Task<bool> UpdateClient(CreateClientDTO client, int idCliente);
         Task<List<ClientResponseDTO>> GetAllClients();
     }
 }

@@ -44,7 +44,9 @@ async function fetchEmployeesByStore() {
                     <td data-label="Employees">${activeEmployees
                       .map((emp) => `${emp.nombre} ${emp.apellido}`)
                       .join(", ")}</td>
-                    <td data-label="Total Employees">${activeEmployees.length}</td>
+                    <td data-label="Total Employees">${
+                      activeEmployees.length
+                    }</td>
                     <td data-label="Administrators">${activeAdmins.length}</td>
                     <td data-label="Cashiers">${activeCashiers.length}</td>
                     <td data-label="Repositors">${activeRepositores.length}</td>
@@ -348,9 +350,14 @@ document
  * Function to update the total amount of the invoice
  */
 const updateTotalAmount = () => {
-    const totalAmount = details.reduce((total, item) => total + (item.salePrice * item.amount), 0);
-    document.getElementById("total-amount").textContent = `$${totalAmount.toFixed(2)}`;
-  };
+  const totalAmount = details.reduce(
+    (total, item) => total + item.salePrice * item.amount,
+    0
+  );
+  document.getElementById("total-amount").textContent = `$${totalAmount.toFixed(
+    2
+  )}`;
+};
 
 /**
  * Function to render the details table

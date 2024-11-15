@@ -211,7 +211,7 @@ namespace JurassicPharm.Migrations
                 name: "CLIENTES",
                 columns: table => new
                 {
-                    id_cliente = table.Column<int>(type: "int", nullable: false),
+                    id_cliente = table.Column<int>(type: "int", nullable: false).Annotation("SqlServer:Identity", "1, 1"),
                     id_obra_social = table.Column<int>(type: "int", nullable: true),
                     id_ciudad = table.Column<int>(type: "int", nullable: true),
                     nombre = table.Column<string>(type: "varchar(50)", unicode: false, maxLength: 50, nullable: true),
